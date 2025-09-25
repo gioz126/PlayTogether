@@ -15,3 +15,9 @@ I am interested with this project because I am fond of playing badminton but har
 ## Bonus functions that might be added
 * Competition
 * Sparring
+
+## User Stories
+- As a users, I want to be able to book court for badminton so that I don't have to call the court management team.
+- As a users, I want to be able to open play session so that other users can join my play session.
+- As a users, I want to be able to see available play sessions and join it.
+- As a users, I want to be able to open and join community based on my sports' interest.
