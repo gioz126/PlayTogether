@@ -6,7 +6,7 @@ import java.util.List;
 public class User {
     private String name;
     private String contactNumber;
-    private String sportInterest;
+    private SportType sportInterest;
 
     private List<Booking> bookings;
     private List<Session> sessionsJoined;
@@ -17,7 +17,7 @@ public class User {
     // EFFECTS: Create a user with given name, contact number, and sport interest;
     // initializes empty booking list, empty session joined, empty session created,
     // empty community joined, empty community leader
-    public User(String name, String contactNumber, String sportInterest) {
+    public User(String name, String contactNumber, SportType sportInterest) {
         // stub
     }
 
