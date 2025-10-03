@@ -1,49 +1,93 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class User {
+    private String name;
+    private String contactNumber;
+    private String sportInterest;
 
-    // REQUIRES:
-    // MODIFIES:
-    // EFFECTS:
+    private List<Booking> bookings;
+    private List<Session> sessionsJoined;
+    private List<Session> sessionsCreated;
+    private List<Community> communityJoined;
+    private List<Community> communityLed;
+
+    // EFFECTS: Create a user with given name, contact number, and sport interest;
+    // initializes empty booking list, empty session joined, empty session created,
+    // empty community joined, empty community leader
     public User(String name, String contactNumber, String sportInterest) {
         // stub
     }
 
-    // REQUIRES:
-    // MODIFIES:
-    // EFFECTS:
-    public void bookCourt(Court c, LocalDateTime starTime, LocalDateTime endTime) {
-        // stub
+    // REQUIRES: court is available at [start time, end time]
+    // MODIFIES: this, court
+    // EFFECTS: books the court at given time slot,
+    // add booking to this user, return the booking
+    public Booking bookCourt(Court c, LocalDateTime startTime, LocalDateTime endTime) {
+        return null;
     }
 
-    // REQUIRES:
-    // MODIFIES:
-    // EFFECTS:
-    public void createSession(String sport, LocalDateTime starTime, LocalDateTime endTime) {
-        // stub
+    // REQUIRES: this user has already booked the court and time slot
+    // MODIFIES: this, session
+    // EFFECTS: open play session with time slot same as court booked
+    // add session opened to this user, return the session
+    public Session createSession(User user, String sport, Court court, LocalDateTime startTime, LocalDateTime endTime) {
+        return null;
     }
 
-    // REQUIRES:
-    // MODIFIES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: users join the session opened
     public void joinSession(Session session) {
         // stub
     }
 
-    // REQUIRES:
-    // MODIFIES:
-    // EFFECTS:
-    public void createCommunity(String sport, String area) {
+    // MODIFIES: this, community
+    // EFFECTS: users create community
+    // add community to community leader to this user, return the community
+    public Community createCommunity(String communityName, String sport, String area, int maxMembers) {
+        return null;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: users join community
+    // add community to community joined to this user
+    public void joinCommunity(String prefSport, String prefArea) {
         // stub
     }
 
-    // REQUIRES:
-    // MODIFIES:
-    // EFFECTS:
-    public void joinCommunity(String prefSport, String prefArea) {
-        // stub
+    // getters
+    public String getName() {
+        return name;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public String getSportInterest() {
+        return sportInterest;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public List<Session> getSessionsJoined() {
+        return sessionsJoined;
+    }
+
+    public List<Session> getSessionsCreated() {
+        return sessionsCreated;
+    }
+
+    public List<Community> getCommunityJoined() {
+        return communityJoined;
+    }
+
+    public List<Community> getCommunityLed() {
+        return communityLed;
     }
 
 }
