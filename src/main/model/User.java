@@ -66,7 +66,7 @@ public class User {
         return contactNumber;
     }
 
-    public String getSportInterest() {
+    public SportType getSportInterest() {
         return sportInterest;
     }
 
