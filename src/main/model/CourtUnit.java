@@ -47,7 +47,7 @@ public class CourtUnit {
         LocalDateTime end = booking.getEndTime();
 
         if (!isAvailable(start, end)) {
-            throw new CourtUnavailableException("Court" + courtId + " is not available at this time.");
+            throw new CourtUnavailableException("Court " + courtId + " is not available at this time.");
         } else {
             reservations.add(booking);
         }
@@ -68,6 +68,10 @@ public class CourtUnit {
 
     public LocalTime getClosingTime() {
         return closingTime;
+    }
+
+    public List<Booking> getReservations() {
+        return reservations;
     }
 
 }
