@@ -33,7 +33,7 @@ public class User {
     // MODIFIES: this, court
     // EFFECTS: books the court at given time slot,
     // add booking to this user, return the booking
-    public Booking bookCourt(Court c, LocalDateTime startTime, LocalDateTime endTime) {
+    public Booking bookCourt(CourtFacility c, LocalDateTime startTime, LocalDateTime endTime) {
         return null;
     }
 
@@ -41,7 +41,7 @@ public class User {
     // MODIFIES: this, session
     // EFFECTS: open play session with time slot same as court booked
     // add session opened to this user, return the session
-    public Session createSession(User user, String sport, Court court, LocalDateTime startTime, LocalDateTime endTime) {
+    public Session createSession(User user, String sport, CourtFacility court, LocalDateTime startTime, LocalDateTime endTime) {
         return null;
     }
 
