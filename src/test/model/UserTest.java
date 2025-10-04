@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
@@ -9,6 +10,8 @@ import java.time.LocalTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import exception.CourtUnavailableException;
 
 public class UserTest {
 
@@ -46,8 +49,8 @@ public class UserTest {
     }
 
     @Test
-    public void bookCourtSuccessTest() {
-        Booking booking = new Booking(testUser, facility, court1, start, end);
+    public void bookCourtSuccessTest() throws CourtUnavailableException {
+        Booking booking = testUser.bookCourt(facility, start, end);
 
         assertEquals(1, testUser.getBookings().size());
         assertTrue(testUser.getBookings().contains(booking));

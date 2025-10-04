@@ -6,13 +6,17 @@ public class Booking {
     private User user;
     private CourtFacility facility;
     private CourtUnit court;
-    private LocalDateTime starTime;
+    private LocalDateTime startTime;
     private LocalDateTime endTime;
 
     // EFFECTS: Creates a new booking with given user, facility, court, and time
     // slot
     public Booking(User user, CourtFacility facility, CourtUnit court, LocalDateTime startTime, LocalDateTime endTime) {
-        // stub
+        this.user = user;
+        this.facility = facility;
+        this.court = court;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public User getUser() {
@@ -28,7 +32,7 @@ public class Booking {
     }
 
     public LocalDateTime getStartTime() {
-        return starTime;
+        return startTime;
     }
 
     public LocalDateTime getEndTime() {

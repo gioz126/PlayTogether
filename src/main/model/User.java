@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.CourtUnavailableException;
+
 public class User {
     private String name;
     private String contactNumber;
@@ -34,8 +36,17 @@ public class User {
     // MODIFIES: this, courtUnit
     // EFFECTS: finds an available court in the facility, creates a booking for this
     // user, reserves the court, adds booking to the user, return booking
-    public Booking bookCourt(CourtFacility c, LocalDateTime startTime, LocalDateTime endTime) {
-        return null;
+    public Booking bookCourt(CourtFacility facility, LocalDateTime startTime, LocalDateTime endTime)
+            throws CourtUnavailableException {
+        CourtUnit availableCourt = facility.findAvailableCourt(startTime, endTime);
+
+        if (availableCourt == null) {
+            throw new CourtUnavailableException("No courts available at given time");
+        }
+        Booking booking = new Booking(this, facility, availableCourt, startTime, endTime);
+        bookings.add(booking);
+        availableCourt.reserve(startTime, endTime, this);
+        return booking;
     }
 
     // REQUIRES: this user has already booked the court and time slot

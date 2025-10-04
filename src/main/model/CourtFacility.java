@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourtFacility {
@@ -10,19 +11,26 @@ public class CourtFacility {
 
     // EFFECTS: create facility with given name, location, and empty court list
     public CourtFacility(String facilityName, String facilityLocation) {
-        // stub
+        this.facilityName = facilityName;
+        this.facilityLocation = facilityLocation;
+        courts = new ArrayList<>();
     }
 
     // MODIFIES: this
     // EFFECTS: adds a court to the courts list
     public void addCourt(CourtUnit unit) {
-        // stub
+        courts.add(unit);
     }
 
     // EFFECTS: return the available court at given start time and end time. Null if
     // not found
     public CourtUnit findAvailableCourt(LocalDateTime start, LocalDateTime end) {
-        return null; // stub
+        for (CourtUnit unit : courts) {
+            if (unit.isAvailable(start, end)) {
+                return unit;
+            }
+        }
+        return null;
     }
 
     // getters
