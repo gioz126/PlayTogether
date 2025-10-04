@@ -2,8 +2,8 @@ package model;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import exception.CourtUnavailableException;
 
@@ -12,7 +12,7 @@ public class CourtUnit {
     private SportType sport;
     private LocalTime openingTime;
     private LocalTime closingTime;
-    private Map<LocalDateTime, User> reservation;
+    private List<Booking> reservations;
 
     // EFFECTS: creates court unit with given id, sport, opening time, closing time.
     // Don't have reservation at start
@@ -21,28 +21,35 @@ public class CourtUnit {
         this.sport = sport;
         this.openingTime = openTime;
         this.closingTime = closeTime;
-        this.reservation = new HashMap<>();
+        this.reservations = new ArrayList<>();
     }
 
     // EFFECTS: return true if start and end time is within opening hours
-    // and the court is not reserved at that time
+    // and not overlapping with previous bookings
     public boolean isAvailable(LocalDateTime start, LocalDateTime end) {
         if (start.toLocalTime().isBefore(openingTime) || end.toLocalTime().isAfter(closingTime)) {
             return false;
         }
-        return !reservation.containsKey(start);
-
+        for (Booking b : reservations) {
+            boolean overlap = !(end.isBefore(b.getStartTime()) || start.isAfter(b.getEndTime()));
+            if (overlap) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // MODIFIES: this
-    // EFFECTS: reserve the court for user at given time
+    // EFFECTS: reserve the court for given booking
     // throws CourtUnavailableException if court not available
-    public void reserve(LocalDateTime start, LocalDateTime end, User user)
-            throws CourtUnavailableException {
+    public void reserve(Booking booking) throws CourtUnavailableException {
+        LocalDateTime start = booking.getStartTime();
+        LocalDateTime end = booking.getEndTime();
+
         if (!isAvailable(start, end)) {
             throw new CourtUnavailableException("Court" + courtId + " is not available at this time.");
         } else {
-            reservation.put(start, user);
+            reservations.add(booking);
         }
     }
 

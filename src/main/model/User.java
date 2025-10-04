@@ -45,7 +45,7 @@ public class User {
         }
         Booking booking = new Booking(this, facility, availableCourt, startTime, endTime);
         bookings.add(booking);
-        availableCourt.reserve(startTime, endTime, this);
+        availableCourt.reserve(booking);
         return booking;
     }
 
