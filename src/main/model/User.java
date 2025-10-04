@@ -29,10 +29,11 @@ public class User {
         this.communityLed = new ArrayList<>();
     }
 
-    // REQUIRES: court is available at [start time, end time]
-    // MODIFIES: this, court
-    // EFFECTS: books the court at given time slot,
-    // add booking to this user, return the booking
+    // REQUIRES: facility has at least one available court at given [start time, end
+    // time]
+    // MODIFIES: this, courtUnit
+    // EFFECTS: finds an available court in the facility, creates a booking for this
+    // user, reserves the court, adds booking to the user, return booking
     public Booking bookCourt(CourtFacility c, LocalDateTime startTime, LocalDateTime endTime) {
         return null;
     }
@@ -41,7 +42,8 @@ public class User {
     // MODIFIES: this, session
     // EFFECTS: open play session with time slot same as court booked
     // add session opened to this user, return the session
-    public Session createSession(User user, String sport, CourtFacility court, LocalDateTime startTime, LocalDateTime endTime) {
+    public Session createSession(User user, String sport, CourtFacility court, LocalDateTime startTime,
+            LocalDateTime endTime) {
         return null;
     }
 
