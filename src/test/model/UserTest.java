@@ -1,7 +1,11 @@
 package model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,10 +13,23 @@ import org.junit.jupiter.api.Test;
 public class UserTest {
 
     private User testUser;
+    private CourtFacility facility;
+    private CourtUnit court1;
+    private LocalDateTime start;
+    private LocalDateTime end;
 
     @BeforeEach
     public void runBefore() {
         testUser = new User("Gio", "123456789", SportType.BADMINTON);
+
+        facility = new CourtFacility("UBC NORTH REC", "VANCOUVER");
+        court1 = new CourtUnit("B1", SportType.BADMINTON, LocalTime.of(8, 0),
+                LocalTime.of(22, 0));
+        facility.addCourt(court1);
+
+        start = LocalDateTime.of(2025, 10, 3, 18, 0);
+        end = LocalDateTime.of(2025, 10, 3, 19, 0);
+
     }
 
     @Test
@@ -26,7 +43,15 @@ public class UserTest {
         assertTrue(testUser.getSessionsCreated().isEmpty());
         assertTrue(testUser.getCommunityJoined().isEmpty());
         assertTrue(testUser.getCommunityLed().isEmpty());
+    }
 
-        
+    @Test
+    public void bookCourtSuccessTest() {
+        Booking booking = new Booking(testUser, facility, court1, start, end);
+
+        assertEquals(1, testUser.getBookings().size());
+        assertTrue(testUser.getBookings().contains(booking));
+
+        assertFalse(court1.isAvailable(start, end));
     }
 }
