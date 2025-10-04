@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -18,7 +19,14 @@ public class User {
     // initializes empty booking list, empty session joined, empty session created,
     // empty community joined, empty community leader
     public User(String name, String contactNumber, SportType sportInterest) {
-        // stub
+        this.name = name;
+        this.contactNumber = contactNumber;
+        this.sportInterest = sportInterest;
+        this.bookings = new ArrayList<>();
+        this.sessionsJoined = new ArrayList<>();
+        this.sessionsCreated = new ArrayList<>();
+        this.communityJoined = new ArrayList<>();
+        this.communityLed = new ArrayList<>();
     }
 
     // REQUIRES: court is available at [start time, end time]

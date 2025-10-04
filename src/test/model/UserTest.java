@@ -20,11 +20,13 @@ public class UserTest {
         assertEquals("Gio", testUser.getName());
         assertEquals("123456789", testUser.getContactNumber());
         assertEquals(SportType.BADMINTON, testUser.getSportInterest());
-        
+
         assertTrue(testUser.getBookings().isEmpty());
         assertTrue(testUser.getSessionsJoined().isEmpty());
         assertTrue(testUser.getSessionsCreated().isEmpty());
         assertTrue(testUser.getCommunityJoined().isEmpty());
         assertTrue(testUser.getCommunityLed().isEmpty());
+
+        
     }
 }
