@@ -51,10 +51,10 @@ public class User {
 
     // REQUIRES: this user has already booked the court and time slot
     // MODIFIES: this, session
-    // EFFECTS: open play session with time slot same as court booked
-    // add session opened to this user, return the session
-    public Session createSession(User user, String sport, CourtFacility court, LocalDateTime startTime,
-            LocalDateTime endTime) {
+    // EFFECTS: creates a new play session for this user with time slot and court
+    // same as court booked inside booking. Add session created to this user, return
+    // the created session
+    public Session createSession(User user, String sport, Booking booking) {
         return null;
     }
 
