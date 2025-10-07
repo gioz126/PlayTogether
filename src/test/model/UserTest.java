@@ -57,4 +57,15 @@ public class UserTest {
 
         assertFalse(court1.isAvailable(start, end));
     }
+
+    @Test
+    public void bookCourtFailedTest() throws CourtUnavailableException {
+        testUser.bookCourt(facility, start, end);
+
+        assertThrows(CourtUnavailableException.class, () -> {
+            testUser.bookCourt(facility, start, end);
+        });
+
+    }
+
 }
