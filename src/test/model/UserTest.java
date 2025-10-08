@@ -68,4 +68,14 @@ public class UserTest {
 
     }
 
+    @Test
+    public void createSessionTest() throws CourtUnavailableException {
+        Booking booking = testUser.bookCourt(facility, start, end);
+
+        testUser.createSession(testUser, SportType.BADMINTON, 1);
+        
+        assertEquals(1, testUser.getSessionsCreated().size());
+
+    }
+
 }

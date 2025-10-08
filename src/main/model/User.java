@@ -54,7 +54,7 @@ public class User {
     // MODIFIES: this, session
     // EFFECTS: creates a new play session using the booking at the given index,
     // adds the created session to this user, and returns the created session
-    public Session createSession(User user, String sport, int bookingIndex) {
+    public Session createSession(User user, SportType sport, int bookingIndex) {
         return null;
     }
 
