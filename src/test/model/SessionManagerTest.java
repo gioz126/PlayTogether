@@ -25,7 +25,6 @@ public class SessionManagerTest {
     private LocalDateTime end;
     private LocalDateTime start1;
     private LocalDateTime end2;
-    
 
     @BeforeEach
     public void runBefore() {
@@ -86,12 +85,12 @@ public class SessionManagerTest {
     public void findSessionsBySportTest() {
         sessionManagerTest.addSession(session1);
 
-        //Badminton session
+        // Badminton session
         List<Session> sessionBadmintonFound = sessionManagerTest.findSessionsBySport(SportType.BADMINTON);
         assertEquals(1, sessionBadmintonFound.size());
         assertTrue(sessionBadmintonFound.contains(session1));
 
-        //Padel session 
+        // Padel session
         sessionManagerTest.addSession(session2);
         List<Session> sessionPadelFound = sessionManagerTest.findSessionsBySport(SportType.PADEL);
         assertEquals(1, sessionPadelFound.size());
@@ -103,19 +102,19 @@ public class SessionManagerTest {
         assertFalse(sessionManagerTest.joinSession(owner, session1));
 
         sessionManagerTest.addSession(session1);
-        //still false since the owner is already a participant
+        // still false since the owner is already a participant
         assertFalse(sessionManagerTest.joinSession(owner, session1));
 
-        //false since session 2 is not active session
+        // false since session 2 is not active session
         assertFalse(sessionManagerTest.joinSession(user2, session2));
 
-        //true since the user is not a participant yet and session 1 is active
+        // true since the user is not a participant yet and session 1 is active
         assertTrue(sessionManagerTest.joinSession(user2, session1));
     }
-    
+
     @Test
     public void leaveSessionTest() {
-        //false since user is the owner of the session
+        // false since user is the owner of the session
         sessionManagerTest.addSession(session1);
         assertFalse(sessionManagerTest.leaveSession(owner, session1));
 
@@ -126,5 +125,4 @@ public class SessionManagerTest {
         assertTrue(sessionManagerTest.leaveSession(user2, session1));
     }
 
-    
 }

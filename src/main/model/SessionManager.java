@@ -14,19 +14,25 @@ public class SessionManager {
     // MODIFIES: this
     // EFFECTS: adds the given session to the list of active session
     public void addSession(Session session) {
-        // stub
+        activeSession.add(session);
     }
 
     // MODIFIES: this
     // EFFECTS: removes the given session from the list of active session
     public void removeSession(Session session) {
-        // stub
+        activeSession.remove(session);
     }
 
     // EFFECTS: returns a list of all currently active session with same sport as
     // given
     public List<Session> findSessionsBySport(SportType sport) {
-        return null;
+        List<Session> result = new ArrayList<>();
+        for (Session s : activeSession) {
+            if (s.getSport() == sport) {
+                result.add(s);
+            }
+        }
+        return result;
     }
 
     // MODIFIES: this, user, session
@@ -34,18 +40,27 @@ public class SessionManager {
     // added return true. Return false if session is not active or user already a
     // participant
     public boolean joinSession(User user, Session session) {
-        return false; // stub
+        if (!activeSession.contains(session) || session.getParticipant().contains(user)) {
+            return false;
+        } else {
+            session.addParticipant(user);
+            return true;
+        }
     }
 
     // MODIFIES: this, user, session
-    // EFFECTS: remove user from session if user is a participant. Returns true if
-    // successful, false if user is not a participant or is an owner
+    // EFFECTS: remove user from session if user is a participant, returns true if
+    // successful. False if user is not a participant or is an owner
     public boolean leaveSession(User user, Session session) {
-        return false; // stub
+        if (!(session.getParticipant().contains(user)) || session.getOwner() == user) {
+            return false;
+        } else {
+            session.removeParticipant(user);
+            return true;
+        }
     }
 
     // getters
-
     public List<Session> getActiveSession() {
         return new ArrayList<>(activeSession);
     }
