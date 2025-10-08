@@ -30,6 +30,18 @@ public class Session {
         this.participants.add(owner);
     }
 
+    //MODIFIES: this
+    //EFFECTS: adds a participants to the session if have not joined
+    public void addParticipant(User user) {
+        //stub
+    }
+
+    //MODIFIES: this
+    //EFFECTS: removes a participant from the session
+    public void removeParticipant(User user) {
+        //stub
+    }
+
     // setters
     public void setDescription(String description) {
         this.description = description;
@@ -62,5 +74,9 @@ public class Session {
 
     public String getDescription() {
         return description;
+    }
+
+    public List<User> getParticipant() {
+        return new ArrayList<>(participants);
     }
 }
