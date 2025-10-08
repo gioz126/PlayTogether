@@ -21,6 +21,10 @@ public class UserTest {
     private LocalDateTime start;
     private LocalDateTime end;
 
+    private SessionManager sessionManagerTest;
+    private Session session1;
+
+
     @BeforeEach
     public void runBefore() {
         testUser = new User("Gio", "123456789", SportType.BADMINTON);
@@ -32,6 +36,9 @@ public class UserTest {
 
         start = LocalDateTime.of(2025, 10, 3, 18, 0);
         end = LocalDateTime.of(2025, 10, 3, 19, 0);
+
+        session1 = new Session(testUser, SportType.BADMINTON, facility, court1, start, end);
+        
 
     }
 
@@ -76,7 +83,19 @@ public class UserTest {
 
         assertEquals(1, testUser.getSessionsCreated().size());
         assertTrue(testUser.getSessionsCreated().contains(session));
+    }
 
+    @Test
+    public void joinSessionTest() {
+
+        //testUser is the owner, so he's a participant inside the session
+        assertFalse(testUser.joinSession(session1));
+
+        User user1 = new User("zio", "123", SportType.BADMINTON);
+        assertTrue(user1.joinSession(session1));
+
+        //user 1 tries to join again
+        assertFalse(user1.joinSession(session1));
     }
 
 }

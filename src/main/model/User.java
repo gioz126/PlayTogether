@@ -69,8 +69,8 @@ public class User {
     // this user to the session's list of participants and adds the session to this
     // user's list of session joined. Returns true if successfully joined, false
     // otherwise
-    public void joinSession(Session session) {
-        // stub
+    public boolean joinSession(Session session) {
+        return false;
     }
 
     // MODIFIES: this, community
