@@ -70,7 +70,13 @@ public class User {
     // user's list of session joined. Returns true if successfully joined, false
     // otherwise
     public boolean joinSession(Session session) {
-        return false;
+        if (session.getParticipant().contains(this)) {
+            return false;
+        } else {
+            session.addParticipant(this);
+            sessionsJoined.add(session);
+            return true;
+        }
     }
 
     // MODIFIES: this, community
