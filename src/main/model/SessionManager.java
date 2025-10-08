@@ -39,7 +39,7 @@ public class SessionManager {
 
     // MODIFIES: this, user, session
     // EFFECTS: remove user from session if user is a participant. Returns true if
-    // successful, false otherwise
+    // successful, false if user is not a participant or is an owner
     public boolean leaveSession(User user, Session session) {
         return false; // stub
     }
