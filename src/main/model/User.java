@@ -80,9 +80,10 @@ public class User {
     }
 
     // MODIFIES: this, community
-    // EFFECTS: users create community
-    // add community to community leader to this user, return the community
-    public Community createCommunity(String communityName, String sport, String area, int maxMembers) {
+    // EFFECTS: users create community with community name, sport, area, and max
+    // number of members add community to community led to this user, return the
+    // community
+    public Community createCommunity(String communityName, SportType sport, AreaLocation area, int maxMembers) {
         return null;
     }
 
