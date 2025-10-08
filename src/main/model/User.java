@@ -64,8 +64,11 @@ public class User {
         return session;
     }
 
-    // MODIFIES: this
-    // EFFECTS: users join the session opened
+    // MODIFIES: this, session
+    // EFFECTS: if this user is not already a participant of the given session, adds
+    // this user to the session's list of participants and adds the session to this
+    // user's list of session joined. Returns true if successfully joined, false
+    // otherwise
     public void joinSession(Session session) {
         // stub
     }
