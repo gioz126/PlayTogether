@@ -1,6 +1,8 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Session {
     private User owner;
@@ -10,10 +12,11 @@ public class Session {
     private LocalDateTime endDateTime;
     private SportType sport;
     private String description;
+    private List<User> participants;
 
-    // EFFECTS: creates new session with user's owner, type of sport, court
+    // EFFECTS: creates new session with owner, type of sport, court
     // facility, court Unit, start time for session, end time for session, and no
-    // description.
+    // description, and only the owner as initial participant.
     public Session(User owner, SportType sport, CourtFacility facility, CourtUnit courtUnit,
             LocalDateTime startDateTime,
             LocalDateTime endDateTime) {
@@ -23,6 +26,8 @@ public class Session {
         this.courtUnit = courtUnit;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
+        this.participants = new ArrayList<>();
+        this.participants.add(owner);
     }
 
     // setters
