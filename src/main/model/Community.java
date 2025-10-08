@@ -28,25 +28,35 @@ public class Community {
     // EFFETCS: if user not already a member and community is not full, adds user to
     // the community and return true
     public boolean addMember(User user) {
-        return false; // stub
+        if (isFull() || hasMember(user)) {
+            return false;
+        } else {
+            communityMember.add(user);
+            return true;
+        }
     }
 
     // MODIFIES: this
     // EFFECTS: removes user from the community member if present. Return true if
     // removed, false otherwise. Cannot remove leader from the community, will
     // return false if leader wants to be removed
-    public boolean removerMember(User user) {
-        return false; // stub
+    public boolean removeMember(User user) {
+        if (getCommunityLeader() == user || !hasMember(user)) {
+            return false;
+        } else {
+            communityMember.remove(user);
+            return true;
+        }
     }
 
     // EFFECTS: returns true if user is a member in this community
     public boolean hasMember(User user) {
-        return false; // stub
+        return getMembers().contains(user);
     }
 
     // EFFECTS: returns true if the community has reached maxMembers
     public boolean isFull() {
-        return false;
+        return getMembers().size() >= getMaxMembers();
     }
 
     // getters

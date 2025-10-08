@@ -53,13 +53,13 @@ public class CommunityTest {
         testCommunity.addMember(user1);
 
         //remove leader should return false
-        assertFalse(testCommunity.removerMember(owner));
+        assertFalse(testCommunity.removeMember(owner));
 
         //remove user who is not inside the community should return false
         User user2 = new User("userfail", "123", SportType.PADEL);
-        assertFalse(testCommunity.removerMember(user2));
+        assertFalse(testCommunity.removeMember(user2));
 
         //remove user who is inside the community and is not leader should return true
-        assertTrue(testCommunity.removerMember(user1));
+        assertTrue(testCommunity.removeMember(user1));
     }
 }
