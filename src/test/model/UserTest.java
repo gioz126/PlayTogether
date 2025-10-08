@@ -98,4 +98,12 @@ public class UserTest {
         assertFalse(user1.joinSession(session1));
     }
 
+    @Test
+    public void createCommunityTest() {
+        //user create a community
+        Community communityCreated = testUser.createCommunity("Thunderbird", SportType.BADMINTON, AreaLocation.VANCOUVER, 50);
+        assertTrue(testUser.getCommunityLed().contains(communityCreated));
+        assertEquals(1, testUser.getCommunityLed().size()); 
+    }
+
 }
