@@ -2,7 +2,6 @@ package model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
@@ -55,7 +54,7 @@ public class SessionTest {
         assertTrue(testSession.getParticipant().contains(participant1));
 
         // add same participant, should not be added
-        testSession.addParticipant(participant1);
+        assertFalse(testSession.addParticipant(participant1));
         assertEquals(2, testSession.getParticipant().size());
     }
 
@@ -63,9 +62,14 @@ public class SessionTest {
     public void removeParticipantTest() {
         User participant1 = new User("zio", "1234", SportType.BADMINTON);
 
+        //participant not found
+        assertFalse(testSession.getParticipant().remove(participant1));
+    
+        //participant found
         testSession.addParticipant(participant1);
         assertTrue(testSession.getParticipant().contains(participant1));
         testSession.removeParticipant(participant1);
         assertFalse(testSession.getParticipant().contains(participant1));
+
     }
 }

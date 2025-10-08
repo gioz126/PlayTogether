@@ -30,16 +30,29 @@ public class Session {
         this.participants.add(owner);
     }
 
-    //MODIFIES: this
-    //EFFECTS: adds a participants to the session if have not joined
-    public void addParticipant(User user) {
-        //stub
+    // MODIFIES: this
+    // EFFECTS: adds a participants to the session if have not joined, return true
+    // if added, false otherwise
+    public boolean addParticipant(User user) {
+        if (participants.contains(user)) {
+            return false;
+        } else {
+            participants.add(user);
+            return true;
+        }
+
     }
 
-    //MODIFIES: this
-    //EFFECTS: removes a participant from the session
-    public void removeParticipant(User user) {
-        //stub
+    // MODIFIES: this
+    // EFFECTS: removes a participant from the session, return true if removed,
+    // false if participant not found
+    public boolean removeParticipant(User user) {
+        if (participants.contains(user)) {
+            participants.remove(user);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // setters
