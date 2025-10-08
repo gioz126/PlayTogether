@@ -49,12 +49,12 @@ public class User {
         return booking;
     }
 
-    // REQUIRES: this user has already booked the court and time slot
+    // REQUIRES: this user has at least one booking, index is a valid index in this
+    // user's list of booking
     // MODIFIES: this, session
-    // EFFECTS: creates a new play session for this user with time slot and court
-    // same as court booked inside booking. Add session created to this user, return
-    // the created session
-    public Session createSession(User user, String sport, Booking booking) {
+    // EFFECTS: creates a new play session using the booking at the given index,
+    // adds the created session to this user, and returns the created session
+    public Session createSession(User user, String sport, int bookingIndex) {
         return null;
     }
 
