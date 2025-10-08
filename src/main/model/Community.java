@@ -32,8 +32,9 @@ public class Community {
     }
 
     // MODIFIES: this
-    // EFFECTS: removers user from the community member if present. Return true if
-    // removed, false otherwise.
+    // EFFECTS: removes user from the community member if present. Return true if
+    // removed, false otherwise. Cannot remove leader from the community, will
+    // return false if leader wants to be removed
     public boolean removerMember(User user) {
         return false; // stub
     }
@@ -63,6 +64,14 @@ public class Community {
 
     public List<User> getMembers() {
         return new ArrayList<>(communityMember);
+    }
+
+    public int getMaxMembers() {
+        return maxMembers;
+    }
+
+    public User getCommunityLeader() {
+        return communityLeader;
     }
 
 }
