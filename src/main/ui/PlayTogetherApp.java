@@ -65,18 +65,44 @@ public class PlayTogetherApp {
             return;
         }
 
-        // if user is new, register new one
-        System.out.println("Select your sport interest:");
-        System.out.println("1. Badminton\n2. Padel");
-        int sportChoice = input.nextInt();
-
-        SportType sport = switch (sportChoice) {
-            case 1 -> SportType.BADMINTON;
-            default -> SportType.PADEL;
-        };
+        SportType sport = chooseSportType();
 
         currentUser = new User(name, phone, sport);
         userManager.addUser(currentUser);
         System.out.println("New account created for " + currentUser.getName() + "!\n");
+    }
+
+    private SportType chooseSportType() {
+        while (true) {
+            System.out.println("Select your sport interest:");
+            System.out.println("1. Badminton");
+            System.out.println("2. Padel");
+            System.out.println(">");
+
+            int sportChoice = getIntInput();
+
+            switch (sportChoice) {
+                case 1 -> {
+                    return SportType.BADMINTON;
+                }
+                case 2 -> {
+                    return SportType.PADEL;
+                }
+                default -> {
+                    System.out.println("Invalid choice. Please enter 1 or 2.\n");
+                }
+            }
+        }
+    }
+
+    //EFFECTS: ask the user to input number only. Will ask continously if string is not a number
+    private int getIntInput() {
+        while (true) {
+            try {
+                return Integer.parseInt(input.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+            }
+        }
     }
 }
