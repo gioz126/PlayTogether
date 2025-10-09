@@ -648,8 +648,35 @@ public class PlayTogetherApp {
     }
 
     private void viewMyCommunitiesUI() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'viewMyCommunitiesUI'");
+        System.out.println("\n=== My Communities ===");
+
+        List<Community> joined = currentUser.getCommunityJoined();
+        List<Community> led = currentUser.getCommunityLed();
+
+        if (joined.isEmpty() && led.isEmpty()) {
+            System.out.println("You haven't joined or led any communities yet.");
+            return;
+        }
+
+        if (!led.isEmpty()) {
+            System.out.println("Community You Lead:");
+            for (Community c : led) {
+                System.out.println("- " + c.getCommunityName() +
+                        " | " + c.getSport() +
+                        " | " + c.getLocation() +
+                        " | Members:" + c.getMembers().size() + "/" + c.getMaxMembers());
+            }
+        }
+
+        if (!joined.isEmpty()) {
+            System.out.println("\nCommunities You Joined: ");
+            for (Community c : joined) {
+                System.out.println("- " + c.getCommunityName() +
+                        " | " + c.getSport() +
+                        " | " + c.getLocation() +
+                        " | Members:" + c.getMembers().size() + "/" + c.getMaxMembers());
+            }
+        }
     }
 
     private void removeCommunityUI() {
