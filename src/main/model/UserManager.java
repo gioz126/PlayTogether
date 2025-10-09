@@ -15,18 +15,33 @@ public class UserManager {
     // EFFECTS: adds user to users list if not already exists, return true if
     // addded, false otherwise
     public boolean addUser(User user) {
-        return false; // stub
+        if (users.contains(user)) {
+            return false;
+        } else {
+            users.add(user);
+            return true;
+        }
     }
 
     // EFFECTS: returns the user with given name if exists, otherwise null;
     public User findUserByName(String name) {
-        return null; // stub
+        for (User user : users) {
+            if (user.getName().equalsIgnoreCase(name)) {
+                return user;
+            }
+        }
+        return null;
     }
 
     // MODIFIES: this
     // EFFECTS: remove user if found, return true it removed, false if not found
     public boolean removeUser(User user) {
-        return false; // stub
+        if (!users.contains(user)) {
+            return false;
+        } else {
+            users.remove(user);
+            return true;
+        }
     }
 
     // getters
