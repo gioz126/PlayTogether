@@ -44,7 +44,7 @@ public class CourtFacilityTest {
     @Test
     public void constructorTest() {
         assertEquals("New North Rec", courtFacilityTest.getFacilityName());
-        assertEquals("Vancouver", courtFacilityTest.getFacilityLocation());
+        assertEquals(AreaLocation.VANCOUVER, courtFacilityTest.getFacilityLocation());
         assertEquals(0, courtFacilityTest.getCourts().size());
     }
 
