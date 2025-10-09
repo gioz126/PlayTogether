@@ -1,9 +1,14 @@
 package ui;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import exception.CourtUnavailableException;
 import model.AreaLocation;
+import model.Booking;
 import model.CommunityManager;
 import model.CourtFacility;
 import model.CourtUnit;
@@ -16,7 +21,7 @@ public class PlayTogetherApp {
     private final UserManager userManager;
     private final SessionManager sessionManager;
     private final CommunityManager communityManager;
-    private final CourtFacility facility;
+    private final List<CourtFacility> facilities;
     private final Scanner input;
     private User currentUser;
 
@@ -25,9 +30,10 @@ public class PlayTogetherApp {
         userManager = new UserManager();
         sessionManager = new SessionManager();
         communityManager = new CommunityManager();
+        facilities = new ArrayList<>();
 
         // creates facility and add courts
-        facility = new CourtFacility("UBC North Recreation", AreaLocation.VANCOUVER);
+        // facility = new CourtFacility("UBC North Recreation", AreaLocation.VANCOUVER);
         setupCourts();
 
         input = new Scanner(System.in);
@@ -35,8 +41,16 @@ public class PlayTogetherApp {
 
     // EFFECTS: setup court unit for court facility
     public void setupCourts() {
-        facility.addCourt(new CourtUnit("Badminton 1", SportType.BADMINTON, LocalTime.of(8, 0), LocalTime.of(22, 0)));
-        facility.addCourt(new CourtUnit("Badminton 2", SportType.BADMINTON, LocalTime.of(8, 0), LocalTime.of(22, 0)));
+        CourtFacility UBC = new CourtFacility("UBC North Recreation", AreaLocation.VANCOUVER);
+        UBC.addCourt(new CourtUnit("Badminton 1", SportType.BADMINTON, LocalTime.of(8, 0), LocalTime.of(22, 0)));
+        UBC.addCourt(new CourtUnit("Badminton 2", SportType.BADMINTON, LocalTime.of(8, 0), LocalTime.of(22, 0)));
+
+        CourtFacility padelRichmond = new CourtFacility("Badminton Richmond", AreaLocation.RICHMOND);
+        padelRichmond.addCourt(new CourtUnit("Padel 1", SportType.PADEL, LocalTime.of(8, 0), LocalTime.of(22, 0)));
+        padelRichmond.addCourt(new CourtUnit("Padel 2", SportType.PADEL, LocalTime.of(8, 0), LocalTime.of(22, 0)));
+
+        facilities.add(UBC);
+        facilities.add(padelRichmond);
     }
 
     // EFFECTS: runs the app
@@ -126,7 +140,7 @@ public class PlayTogetherApp {
     // EFFECTS: handle matters wuth court
     private void handleCourtMenu() {
         boolean back = false;
-        while(!back) {
+        while (!back) {
             System.out.println("""
                     === Court Menu ===
                     1. Book a court
@@ -143,14 +157,63 @@ public class PlayTogetherApp {
         }
     }
 
-    private Object viewMyBookings() {
+    private void viewMyBookings() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'viewMyBookings'");
     }
 
-    private Object bookCourtUI() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'bookCourtUI'");
+    private void bookCourtUI() {
+        System.out.println("\n === Book a Court ===");
+
+        if (facilities.isEmpty()) {
+            System.out.println("No facilities available");
+            return;
+        }
+        System.out.println("Choose a facility: ");
+        for (int i = 0; i < facilities.size(); i++) {
+            CourtFacility f = facilities.get(i);
+            System.out.println((i + 1) + ". " + f.getFacilityName() + " (" + f.getFacilityLocation() + ")");
+        }
+
+        int facilityIndex = getIntInput() - 1;
+        if (facilityIndex < 0 || facilityIndex >= facilities.size()) {
+            System.out.println("Invalid facility choice.");
+            return;
+        }
+
+        CourtFacility selectedCourtFacility = facilities.get(facilityIndex);
+
+        try {
+            System.out.println("Enter a year (e.g. 2025): ");
+            int year = getIntInput();
+
+            System.out.println("Enter month (1-12): ");
+            int month = getIntInput();
+
+            System.out.println("Enter a day of month: ");
+            int day = getIntInput();
+
+            System.out.println("Enter start hour (24h): ");
+            int startHour = getIntInput();
+
+            System.out.println("Enter end hour (24h): ");
+            int endHour = getIntInput();
+
+            LocalDateTime start = LocalDateTime.of(year, month, day, startHour, 0);
+            LocalDateTime end = LocalDateTime.of(year, month, month, endHour, 0);
+
+            Booking booking = currentUser.bookCourt(selectedCourtFacility, start, end);
+            System.out.println("Court booked successfully: ");
+            System.out.println(" ⚪️ " + booking.getCourt().getcourtID());
+            System.out.println(" ⚪️ Facility: " + booking.getFacility().getFacilityName());
+            System.out.println(" ⚪️ Location: " + booking.getFacility().getFacilityLocation());
+            System.out.println(" ⚪️ Date: " + day + "/" + month + "/" + year);
+            System.out.println(" ⚪️ Time: " + startHour + ":00 - " + endHour + ":00");
+        } catch (CourtUnavailableException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Invalid input. Please try again.");
+        }
     }
 
     // EFFECTS: handle matters with session
