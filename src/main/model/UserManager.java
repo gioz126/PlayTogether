@@ -35,6 +35,6 @@ public class UserManager {
     }
 
     public int getUsersCount() {
-        return 1; // stun
+        return users.size();
     }
 }
