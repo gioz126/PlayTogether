@@ -89,11 +89,13 @@ public class User {
         return community;
     }
 
-    // MODIFIES: this
-    // EFFECTS: users join community
-    // add community to community joined to this user
-    public void joinCommunity(String prefSport, String prefArea) {
-        // stub
+    // MODIFIES: this, community
+    // EFFECTS: if this user is not a member of the given community and the
+    // community is not full and this user has not joined the specific community
+    // given, adds this user to the community, add givencommunity to community
+    // joined and returns true. Otherwise, returns false
+    public boolean joinCommunity(Community community) {
+        return false;
     }
 
     // getters
