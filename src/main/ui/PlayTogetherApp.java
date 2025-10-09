@@ -230,7 +230,46 @@ public class PlayTogetherApp {
 
     // EFFECTS: handle matters with session
     private void handleSessionMenu() {
-        // stub
+        boolean back = false;
+        while(!back) {
+            System.out.println("""
+                    === Session Menu ===
+                    1. Create Session (from booking)
+                    2. Join Session
+                    3. Leave Session
+                    4. View My Session
+                    5. Back
+                    """);
+            int choice = getIntInput();
+            switch (choice) {
+                case 1 -> createSessionUI();
+                case 2 -> joinSessionUI();
+                case 3 -> leaveSessionUI();
+                case 4 -> viewMySessionUI();
+                case 5 -> back = true;
+                default -> System.out.println("Invalid choice.");
+            }
+        }
+    }
+
+    private void createSessionUI() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createSessionUI'");
+    }
+
+    private void joinSessionUI() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'joinSessionUI'");
+    }
+
+    private void leaveSessionUI() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'leaveSessionUI'");
+    }
+
+    private void viewMySessionUI() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'viewMySessionUI'");
     }
 
     // EFFECTS: handle matters with community
