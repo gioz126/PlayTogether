@@ -109,6 +109,9 @@ public class CommunityManagerTest {
 
     @Test
     public void leaveCommunityTest() {
+        //community is not an active community (non-existing) and user wants to leave
+        assertFalse(testCommunityManager.leaveCommunity(owner, communityVancouver));
+
         //user is the owner of the community
         testCommunityManager.addCommunity(communityVancouver);
         assertFalse(testCommunityManager.leaveCommunity(owner, communityVancouver));
