@@ -399,7 +399,74 @@ public class PlayTogetherApp {
 
     // EFFECTS: handle matters with community
     private void handleCommunityMenu() {
-        // stub
+        boolean back = false;
+        while(!back) {
+            System.out.println("""
+                    === Community Menu ===
+                    1. Create a Community
+                    2. View All Active Communities
+                    3. Find Community By Sport
+                    4. Find Community By Location
+                    5. Join a Community
+                    6. View My Communities
+                    7. Remove Community (as Leader)
+                    8. Leave a Community
+                    9. Back
+                    """);
+            int choice = getIntInput();
+            switch (choice) {
+                case 1 -> createCommunityUI();
+                case 2 -> viewAllCommunitiesUI();
+                case 3 -> findCommunityBySportUI();
+                case 4 -> findCommunityByLocationUI();
+                case 5 -> joinCommunityUI();
+                case 6 -> viewMyCommunitiesUI();
+                case 7 -> removeCommunityUI();
+                case 8 -> leaveCommunityUI();
+                case 9 -> back = true;
+                default -> System.out.println("Invalid choice.");
+            }
+        }
+    }
+
+    private void createCommunityUI() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createCommunityUI'");
+    }
+
+    private void viewAllCommunitiesUI() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'viewAllCommunitiesUI'");
+    }
+
+    private void findCommunityBySportUI() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findCommunityBySportUI'");
+    }
+
+    private void findCommunityByLocationUI() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findCommunityByLocationUI'");
+    }
+
+    private void joinCommunityUI() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'joinCommunityUI'");
+    }
+
+    private void viewMyCommunitiesUI() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'viewMyCommunitiesUI'");
+    }
+
+    private void removeCommunityUI() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'removeCommunityUI'");
+    }
+
+    private void leaveCommunityUI() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'leaveCommunityUI'");
     }
 
     // EFFECTS: ask the user to input number only. Will ask continously if string is
