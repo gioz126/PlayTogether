@@ -26,7 +26,7 @@ public class CourtUnitTest {
     public void runBefore() {
         courtTest = new CourtUnit("Badminton1", SportType.BADMINTON,
                 LocalTime.of(8, 0), LocalTime.of(20, 0));
-        facility = new CourtFacility("Gym", "Vancouver");
+        facility = new CourtFacility("Gym", AreaLocation.VANCOUVER);
 
         start = LocalDateTime.of(2025, 10, 15, 12, 0);
         end = LocalDateTime.of(2025, 10, 15, 14, 0);

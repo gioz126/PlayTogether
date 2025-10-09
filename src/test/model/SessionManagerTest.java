@@ -31,7 +31,7 @@ public class SessionManagerTest {
         owner = new User("Gio", "123456789", SportType.BADMINTON);
         user2 = new User("zio", "123", SportType.PADEL);
 
-        facility = new CourtFacility("UBC NORTH REC", "VANCOUVER");
+        facility = new CourtFacility("UBC NORTH REC", AreaLocation.VANCOUVER);
         court1 = new CourtUnit("B1", SportType.BADMINTON, LocalTime.of(8, 0),
                 LocalTime.of(22, 0));
         facility.addCourt(court1);

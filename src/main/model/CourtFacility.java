@@ -6,11 +6,11 @@ import java.util.List;
 
 public class CourtFacility {
     private String facilityName;
-    private String facilityLocation;
+    private AreaLocation facilityLocation;
     private List<CourtUnit> courts;
 
     // EFFECTS: create facility with given name, location, and empty court list
-    public CourtFacility(String facilityName, String facilityLocation) {
+    public CourtFacility(String facilityName, AreaLocation facilityLocation) {
         this.facilityName = facilityName;
         this.facilityLocation = facilityLocation;
         courts = new ArrayList<>();
@@ -38,7 +38,7 @@ public class CourtFacility {
         return facilityName;
     }
 
-    public String getFacilityLocation() {
+    public AreaLocation getFacilityLocation() {
         return facilityLocation;
     }
 

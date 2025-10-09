@@ -16,7 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 public class CourtFacilityTest {
     private String facilityName;
-    private String facilityLoc;
+    private AreaLocation facilityLoc;
     private CourtUnit courtUnit1;
     private CourtUnit courtUnit2;
     private CourtFacility courtFacilityTest;
@@ -27,7 +27,7 @@ public class CourtFacilityTest {
     @BeforeEach
     public void runBefore() {
         facilityName = "New North Rec";
-        facilityLoc = "Vancouver";
+        facilityLoc = AreaLocation.VANCOUVER;
 
         courtUnit1 = new CourtUnit("Badminton1", SportType.BADMINTON,
                 LocalTime.of(8, 0), LocalTime.of(20, 0));

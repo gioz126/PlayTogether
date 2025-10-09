@@ -28,7 +28,7 @@ public class UserTest {
     public void runBefore() {
         testUser = new User("Gio", "123456789", SportType.BADMINTON);
 
-        facility = new CourtFacility("UBC NORTH REC", "VANCOUVER");
+        facility = new CourtFacility("UBC NORTH REC", AreaLocation.VANCOUVER);
         court1 = new CourtUnit("B1", SportType.BADMINTON, LocalTime.of(8, 0),
                 LocalTime.of(22, 0));
         facility.addCourt(court1);
