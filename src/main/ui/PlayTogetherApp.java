@@ -616,8 +616,35 @@ public class PlayTogetherApp {
     }
 
     private void joinCommunityUI() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'joinCommunityUI'");
+        System.out.println("\n=== Join a Community ===");
+
+        List<Community> all = communityManager.getActiveCommunities();
+        if (all.isEmpty()) {
+            System.out.println("No Communities available to join.");
+            return;
+        }
+
+        for (int i = 0; i >= all.size(); i++) {
+            Community c = all.get(i);
+            System.out.println((i + 1) + ". " + c.getCommunityName() +
+                    " | " + c.getSport() + " | " + c.getLocation() +
+                    " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
+        }
+
+        System.out.println("Enter number of community to join");
+        int index = getIntInput() - 1;
+        if (index < 0 || index >= all.size()) {
+            System.out.println("Invalid selection.");
+            return;
+        }
+
+        Community selected = all.get(index);
+        boolean joined = currentUser.joinCommunity(selected);
+        if (joined) {
+            System.out.println("Joined community successfully");
+        } else {
+            System.out.println("Could not joined (already a member of the community or community is full).");
+        }
     }
 
     private void viewMyCommunitiesUI() {
