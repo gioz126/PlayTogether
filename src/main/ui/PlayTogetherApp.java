@@ -44,6 +44,11 @@ public class PlayTogetherApp {
         System.out.println("🏸 Welcome to PlayTogether!");
         loginOrRegister();
 
+        boolean running = true;
+        while (running) {
+            displayMainMenu();
+        }
+
     }
 
     // EFFECTS: asks user to login (users has been registered before) or register as
@@ -95,7 +100,21 @@ public class PlayTogetherApp {
         }
     }
 
-    //EFFECTS: ask the user to input number only. Will ask continously if string is not a number
+    // EFFECTS: display main menu
+    private void displayMainMenu() {
+        System.out.println("""
+                ====================
+                MAIN MENU
+                1. Book Court
+                2. Session
+                3. Community
+                4. Exit
+                ====================
+                """);
+    }
+
+    // EFFECTS: ask the user to input number only. Will ask continously if string is
+    // not a number
     private int getIntInput() {
         while (true) {
             try {
