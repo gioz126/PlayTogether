@@ -59,7 +59,6 @@ public class PlayTogetherApp {
                 default -> System.out.println("Invalid choice, please try again");
             }
         }
-
     }
 
     // EFFECTS: asks user to login (users has been registered before) or register as
@@ -126,7 +125,32 @@ public class PlayTogetherApp {
 
     // EFFECTS: handle matters wuth court
     private void handleCourtMenu() {
-        // stub
+        boolean back = false;
+        while(!back) {
+            System.out.println("""
+                    === Court Menu ===
+                    1. Book a court
+                    2. View my bookings
+                    3. Back
+                    """);
+            int choice = getIntInput();
+            switch (choice) {
+                case 1 -> bookCourtUI();
+                case 2 -> viewMyBookings();
+                case 3 -> back = true;
+                default -> System.out.println("Invalid choice.");
+            }
+        }
+    }
+
+    private Object viewMyBookings() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'viewMyBookings'");
+    }
+
+    private Object bookCourtUI() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'bookCourtUI'");
     }
 
     // EFFECTS: handle matters with session
