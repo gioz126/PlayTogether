@@ -567,7 +567,7 @@ public class PlayTogetherApp {
 
         List<Community> all = communityManager.getActiveCommunities();
         if (all.isEmpty()) {
-            System.out.println("No active communtiies found");
+            System.out.println("No active communities found");
             return;
         }
 
@@ -680,8 +680,34 @@ public class PlayTogetherApp {
     }
 
     private void removeCommunityUI() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeCommunityUI'");
+        System.out.println("\n=== Remove a Community (Leader Only) ===");
+
+        List<Community> led = currentUser.getCommunityLed();
+
+        if (led.isEmpty()) {
+            System.out.println("You are not leading any community.");
+            return;
+        }
+
+        for (int i = 0; i < led.size(); i++) {
+            Community c = led.get(i);
+            System.out.println((i + 1) + ". " + c.getCommunityName() +
+                    " | " + c.getSport() + " | " + c.getLocation() +
+                    " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
+        }
+        
+        System.out.println("Enter number to remove:");
+        int index = getIntInput() - 1;
+        if(index < 0 || index >= led.size()) {
+            System.out.println("Invalid selection");
+            return;
+        }
+
+        Community selected = led.get(index);
+        communityManager.removeCommunity(currentUser, selected);
+        currentUser.getCommunityLed().remove(selected);
+        currentUser.getCommunityJoined().remove(selected);
+        System.out.println("Community removed successfuly.");
     }
 
     private void leaveCommunityUI() {
