@@ -47,6 +47,17 @@ public class PlayTogetherApp {
         boolean running = true;
         while (running) {
             displayMainMenu();
+            int choice = getIntInput();
+            switch (choice) {
+                case 1 -> handleCourtMenu();
+                case 2 -> handleSessionMenu();
+                case 3 -> handleCommunityMenu();
+                case 4 -> {
+                    System.out.println("Goodbye, " + currentUser.getName() + "!");
+                    running = false;
+                }
+                default -> System.out.println("Invalid choice, please try again");
+            }
         }
 
     }
@@ -111,6 +122,21 @@ public class PlayTogetherApp {
                 4. Exit
                 ====================
                 """);
+    }
+
+    // EFFECTS: handle matters wuth court
+    private void handleCourtMenu() {
+        // stub
+    }
+
+    // EFFECTS: handle matters with session
+    private void handleSessionMenu() {
+        // stub
+    }
+
+    // EFFECTS: handle matters with community
+    private void handleCommunityMenu() {
+        // stub
     }
 
     // EFFECTS: ask the user to input number only. Will ask continously if string is
