@@ -335,8 +335,44 @@ public class PlayTogetherApp {
     }
 
     private void leaveSessionUI() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'leaveSessionUI'");
+        System.out.println("\n=== Leave a Session ===");
+
+        List<Session> joinedSession = currentUser.getSessionsJoined()
+
+        if(joinedSession.isEmpty()) {
+            System.out.println("You haven't joined any sessions yet.");
+            return;
+        }
+
+        System.out.println("Select a session to leave: ");
+
+        for(int i = 0; i < joinedSession.size(); i++) {
+            Session s = joinedSession.get(i);
+            System.out.println((i + 1) + ". " +
+                s.getSport() + " | " +
+                s.getFacility().getFacilityName() + " | " +
+                s.getStartDateTime().toLocalDate() + " " +
+                s.getStartDateTime().toLocalTime() + "-" +
+                s.getEndDateTime().toLocalTime());
+        }
+
+        System.out.println("Enter the number of session you want to leave: ");
+        int index = getIntInput() - 1;
+
+        if(index < 0 || index >= joinedSession.size()) {
+            System.out.println("Invalid selection.");
+            return;
+        }
+
+        Session selected = joinedSession.get(index);
+        boolean removed = selected.removeParticipant(currentUser);
+
+        if(removed) {
+            currentUser.getSessionsJoined().remove(selected);
+            System.out.println("You've successfully left the session");
+        } else {
+            System.out.println("Could not leave session (not a participant). ");
+        }
     }
 
     private void viewMySessionUI() {
