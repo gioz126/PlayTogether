@@ -12,6 +12,7 @@ import model.Booking;
 import model.CommunityManager;
 import model.CourtFacility;
 import model.CourtUnit;
+import model.Session;
 import model.SessionManager;
 import model.SportType;
 import model.User;
@@ -231,7 +232,7 @@ public class PlayTogetherApp {
     // EFFECTS: handle matters with session
     private void handleSessionMenu() {
         boolean back = false;
-        while(!back) {
+        while (!back) {
             System.out.println("""
                     === Session Menu ===
                     1. Create Session (from booking)
@@ -253,8 +254,24 @@ public class PlayTogetherApp {
     }
 
     private void createSessionUI() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createSessionUI'");
+        List<Booking> bookings = currentUser.getBookings();
+        if (bookings.isEmpty()) {
+            System.out.println("You must have a booking to create a session.");
+            return;
+        }
+
+        System.out.println("Select a booking to create session from: ");
+        for (int i = 0; i < bookings.size(); i++) {
+            Booking b = bookings.get(i);
+            System.out.println((i + 1) + ". " + b.getCourt().getcourtID() + " | "
+                    + b.getStartTime().toLocalTime() + "-" + b.getEndTime().toLocalTime());
+        }
+
+        int index = getIntInput();
+        // TODO fix sport so that it matches the booking
+        Session session = currentUser.createSession(currentUser, currentUser.getSportInterest(), index);
+        sessionManager.addSession(session);
+        System.out.println("Session created successfully");
     }
 
     private void joinSessionUI() {
