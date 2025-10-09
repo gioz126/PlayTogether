@@ -97,7 +97,13 @@ public class User {
     // given, adds this user to the community, add givencommunity to community
     // joined and returns true. Otherwise, returns false
     public boolean joinCommunity(Community community) {
-        return false;
+        if (community.hasMember(this) || community.isFull() || communityJoined.contains(community)) {
+            return false;
+        } else {
+            community.addMember(this);
+            communityJoined.add(community);
+            return true;
+        }
     }
 
     // getters
