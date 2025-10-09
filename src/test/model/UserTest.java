@@ -113,19 +113,34 @@ public class UserTest {
     @Test
     public void joinCommunityTest() {
         User user1 = new User("zio", "123", SportType.BADMINTON);
-        Community community = testUser.createCommunity("thunderbird", SportType.BADMINTON, AreaLocation.VANCOUVER, 2);
+        Community community = testUser.createCommunity("thunderbird", SportType.BADMINTON, AreaLocation.VANCOUVER, 3);
 
         // user join community in which the user already a member, return false
         assertFalse(testUser.joinCommunity(community));
 
-        // user join community successfully
-        User user2 = new User("aaa", "123", SportType.PADEL);
+        // user try to join the community twice
         assertTrue(user1.joinCommunity(community));
+        assertFalse(user1.joinCommunity(community));
 
-        //user join community already full
-        assertFalse(user2.joinCommunity(community));
+        // user join community already full
+        Community fullCommunity = testUser.createCommunity("aaa", SportType.BADMINTON, AreaLocation.VANCOUVER, 1);
+        User user2 = new User("aaa", "123", SportType.PADEL);
+        assertFalse(user2.joinCommunity(fullCommunity));
 
+        User newUser = new User("bbb", "123", SportType.BADMINTON);
+        Community openCommunity = testUser.createCommunity("add", SportType.PADEL, AreaLocation.RICHMOND, 3);
+        CommunityManager cm = new CommunityManager();
+        cm.addCommunity(openCommunity);
 
+        // user join community
+        assertTrue(newUser.joinCommunity(openCommunity));
+
+        // user leave using community manager, but does not remove from user's
+        // communityJoined
+        assertTrue(cm.leaveCommunity(newUser, openCommunity));
+
+        // hasmember false, community full false, community joined true
+        assertFalse(newUser.joinCommunity(openCommunity));
     }
 
 }
