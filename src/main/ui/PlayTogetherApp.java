@@ -9,6 +9,7 @@ import java.util.Scanner;
 import exception.CourtUnavailableException;
 import model.AreaLocation;
 import model.Booking;
+import model.Community;
 import model.CommunityManager;
 import model.CourtFacility;
 import model.CourtUnit;
@@ -102,6 +103,7 @@ public class PlayTogetherApp {
         System.out.println("New account created for " + currentUser.getName() + "!\n");
     }
 
+    // for user sport setup
     private SportType chooseSportType() {
         while (true) {
             System.out.println("Select your sport interest:");
@@ -120,6 +122,61 @@ public class PlayTogetherApp {
                 }
                 default -> {
                     System.out.println("Invalid choice. Please enter 1 or 2.\n");
+                }
+            }
+        }
+    }
+
+    // for community setup
+    private SportType chooseSportTypeCommunity() {
+        while (true) {
+            System.out.println("Select your community sport interest:");
+            System.out.println("1. Badminton");
+            System.out.println("2. Padel");
+            System.out.println(">");
+
+            int sportChoice = getIntInput();
+
+            switch (sportChoice) {
+                case 1 -> {
+                    return SportType.BADMINTON;
+                }
+                case 2 -> {
+                    return SportType.PADEL;
+                }
+                default -> {
+                    System.out.println("Invalid choice. Please enter 1 or 2.\n");
+                }
+            }
+        }
+    }
+
+    private AreaLocation chooseAreaLocation() {
+        while (true) {
+            System.out.println("Select the Area:");
+            System.out.println("1. Vancouver");
+            System.out.println("2. Burnaby");
+            System.out.println("3. Richmond");
+            System.out.println("4. Surrey");
+            System.out.println(">");
+
+            int areaChoice = getIntInput();
+
+            switch (areaChoice) {
+                case 1 -> {
+                    return AreaLocation.VANCOUVER;
+                }
+                case 2 -> {
+                    return AreaLocation.BURNABY;
+                }
+                case 3 -> {
+                    return AreaLocation.RICHMOND;
+                }
+                case 4 -> {
+                    return AreaLocation.SURREY;
+                }
+                default -> {
+                    System.out.println("Invalid choice. Please enter 1, 2, 3, or 4.\n");
                 }
             }
         }
@@ -339,27 +396,27 @@ public class PlayTogetherApp {
 
         List<Session> joinedSession = currentUser.getSessionsJoined();
 
-        if(joinedSession.isEmpty()) {
+        if (joinedSession.isEmpty()) {
             System.out.println("You haven't joined any sessions yet.");
             return;
         }
 
         System.out.println("Select a session to leave: ");
 
-        for(int i = 0; i < joinedSession.size(); i++) {
+        for (int i = 0; i < joinedSession.size(); i++) {
             Session s = joinedSession.get(i);
             System.out.println((i + 1) + ". " +
-                s.getSport() + " | " +
-                s.getFacility().getFacilityName() + " | " +
-                s.getStartDateTime().toLocalDate() + " " +
-                s.getStartDateTime().toLocalTime() + "-" +
-                s.getEndDateTime().toLocalTime());
+                    s.getSport() + " | " +
+                    s.getFacility().getFacilityName() + " | " +
+                    s.getStartDateTime().toLocalDate() + " " +
+                    s.getStartDateTime().toLocalTime() + "-" +
+                    s.getEndDateTime().toLocalTime());
         }
 
         System.out.println("Enter the number of session you want to leave: ");
         int index = getIntInput() - 1;
 
-        if(index < 0 || index >= joinedSession.size()) {
+        if (index < 0 || index >= joinedSession.size()) {
             System.out.println("Invalid selection.");
             return;
         }
@@ -367,7 +424,7 @@ public class PlayTogetherApp {
         Session selected = joinedSession.get(index);
         boolean removed = selected.removeParticipant(currentUser);
 
-        if(removed) {
+        if (removed) {
             currentUser.getSessionsJoined().remove(selected);
             System.out.println("You've successfully left the session");
         } else {
@@ -375,7 +432,7 @@ public class PlayTogetherApp {
         }
     }
 
-    //session created is not printed at view my session
+    // session created is not printed at view my session
     private void viewMySessionUI() {
         System.out.println("/n=== My Sessions ===");
 
@@ -400,7 +457,7 @@ public class PlayTogetherApp {
     // EFFECTS: handle matters with community
     private void handleCommunityMenu() {
         boolean back = false;
-        while(!back) {
+        while (!back) {
             System.out.println("""
                     === Community Menu ===
                     1. Create a Community
@@ -430,8 +487,22 @@ public class PlayTogetherApp {
     }
 
     private void createCommunityUI() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createCommunityUI'");
+        System.out.println("\n=== Create a Community ===");
+
+        System.out.println("Enter a community name: ");
+        String name = input.nextLine().trim();
+
+        SportType sport = chooseSportTypeCommunity();
+
+        AreaLocation area = chooseAreaLocation();
+
+        System.out.println("Enter max number of member: ");
+        int max = getIntInput();
+
+        Community community = currentUser.createCommunity(name, sport, area, max);
+        communityManager.addCommunity(community);
+
+        System.out.println("Community created successfully!");
     }
 
     private void viewAllCommunitiesUI() {
