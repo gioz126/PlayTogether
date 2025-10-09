@@ -157,11 +157,6 @@ public class PlayTogetherApp {
         }
     }
 
-    private void viewMyBookings() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'viewMyBookings'");
-    }
-
     private void bookCourtUI() {
         System.out.println("\n === Book a Court ===");
 
@@ -213,6 +208,23 @@ public class PlayTogetherApp {
             System.out.println(e.getMessage());
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
+        }
+    }
+
+    private void viewMyBookings() {
+        List<Booking> bookings = currentUser.getBookings();
+        if (bookings.isEmpty()) {
+            System.out.println("You have no booking yet.");
+        } else {
+            System.out.println("=== Your Bookings ===");
+            for (Booking b : bookings) {
+                System.out.println("- " + b.getFacility().getFacilityName()
+                        + " (" + b.getFacility().getFacilityLocation() + ")"
+                        + " | Court: " + b.getCourt().getcourtID()
+                        + " | " + b.getStartTime().toLocalDate()
+                        + " " + b.getStartTime().toLocalTime()
+                        + "-" + b.getEndTime().toLocalTime());
+            }
         }
     }
 
