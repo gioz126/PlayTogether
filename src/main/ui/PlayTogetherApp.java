@@ -337,7 +337,7 @@ public class PlayTogetherApp {
     private void leaveSessionUI() {
         System.out.println("\n=== Leave a Session ===");
 
-        List<Session> joinedSession = currentUser.getSessionsJoined()
+        List<Session> joinedSession = currentUser.getSessionsJoined();
 
         if(joinedSession.isEmpty()) {
             System.out.println("You haven't joined any sessions yet.");
@@ -375,9 +375,26 @@ public class PlayTogetherApp {
         }
     }
 
+    //session created is not printed at view my session
     private void viewMySessionUI() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'viewMySessionUI'");
+        System.out.println("/n=== My Sessions ===");
+
+        List<Session> joinedSessions = currentUser.getSessionsJoined();
+
+        if (joinedSessions.isEmpty()) {
+            System.out.println("You haven't joined any sessions yet.");
+            return;
+        }
+
+        for (Session s : joinedSessions) {
+            System.out.println("- " + s.getSport()
+                    + " | Facility: " + s.getFacility().getFacilityName()
+                    + " | Court: " + s.getCourtUnit().getcourtID()
+                    + " | " + s.getStartDateTime().toLocalDate()
+                    + " " + s.getStartDateTime().toLocalTime()
+                    + "-" + s.getEndDateTime().toLocalTime()
+                    + " | Participants: " + s.getParticipant().size());
+        }
     }
 
     // EFFECTS: handle matters with community
