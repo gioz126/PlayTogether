@@ -196,7 +196,7 @@ public class PlayTogetherApp {
             int endHour = getIntInput();
 
             LocalDateTime start = LocalDateTime.of(year, month, day, startHour, 0);
-            LocalDateTime end = LocalDateTime.of(year, month, month, endHour, 0);
+            LocalDateTime end = LocalDateTime.of(year, month, day, endHour, 0);
 
             Booking booking = currentUser.bookCourt(selectedCourtFacility, start, end);
             System.out.println("Court booked successfully: ");
@@ -275,8 +275,63 @@ public class PlayTogetherApp {
     }
 
     private void joinSessionUI() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'joinSessionUI'");
+        System.out.println("\n=== Join a session ===");
+
+        System.out.println("Which sport do you want to join?");
+        System.out.println("1. Badminton");
+        System.out.println("2. Padel");
+
+        SportType chosenSport;
+        while (true) {
+            int sportChoice = getIntInput();
+            switch (sportChoice) {
+                case 1 -> {
+                    chosenSport = SportType.BADMINTON;
+                    break;
+                }
+                case 2 -> {
+                    chosenSport = SportType.PADEL;
+                    break;
+                }
+                default -> {
+                    System.out.println("Invalid input. Please enter 1 or 2");
+                    continue;
+                }
+            }
+            break;
+        }
+        List<Session> availableSessions = sessionManager.findSessionsBySport(chosenSport);
+
+        if (availableSessions.isEmpty()) {
+            System.out.println("No sessions available for " + chosenSport + ".");
+            return;
+        }
+
+        System.out.println("Available " + chosenSport + " sessions: ");
+        for (int i = 0; i < availableSessions.size(); i++) {
+            Session s = availableSessions.get(i);
+            System.out.println((i + 1) + ". " +
+                    s.getSport() + " | " +
+                    s.getFacility().getFacilityName() + " | " +
+                    s.getStartDateTime().toLocalDate() + " " +
+                    s.getStartDateTime().toLocalTime() + "-" +
+                    s.getEndDateTime().toLocalTime() + " | Participants: " + s.getParticipant().size());
+        }
+
+        System.out.println("Enter the number of the session you want to join: ");
+        int index = getIntInput() - 1;
+        if (index < 0 || index >= availableSessions.size()) {
+            System.out.println("Invalid selection.");
+            return;
+        }
+
+        Session chosen = availableSessions.get(index);
+        boolean joined = currentUser.joinSession(chosen);
+        if (joined) {
+            System.out.println("Joined session succesfully!");
+        } else {
+            System.out.println("You're already in that session.");
+        }
     }
 
     private void leaveSessionUI() {
