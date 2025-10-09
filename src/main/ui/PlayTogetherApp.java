@@ -175,9 +175,42 @@ public class PlayTogetherApp {
         }
     }
 
+    // for community setup
     private AreaLocation chooseAreaLocation() {
         while (true) {
             System.out.println("Select the Area:");
+            System.out.println("1. Vancouver");
+            System.out.println("2. Burnaby");
+            System.out.println("3. Richmond");
+            System.out.println("4. Surrey");
+            System.out.println(">");
+
+            int areaChoice = getIntInput();
+
+            switch (areaChoice) {
+                case 1 -> {
+                    return AreaLocation.VANCOUVER;
+                }
+                case 2 -> {
+                    return AreaLocation.BURNABY;
+                }
+                case 3 -> {
+                    return AreaLocation.RICHMOND;
+                }
+                case 4 -> {
+                    return AreaLocation.SURREY;
+                }
+                default -> {
+                    System.out.println("Invalid choice. Please enter 1, 2, 3, or 4.\n");
+                }
+            }
+        }
+    }
+
+    // for community search
+    private AreaLocation chooseAreaLocationSearch() {
+        while (true) {
+            System.out.println("Select the Area to search:");
             System.out.println("1. Vancouver");
             System.out.println("2. Burnaby");
             System.out.println("3. Richmond");
@@ -565,8 +598,21 @@ public class PlayTogetherApp {
     }
 
     private void findCommunityByLocationUI() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findCommunityByLocationUI'");
+        System.out.println("\n=== Find Community By Location ===");
+        AreaLocation area = chooseAreaLocationSearch();
+
+        List<Community> list = communityManager.findCommunityByLocation(area);
+        if (list.isEmpty()) {
+            System.out.println("No communities found in " + area + ".");
+            return;
+        }
+
+        for (Community c : list) {
+            System.out.println("- " + c.getCommunityName() +
+                    " | Sport: " + c.getSport() +
+                    " | Location: " + c.getLocation() +
+                    " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
+        }
     }
 
     private void joinCommunityUI() {
