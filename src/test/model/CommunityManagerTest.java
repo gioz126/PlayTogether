@@ -48,19 +48,16 @@ public class CommunityManagerTest {
         // add community vancouver first
         testCommunityManager.addCommunity(communityVancouver);
 
-        // remove community vancouver
-        testCommunityManager.removeCommunity(communityVancouver);
-        assertTrue(testCommunityManager.getActiveCommunities().isEmpty());
-        assertFalse(testCommunityManager.getActiveCommunities().contains(communityVancouver));
-
-        // add both community
-        testCommunityManager.addCommunity(communityRichmond);
-        testCommunityManager.addCommunity(communityVancouver);
-
-        // remove community richmond while there's 2 active communities
-        testCommunityManager.removeCommunity(communityRichmond);
-        assertFalse(testCommunityManager.getActiveCommunities().contains(communityRichmond));
+        // remove community vancouver but not the owner (can't remove, return false)
+        User user1 = new User("aaa", "123", SportType.BADMINTON);
+        assertFalse(testCommunityManager.removeCommunity(user1,communityVancouver));
+        assertTrue(testCommunityManager.getActiveCommunities().contains(communityVancouver));
         assertEquals(1, testCommunityManager.getActiveCommunities().size());
+
+        // remove community vancouver with owner as the user
+        assertTrue(testCommunityManager.removeCommunity(owner, communityVancouver));
+        assertFalse(testCommunityManager.getActiveCommunities().contains(communityVancouver));
+        assertTrue(testCommunityManager.getActiveCommunities().isEmpty());
     }
 
     @Test

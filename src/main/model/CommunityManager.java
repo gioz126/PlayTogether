@@ -18,9 +18,16 @@ public class CommunityManager {
     }
 
     // MODIFIES: this
-    // EFFECTS: removes the given community from the list of active community
-    public void removeCommunity(Community community) {
-        activeCommunity.remove(community);
+    // EFFECTS: removes the given community from the list of active community if and
+    // only if the given user is the leader, returns true after removed. Returns
+    // false otherwise
+    public boolean removeCommunity(User user, Community community) {
+        if (community.getCommunityLeader() != user) {
+            return false;
+        } else {
+            activeCommunity.remove(community);
+            return true;
+        }
     }
 
     // EFFECTS: returns a list of all currently active community with same sport as
