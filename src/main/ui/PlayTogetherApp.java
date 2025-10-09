@@ -38,4 +38,45 @@ public class PlayTogetherApp {
         facility.addCourt(new CourtUnit("Badminton 1", SportType.BADMINTON, LocalTime.of(8, 0), LocalTime.of(22, 0)));
         facility.addCourt(new CourtUnit("Badminton 2", SportType.BADMINTON, LocalTime.of(8, 0), LocalTime.of(22, 0)));
     }
+
+    // EFFECTS: runs the app
+    public void runPlayTogether() {
+        System.out.println("🏸 Welcome to PlayTogether!");
+        loginOrRegister();
+
+    }
+
+    // EFFECTS: asks user to login (users has been registered before) or register as
+    // a new user
+    public void loginOrRegister() {
+        System.out.println("=== Login / Register ===");
+
+        System.out.println("Enter your name: ");
+        String name = input.nextLine();
+
+        System.out.println("Enter your contact number: ");
+        String phone = input.nextLine();
+
+        // Check if user already exists (only with name)
+        User existUser = userManager.findUserByName(name);
+        if (existUser != null) {
+            currentUser = existUser;
+            System.out.println("\n✅ Welcome back, " + currentUser.getName() + "!");
+            return;
+        }
+
+        // if user is new, register new one
+        System.out.println("Select your sport interest:");
+        System.out.println("1. Badminton\n2. Padel");
+        int sportChoice = input.nextInt();
+
+        SportType sport = switch (sportChoice) {
+            case 1 -> SportType.BADMINTON;
+            default -> SportType.PADEL;
+        };
+
+        currentUser = new User(name, phone, sport);
+        userManager.addUser(currentUser);
+        System.out.println("New account created for " + currentUser.getName() + "!\n");
+    }
 }
