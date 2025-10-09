@@ -28,6 +28,7 @@ public class Session {
         this.endDateTime = endDateTime;
         this.participants = new ArrayList<>();
         this.participants.add(owner);
+        this.description = "";
     }
 
     // MODIFIES: this

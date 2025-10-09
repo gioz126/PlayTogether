@@ -43,12 +43,15 @@ public class SessionTest {
         assertEquals(end, testSession.getEndDateTime());
         assertEquals(1, testSession.getParticipant().size());
         assertTrue(testSession.getParticipant().contains(owner));
+        assertTrue(testSession.getDescription().isEmpty());
     }
 
     @Test
     public void addParticipantTest() {
+        //initialize new user
         User participant1 = new User("zio", "1234", SportType.BADMINTON);
 
+        //add participant who is not already a participant in the session
         testSession.addParticipant(participant1);
         assertEquals(2, testSession.getParticipant().size());
         assertTrue(testSession.getParticipant().contains(participant1));
@@ -60,16 +63,22 @@ public class SessionTest {
 
     @Test
     public void removeParticipantTest() {
+        //initialize new user
         User participant1 = new User("zio", "1234", SportType.BADMINTON);
 
-        //participant not found
-        assertFalse(testSession.getParticipant().remove(participant1));
-    
-        //participant found
+        // participant not found
+        assertFalse(testSession.removeParticipant(participant1));
+
+        // participant to be removed found
         testSession.addParticipant(participant1);
         assertTrue(testSession.getParticipant().contains(participant1));
-        testSession.removeParticipant(participant1);
+        assertTrue(testSession.removeParticipant(participant1));
         assertFalse(testSession.getParticipant().contains(participant1));
+    }
 
+    @Test
+    public void setDescriptiontest() {
+        testSession.setDescription("Play at October 3'rd 2025");
+        assertEquals("Play at October 3'rd 2025", testSession.getDescription());
     }
 }
