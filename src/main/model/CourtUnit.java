@@ -31,7 +31,7 @@ public class CourtUnit {
             return false;
         }
         for (Booking b : reservations) {
-            boolean overlap = !(end.isBefore(b.getStartTime()) || start.isAfter(b.getEndTime()));
+            boolean overlap = start.isBefore(b.getEndTime()) && end.isAfter(b.getStartTime());
             if (overlap) {
                 return false;
             }

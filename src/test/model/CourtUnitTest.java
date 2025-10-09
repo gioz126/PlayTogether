@@ -46,6 +46,9 @@ public class CourtUnitTest {
 
     @Test
     public void isAvailableSuccessTest() throws CourtUnavailableException {
+        // reserve court booking for 12 - 14
+        courtTest.reserve(booking1);
+
         // just at the bound (8 - 9)
         LocalDateTime startJustAtLowerBound = LocalDateTime.of(2025, 10,
                 15, 8, 0);
@@ -54,8 +57,10 @@ public class CourtUnitTest {
         Boolean availableStartJust = courtTest.isAvailable(startJustAtLowerBound, endJustAtLowerBound);
         assertTrue(availableStartJust);
 
-        // within time opening hours / closing hours
-        Boolean availableMid = courtTest.isAvailable(start, end);
+        // within time opening hours / closing hours (17 -18)
+        LocalDateTime startMidBound = LocalDateTime.of(2025, 10, 15, 17, 0);
+        LocalDateTime endMidBound = LocalDateTime.of(2025, 10, 15, 18, 0);
+        Boolean availableMid = courtTest.isAvailable(startMidBound, endMidBound);
         assertTrue(availableMid);
 
         // just right after someone's booked time (14 - 15)
@@ -66,11 +71,11 @@ public class CourtUnitTest {
         Boolean availableRightAfterSomone = courtTest.isAvailable(startJustAfterSomeone, end15);
         assertTrue(availableRightAfterSomone);
 
-        // just right before someone's booked time (13 - 14)
+        // just right before someone's booked time (11 - 12)
         LocalDateTime startJustBeforeSomeone = LocalDateTime.of(2025, 10,
-                15, 13, 15);
+                15, 11, 15);
         LocalDateTime end14 = LocalDateTime.of(2025, 10,
-                15, 14, 0);
+                15, 12, 0);
         Boolean availableRightBeforeSomone = courtTest.isAvailable(startJustBeforeSomeone, end14);
         assertTrue(availableRightBeforeSomone);
 
@@ -85,6 +90,9 @@ public class CourtUnitTest {
 
     @Test
     public void isAvailableFailedTest() throws CourtUnavailableException {
+        // reserve court booking for 12 - 14
+        courtTest.reserve(booking1);
+
         // not within opening hours (7 - 8)
         LocalDateTime startLower = LocalDateTime.of(2025, 10,
                 15, 7, 0);
@@ -102,7 +110,6 @@ public class CourtUnitTest {
         assertFalse(unavailableUpper);
 
         // Somone already booked at that time (overlap case)
-        courtTest.reserve(booking1);
         Boolean unavailableOverlap = courtTest.isAvailable(start, end);
         assertFalse(unavailableOverlap);
 
