@@ -110,6 +110,7 @@ public class CommunityManagerTest {
     @Test
     public void leaveCommunityTest() {
         //user is the owner of the community
+        testCommunityManager.addCommunity(communityVancouver);
         assertFalse(testCommunityManager.leaveCommunity(owner, communityVancouver));
 
         //user is not a participant
