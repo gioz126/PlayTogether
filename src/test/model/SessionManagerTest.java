@@ -69,16 +69,17 @@ public class SessionManagerTest {
         sessionManagerTest.addSession(session1);
         assertTrue(sessionManagerTest.getActiveSession().contains(session1));
 
-        sessionManagerTest.removeSession(session1);
+        // remove session called by the owner
+        assertTrue(sessionManagerTest.removeSession(owner, session1));
         assertTrue(sessionManagerTest.getActiveSession().isEmpty());
         assertFalse(sessionManagerTest.getActiveSession().contains(session1));
 
+        //remove session called by other user who is not the owner
         sessionManagerTest.addSession(session1);
         sessionManagerTest.addSession(session2);
-        sessionManagerTest.removeSession(session2);
-
-        assertFalse(sessionManagerTest.getActiveSession().contains(session2));
-        assertEquals(1, sessionManagerTest.getActiveSession().size());
+        assertFalse(sessionManagerTest.removeSession(user2, session2));
+        assertTrue(sessionManagerTest.getActiveSession().contains(session2));
+        assertEquals(2, sessionManagerTest.getActiveSession().size());
     }
 
     @Test

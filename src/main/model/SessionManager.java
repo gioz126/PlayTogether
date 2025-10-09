@@ -18,9 +18,16 @@ public class SessionManager {
     }
 
     // MODIFIES: this
-    // EFFECTS: removes the given session from the list of active session
-    public void removeSession(Session session) {
-        activeSession.remove(session);
+    // EFFECTS: removes the given session from the list of active session if and
+    // only if the user is the owner of the session, returns true if removed.
+    // Returns false otherwise
+    public boolean removeSession(User user, Session session) {
+        if (user != session.getOwner()) {
+            return false;
+        } else {
+            activeSession.remove(session);
+            return true;
+        }
     }
 
     // EFFECTS: returns a list of all currently active session with same sport as
