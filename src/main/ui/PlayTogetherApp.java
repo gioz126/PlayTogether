@@ -506,8 +506,20 @@ public class PlayTogetherApp {
     }
 
     private void viewAllCommunitiesUI() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'viewAllCommunitiesUI'");
+        System.out.println("\n=== All Active Communities ===");
+
+        List<Community> all = communityManager.getActiveCommunities();
+        if (all.isEmpty()) {
+            System.out.println("No active communtiies found");
+            return;
+        }
+
+        for (Community c : all) {
+            System.out.println("- " + c.getCommunityName() +
+                    " | Sport: " + c.getSport() +
+                    " | Location: " + c.getLocation() +
+                    " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
+        }
     }
 
     private void findCommunityBySportUI() {
