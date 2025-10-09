@@ -151,6 +151,30 @@ public class PlayTogetherApp {
         }
     }
 
+    // for community search
+    private SportType chooseSportTypeSearch() {
+        while (true) {
+            System.out.println("Select sport to search:");
+            System.out.println("1. Badminton");
+            System.out.println("2. Padel");
+            System.out.println(">");
+
+            int sportChoice = getIntInput();
+
+            switch (sportChoice) {
+                case 1 -> {
+                    return SportType.BADMINTON;
+                }
+                case 2 -> {
+                    return SportType.PADEL;
+                }
+                default -> {
+                    System.out.println("Invalid choice. Please enter 1 or 2.\n");
+                }
+            }
+        }
+    }
+
     private AreaLocation chooseAreaLocation() {
         while (true) {
             System.out.println("Select the Area:");
@@ -523,8 +547,21 @@ public class PlayTogetherApp {
     }
 
     private void findCommunityBySportUI() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findCommunityBySportUI'");
+        System.out.println("\n=== Find Community By Sport ===");
+        SportType sport = chooseSportTypeSearch();
+
+        List<Community> list = communityManager.findCommunityBySport(sport);
+        if (list.isEmpty()) {
+            System.out.println("No communities found for " + sport + ".");
+            return;
+        }
+
+        for (Community c : list) {
+            System.out.println("- " + c.getCommunityName() +
+                    " | Sport: " + c.getSport() +
+                    " | Location: " + c.getLocation() +
+                    " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
+        }
     }
 
     private void findCommunityByLocationUI() {
