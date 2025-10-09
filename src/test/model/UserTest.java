@@ -24,7 +24,6 @@ public class UserTest {
     private SessionManager sessionManagerTest;
     private Session session1;
 
-
     @BeforeEach
     public void runBefore() {
         testUser = new User("Gio", "123456789", SportType.BADMINTON);
@@ -38,7 +37,6 @@ public class UserTest {
         end = LocalDateTime.of(2025, 10, 3, 19, 0);
 
         session1 = new Session(testUser, SportType.BADMINTON, facility, court1, start, end);
-        
 
     }
 
@@ -88,22 +86,27 @@ public class UserTest {
     @Test
     public void joinSessionTest() {
 
-        //testUser is the owner, so he's a participant inside the session
+        // testUser is the owner, so he's a participant inside the session
         assertFalse(testUser.joinSession(session1));
 
         User user1 = new User("zio", "123", SportType.BADMINTON);
         assertTrue(user1.joinSession(session1));
 
-        //user 1 tries to join again
+        // user 1 tries to join again
         assertFalse(user1.joinSession(session1));
     }
 
     @Test
     public void createCommunityTest() {
-        //user create a community
-        Community communityCreated = testUser.createCommunity("Thunderbird", SportType.BADMINTON, AreaLocation.VANCOUVER, 50);
+        // user create a community
+        Community communityCreated = testUser.createCommunity("Thunderbird", SportType.BADMINTON,
+                AreaLocation.VANCOUVER, 50);
         assertTrue(testUser.getCommunityLed().contains(communityCreated));
-        assertEquals(1, testUser.getCommunityLed().size()); 
+        assertEquals(1, testUser.getCommunityLed().size());
+
+        // check if the user creates a community, the user automaticaly becomes the
+        // leader
+        assertEquals(testUser, communityCreated.getCommunityLeader());
     }
 
 }

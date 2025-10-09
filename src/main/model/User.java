@@ -84,7 +84,9 @@ public class User {
     // number of members add community to community led to this user, return the
     // community
     public Community createCommunity(String communityName, SportType sport, AreaLocation area, int maxMembers) {
-        return null;
+        Community community = new Community(this, communityName, sport, area, maxMembers);
+        communityLed.add(community);
+        return community;
     }
 
     // MODIFIES: this
