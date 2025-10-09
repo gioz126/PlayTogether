@@ -102,11 +102,30 @@ public class UserTest {
         Community communityCreated = testUser.createCommunity("Thunderbird", SportType.BADMINTON,
                 AreaLocation.VANCOUVER, 50);
         assertTrue(testUser.getCommunityLed().contains(communityCreated));
+        assertTrue(testUser.getCommunityJoined().contains(communityCreated));
         assertEquals(1, testUser.getCommunityLed().size());
 
         // check if the user creates a community, the user automaticaly becomes the
         // leader
         assertEquals(testUser, communityCreated.getCommunityLeader());
+    }
+
+    @Test
+    public void joinCommunityTest() {
+        User user1 = new User("zio", "123", SportType.BADMINTON);
+        Community community = testUser.createCommunity("thunderbird", SportType.BADMINTON, AreaLocation.VANCOUVER, 2);
+
+        // user join community in which the user already a member, return false
+        assertFalse(testUser.joinCommunity(community));
+
+        // user join community successfully
+        User user2 = new User("aaa", "123", SportType.PADEL);
+        assertTrue(user1.joinCommunity(community));
+
+        //user join community already full
+        assertFalse(user2.joinCommunity(community));
+
+
     }
 
 }

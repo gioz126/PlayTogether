@@ -81,11 +81,13 @@ public class User {
 
     // MODIFIES: this, community
     // EFFECTS: users create community with community name, sport, area, and max
-    // number of members add community to community led to this user, return the
+    // number of members. Add community to community led to this user and add
+    // community to communityJoined to this user, return the
     // community
     public Community createCommunity(String communityName, SportType sport, AreaLocation area, int maxMembers) {
         Community community = new Community(this, communityName, sport, area, maxMembers);
         communityLed.add(community);
+        communityJoined.add(community);
         return community;
     }
 
