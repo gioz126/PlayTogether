@@ -273,7 +273,8 @@ public class PlayTogetherApp {
             }
         }
     }
-
+    
+    @SuppressWarnings("methodlength")
     private void bookCourtUI() {
         System.out.println("\n === Book a Court ===");
 
@@ -401,6 +402,7 @@ public class PlayTogetherApp {
         System.out.println("Session created successfully");
     }
 
+    @SuppressWarnings("methodlength")
     private void joinSessionUI() {
         System.out.println("\n=== Join a session ===");
 
@@ -461,6 +463,7 @@ public class PlayTogetherApp {
         }
     }
 
+    @SuppressWarnings("methodlength")
     private void leaveSessionUI() {
         System.out.println("\n=== Leave a Session ===");
 
@@ -506,6 +509,7 @@ public class PlayTogetherApp {
     }
 
     // session created is not printed at view my session
+    @SuppressWarnings("methodlength")
     private void viewMySessionUI() {
         System.out.println("\n=== My Sessions ===");
 
@@ -544,6 +548,7 @@ public class PlayTogetherApp {
     }
 
     // EFFECTS: handle matters with community
+    @SuppressWarnings("methodlength")
     private void handleCommunityMenu() {
         boolean back = false;
         while (!back) {
@@ -647,6 +652,7 @@ public class PlayTogetherApp {
         }
     }
 
+    @SuppressWarnings("methodlength")
     private void joinCommunityUI() {
         System.out.println("\n=== Join a Community ===");
 
@@ -679,6 +685,7 @@ public class PlayTogetherApp {
         }
     }
 
+    @SuppressWarnings("methodlength")
     private void viewMyCommunitiesUI() {
         System.out.println("\n=== My Communities ===");
 
@@ -742,6 +749,7 @@ public class PlayTogetherApp {
         System.out.println("Community removed successfuly.");
     }
 
+    @SuppressWarnings("methodlength")
     private void leaveCommunityUI() {
         System.out.println("\n=== Leave a Community ===");
 
