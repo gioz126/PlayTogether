@@ -343,6 +343,7 @@ public class PlayTogetherApp {
         }
     }
 
+    // TODO add view all active session
     // EFFECTS: handle matters with session
     private void handleSessionMenu() {
         boolean back = false;
@@ -382,7 +383,7 @@ public class PlayTogetherApp {
         }
 
         int index = getIntInput();
-        // TODO fix sport so that it matches the booking
+        // TODO fix sport so that it matches the booking (add sport on booking)
         Session session = currentUser.createSession(currentUser, currentUser.getSportInterest(), index);
         sessionManager.addSession(session);
         System.out.println("Session created successfully");
@@ -491,23 +492,39 @@ public class PlayTogetherApp {
 
     // session created is not printed at view my session
     private void viewMySessionUI() {
-        System.out.println("/n=== My Sessions ===");
+        System.out.println("\n=== My Sessions ===");
 
         List<Session> joinedSessions = currentUser.getSessionsJoined();
+        List<Session> createdSession = currentUser.getSessionsCreated();
 
-        if (joinedSessions.isEmpty()) {
-            System.out.println("You haven't joined any sessions yet.");
+        if (joinedSessions.isEmpty() && createdSession.isEmpty()) {
+            System.out.println("You haven't joined or opened any sessions yet.");
             return;
         }
+        if (!createdSession.isEmpty()) {
+            System.out.println("Sessions You Created:");
+            for (Session s : createdSession) {
+                System.out.println("- " + s.getSport()
+                        + " | Facility: " + s.getFacility().getFacilityName()
+                        + " | Court: " + s.getCourtUnit().getcourtID()
+                        + " | " + s.getStartDateTime().toLocalDate()
+                        + " " + s.getStartDateTime().toLocalTime()
+                        + "-" + s.getEndDateTime().toLocalTime()
+                        + " | Participants: " + s.getParticipant().size());
+            }
+        }
 
-        for (Session s : joinedSessions) {
-            System.out.println("- " + s.getSport()
-                    + " | Facility: " + s.getFacility().getFacilityName()
-                    + " | Court: " + s.getCourtUnit().getcourtID()
-                    + " | " + s.getStartDateTime().toLocalDate()
-                    + " " + s.getStartDateTime().toLocalTime()
-                    + "-" + s.getEndDateTime().toLocalTime()
-                    + " | Participants: " + s.getParticipant().size());
+        if (!joinedSessions.isEmpty()) {
+            System.out.println("Session You Joined:");
+            for (Session s : joinedSessions) {
+                System.out.println("- " + s.getSport()
+                        + " | Facility: " + s.getFacility().getFacilityName()
+                        + " | Court: " + s.getCourtUnit().getcourtID()
+                        + " | " + s.getStartDateTime().toLocalDate()
+                        + " " + s.getStartDateTime().toLocalTime()
+                        + "-" + s.getEndDateTime().toLocalTime()
+                        + " | Participants: " + s.getParticipant().size());
+            }
         }
     }
 
