@@ -21,7 +21,6 @@ public class UserTest {
     private LocalDateTime start;
     private LocalDateTime end;
 
-    private SessionManager sessionManagerTest;
     private Session session1;
 
     @BeforeEach

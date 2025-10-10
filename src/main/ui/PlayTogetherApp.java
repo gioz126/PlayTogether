@@ -43,15 +43,17 @@ public class PlayTogetherApp {
 
     // EFFECTS: setup court unit for court facility
     public void setupCourts() {
-        CourtFacility UBC = new CourtFacility("UBC North Recreation", AreaLocation.VANCOUVER);
-        UBC.addCourt(new CourtUnit("Badminton 1", SportType.BADMINTON, LocalTime.of(8, 0), LocalTime.of(22, 0)));
-        UBC.addCourt(new CourtUnit("Badminton 2", SportType.BADMINTON, LocalTime.of(8, 0), LocalTime.of(22, 0)));
+        CourtFacility badmintonVancouver = new CourtFacility("UBC North Recreation", AreaLocation.VANCOUVER);
+        badmintonVancouver.addCourt(new CourtUnit("Badminton 1", SportType.BADMINTON,
+                LocalTime.of(8, 0), LocalTime.of(22, 0)));
+        badmintonVancouver.addCourt(new CourtUnit("Badminton 2", SportType.BADMINTON,
+                LocalTime.of(8, 0), LocalTime.of(22, 0)));
 
         CourtFacility padelRichmond = new CourtFacility("Badminton Richmond", AreaLocation.RICHMOND);
         padelRichmond.addCourt(new CourtUnit("Padel 1", SportType.PADEL, LocalTime.of(8, 0), LocalTime.of(22, 0)));
         padelRichmond.addCourt(new CourtUnit("Padel 2", SportType.PADEL, LocalTime.of(8, 0), LocalTime.of(22, 0)));
 
-        facilities.add(UBC);
+        facilities.add(badmintonVancouver);
         facilities.add(padelRichmond);
     }
 
@@ -184,9 +186,7 @@ public class PlayTogetherApp {
             System.out.println("3. Richmond");
             System.out.println("4. Surrey");
             System.out.println(">");
-
             int areaChoice = getIntInput();
-
             switch (areaChoice) {
                 case 1 -> {
                     return AreaLocation.VANCOUVER;
@@ -424,12 +424,12 @@ public class PlayTogetherApp {
         System.out.println("Available " + chosenSport + " sessions: ");
         for (int i = 0; i < availableSessions.size(); i++) {
             Session s = availableSessions.get(i);
-            System.out.println((i + 1) + ". " +
-                    s.getSport() + " | " +
-                    s.getFacility().getFacilityName() + " | " +
-                    s.getStartDateTime().toLocalDate() + " " +
-                    s.getStartDateTime().toLocalTime() + "-" +
-                    s.getEndDateTime().toLocalTime() + " | Participants: " + s.getParticipant().size());
+            System.out.println((i + 1) + ". "
+                    + s.getSport() + " | "
+                    + s.getFacility().getFacilityName() + " | "
+                    + s.getStartDateTime().toLocalDate() + " "
+                    + s.getStartDateTime().toLocalTime() + "-"
+                    + s.getEndDateTime().toLocalTime() + " | Participants: " + s.getParticipant().size());
         }
 
         System.out.println("Enter the number of the session you want to join: ");
@@ -462,12 +462,12 @@ public class PlayTogetherApp {
 
         for (int i = 0; i < joinedSession.size(); i++) {
             Session s = joinedSession.get(i);
-            System.out.println((i + 1) + ". " +
-                    s.getSport() + " | " +
-                    s.getFacility().getFacilityName() + " | " +
-                    s.getStartDateTime().toLocalDate() + " " +
-                    s.getStartDateTime().toLocalTime() + "-" +
-                    s.getEndDateTime().toLocalTime());
+            System.out.println((i + 1) + ". "
+                    + s.getSport() + " | "
+                    + s.getFacility().getFacilityName() + " | "
+                    + s.getStartDateTime().toLocalDate() + " "
+                    + s.getStartDateTime().toLocalTime() + "-"
+                    + s.getEndDateTime().toLocalTime());
         }
 
         System.out.println("Enter the number of session you want to leave: ");
@@ -572,10 +572,10 @@ public class PlayTogetherApp {
         }
 
         for (Community c : all) {
-            System.out.println("- " + c.getCommunityName() +
-                    " | Sport: " + c.getSport() +
-                    " | Location: " + c.getLocation() +
-                    " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
+            System.out.println("- " + c.getCommunityName()
+                    + " | Sport: " + c.getSport()
+                    + " | Location: " + c.getLocation()
+                    + " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
         }
     }
 
@@ -590,10 +590,10 @@ public class PlayTogetherApp {
         }
 
         for (Community c : list) {
-            System.out.println("- " + c.getCommunityName() +
-                    " | Sport: " + c.getSport() +
-                    " | Location: " + c.getLocation() +
-                    " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
+            System.out.println("- " + c.getCommunityName()
+                    + " | Sport: " + c.getSport()
+                    + " | Location: " + c.getLocation()
+                    + " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
         }
     }
 
@@ -608,10 +608,10 @@ public class PlayTogetherApp {
         }
 
         for (Community c : list) {
-            System.out.println("- " + c.getCommunityName() +
-                    " | Sport: " + c.getSport() +
-                    " | Location: " + c.getLocation() +
-                    " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
+            System.out.println("- " + c.getCommunityName()
+                    + " | Sport: " + c.getSport()
+                    + " | Location: " + c.getLocation()
+                    + " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
         }
     }
 
@@ -626,9 +626,9 @@ public class PlayTogetherApp {
 
         for (int i = 0; i < all.size(); i++) {
             Community c = all.get(i);
-            System.out.println((i + 1) + ". " + c.getCommunityName() +
-                    " | " + c.getSport() + " | " + c.getLocation() +
-                    " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
+            System.out.println((i + 1) + ". " + c.getCommunityName()
+                    + " | " + c.getSport() + " | " + c.getLocation()
+                    + " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
         }
 
         System.out.println("Enter number of community to join");
@@ -661,20 +661,20 @@ public class PlayTogetherApp {
         if (!led.isEmpty()) {
             System.out.println("Community You Lead:");
             for (Community c : led) {
-                System.out.println("- " + c.getCommunityName() +
-                        " | " + c.getSport() +
-                        " | " + c.getLocation() +
-                        " | Members:" + c.getMembers().size() + "/" + c.getMaxMembers());
+                System.out.println("- " + c.getCommunityName()
+                        + " | " + c.getSport()
+                        + " | " + c.getLocation()
+                        + " | Members:" + c.getMembers().size() + "/" + c.getMaxMembers());
             }
         }
 
         if (!joined.isEmpty()) {
             System.out.println("\nCommunities You Joined: ");
             for (Community c : joined) {
-                System.out.println("- " + c.getCommunityName() +
-                        " | " + c.getSport() +
-                        " | " + c.getLocation() +
-                        " | Members:" + c.getMembers().size() + "/" + c.getMaxMembers());
+                System.out.println("- " + c.getCommunityName()
+                        + " | " + c.getSport()
+                        + " | " + c.getLocation()
+                        + " | Members:" + c.getMembers().size() + "/" + c.getMaxMembers());
             }
         }
     }
@@ -691,9 +691,9 @@ public class PlayTogetherApp {
 
         for (int i = 0; i < led.size(); i++) {
             Community c = led.get(i);
-            System.out.println((i + 1) + ". " + c.getCommunityName() +
-                    " | " + c.getSport() + " | " + c.getLocation() +
-                    " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
+            System.out.println((i + 1) + ". " + c.getCommunityName()
+                    + " | " + c.getSport() + " | " + c.getLocation()
+                    + " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
         }
 
         System.out.println("Enter number to remove:");
@@ -721,9 +721,9 @@ public class PlayTogetherApp {
 
         for (int i = 0; i < joined.size(); i++) {
             Community c = joined.get(i);
-            System.out.println((i + 1) + ". " + c.getCommunityName() +
-                    " | " + c.getSport() + " | " + c.getLocation() +
-                    " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
+            System.out.println((i + 1) + ". " + c.getCommunityName()
+                    + " | " + c.getSport() + " | " + c.getLocation()
+                    + " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
         }
         System.out.println("Enter number to leave:");
         int index = getIntInput() - 1;
