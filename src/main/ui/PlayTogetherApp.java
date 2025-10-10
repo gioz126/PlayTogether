@@ -459,8 +459,6 @@ public class PlayTogetherApp {
             return;
         }
 
-        System.out.println("Select a session to leave: ");
-
         for (int i = 0; i < joinedSession.size(); i++) {
             Session s = joinedSession.get(i);
             System.out.println((i + 1) + ". "
@@ -480,6 +478,11 @@ public class PlayTogetherApp {
         }
 
         Session selected = joinedSession.get(index);
+        if (selected.getOwner().equals(currentUser)) {
+            System.out.println("You are the owner of this session. Cannot leave session you owned.");
+            return;
+        }
+
         boolean removed = selected.removeParticipant(currentUser);
 
         if (removed) {
