@@ -180,7 +180,7 @@ public class PlayTogetherApp {
     // for community setup
     private AreaLocation chooseAreaLocation() {
         while (true) {
-            enumLocation();
+            printLocationSelection();
 
             int areaChoice = getIntInput();
 
@@ -207,7 +207,7 @@ public class PlayTogetherApp {
     // for community search
     private AreaLocation chooseAreaLocationSearch() {
         while (true) {
-            enumLocation();
+            printLocationSelection();
 
             int areaChoice = getIntInput();
 
@@ -232,7 +232,7 @@ public class PlayTogetherApp {
     }
 
     // helper method for printing area
-    private void enumLocation() {
+    private void printLocationSelection() {
         System.out.println("Select the Area:");
         System.out.println("1. Vancouver");
         System.out.println("2. Burnaby");
