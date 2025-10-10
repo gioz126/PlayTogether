@@ -3,7 +3,7 @@ package model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -78,8 +78,12 @@ public class UserTest {
 
         Session session = testUser.createSession(testUser, SportType.BADMINTON, 1);
 
+        // check inside created session
         assertEquals(1, testUser.getSessionsCreated().size());
         assertTrue(testUser.getSessionsCreated().contains(session));
+        // check inside joined session
+        assertEquals(1, testUser.getSessionsJoined().size());
+        assertTrue(testUser.getSessionsJoined().contains(session));
     }
 
     @Test
