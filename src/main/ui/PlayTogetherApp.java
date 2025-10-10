@@ -624,7 +624,7 @@ public class PlayTogetherApp {
             return;
         }
 
-        for (int i = 0; i >= all.size(); i++) {
+        for (int i = 0; i < all.size(); i++) {
             Community c = all.get(i);
             System.out.println((i + 1) + ". " + c.getCommunityName() +
                     " | " + c.getSport() + " | " + c.getLocation() +
@@ -695,10 +695,10 @@ public class PlayTogetherApp {
                     " | " + c.getSport() + " | " + c.getLocation() +
                     " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
         }
-        
+
         System.out.println("Enter number to remove:");
         int index = getIntInput() - 1;
-        if(index < 0 || index >= led.size()) {
+        if (index < 0 || index >= led.size()) {
             System.out.println("Invalid selection");
             return;
         }
@@ -711,8 +711,35 @@ public class PlayTogetherApp {
     }
 
     private void leaveCommunityUI() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'leaveCommunityUI'");
+        System.out.println("\n=== Leave a Community ===");
+
+        List<Community> joined = currentUser.getCommunityJoined();
+        if (joined.isEmpty()) {
+            System.out.println("You haven't joined any community");
+            return;
+        }
+
+        for (int i = 0; i < joined.size(); i++) {
+            Community c = joined.get(i);
+            System.out.println((i + 1) + ". " + c.getCommunityName() +
+                    " | " + c.getSport() + " | " + c.getLocation() +
+                    " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers());
+        }
+        System.out.println("Enter number to leave:");
+        int index = getIntInput() - 1;
+        if (index < 0 || index >= joined.size()) {
+            System.out.println("Invalid selection");
+            return;
+        }
+
+        Community selected = joined.get(index);
+        if (selected.getCommunityLeader().equals(currentUser)) {
+            System.out.println("You are the leader of this community. Use 'Remove Community' instead.");
+            return;
+        }
+        selected.removeMember(currentUser);
+        currentUser.getCommunityJoined().remove(selected);
+        System.out.println("You have left the community.");
     }
 
     // EFFECTS: ask the user to input number only. Will ask continously if string is
