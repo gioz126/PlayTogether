@@ -53,11 +53,10 @@ public class User {
     // user's list of booking
     // MODIFIES: this, session
     // EFFECTS: creates a new play session using the booking at the given index
-    // (starts at 1), adds the created session to this user's created session and
+    // (starts at 0), adds the created session to this user's created session and
     // session joined, and returns the created
     // session
     public Session createSession(User user, SportType sport, int bookingIndex) {
-        bookingIndex = bookingIndex - 1;
         Booking booking = bookings.get(bookingIndex);
         Session session = new Session(user, sport, booking.getFacility(), booking.getCourt(), booking.getStartTime(),
                 booking.getEndTime());

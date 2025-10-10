@@ -180,13 +180,10 @@ public class PlayTogetherApp {
     // for community setup
     private AreaLocation chooseAreaLocation() {
         while (true) {
-            System.out.println("Select the Area:");
-            System.out.println("1. Vancouver");
-            System.out.println("2. Burnaby");
-            System.out.println("3. Richmond");
-            System.out.println("4. Surrey");
-            System.out.println(">");
+            enumLocation();
+
             int areaChoice = getIntInput();
+
             switch (areaChoice) {
                 case 1 -> {
                     return AreaLocation.VANCOUVER;
@@ -210,12 +207,7 @@ public class PlayTogetherApp {
     // for community search
     private AreaLocation chooseAreaLocationSearch() {
         while (true) {
-            System.out.println("Select the Area to search:");
-            System.out.println("1. Vancouver");
-            System.out.println("2. Burnaby");
-            System.out.println("3. Richmond");
-            System.out.println("4. Surrey");
-            System.out.println(">");
+            enumLocation();
 
             int areaChoice = getIntInput();
 
@@ -237,6 +229,16 @@ public class PlayTogetherApp {
                 }
             }
         }
+    }
+
+    // helper method for printing area
+    private void enumLocation() {
+        System.out.println("Select the Area:");
+        System.out.println("1. Vancouver");
+        System.out.println("2. Burnaby");
+        System.out.println("3. Richmond");
+        System.out.println("4. Surrey");
+        System.out.println(">");
     }
 
     // EFFECTS: display main menu
@@ -313,17 +315,23 @@ public class PlayTogetherApp {
             LocalDateTime end = LocalDateTime.of(year, month, day, endHour, 0);
 
             Booking booking = currentUser.bookCourt(selectedCourtFacility, start, end);
-            System.out.println("Court booked successfully: ");
-            System.out.println(" ⚪️ " + booking.getCourt().getcourtID());
-            System.out.println(" ⚪️ Facility: " + booking.getFacility().getFacilityName());
-            System.out.println(" ⚪️ Location: " + booking.getFacility().getFacilityLocation());
-            System.out.println(" ⚪️ Date: " + day + "/" + month + "/" + year);
-            System.out.println(" ⚪️ Time: " + startHour + ":00 - " + endHour + ":00");
+
+            bookingConfirmation(year, month, day, startHour, endHour, booking);
+
         } catch (CourtUnavailableException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
         }
+    }
+
+    private void bookingConfirmation(int year, int month, int day, int startHour, int endHour, Booking booking) {
+        System.out.println("Court booked successfully: ");
+        System.out.println(" ⚪️ " + booking.getCourt().getcourtID());
+        System.out.println(" ⚪️ Facility: " + booking.getFacility().getFacilityName());
+        System.out.println(" ⚪️ Location: " + booking.getFacility().getFacilityLocation());
+        System.out.println(" ⚪️ Date: " + day + "/" + month + "/" + year);
+        System.out.println(" ⚪️ Time: " + startHour + ":00 - " + endHour + ":00");
     }
 
     private void viewMyBookings() {
@@ -382,7 +390,11 @@ public class PlayTogetherApp {
                     + b.getStartTime().toLocalTime() + "-" + b.getEndTime().toLocalTime());
         }
 
-        int index = getIntInput();
+        int index = getIntInput() - 1;
+        if (index < 0 || index >= bookings.size()) {
+            System.out.println("Invalid selection.");
+            return;
+        }
         // TODO fix sport so that it matches the booking (add sport on booking)
         Session session = currentUser.createSession(currentUser, currentUser.getSportInterest(), index);
         sessionManager.addSession(session);

@@ -76,7 +76,7 @@ public class UserTest {
     public void createSessionTest() throws CourtUnavailableException {
         Booking booking = testUser.bookCourt(facility, start, end);
 
-        Session session = testUser.createSession(testUser, SportType.BADMINTON, 1);
+        Session session = testUser.createSession(testUser, SportType.BADMINTON, 0);
 
         // check inside created session
         assertEquals(1, testUser.getSessionsCreated().size());
