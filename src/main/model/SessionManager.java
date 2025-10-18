@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import persistence.Writable;
@@ -78,7 +79,44 @@ public class SessionManager implements Writable {
 
     @Override
     public JSONObject toJson() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
+        JSONObject json = new JSONObject();
+        json.put("sessions", sessionsToJson());
+        return json;
+    }
+
+    // EFFECTS: returns all active sessions as JSON Array
+    private JSONArray sessionsToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (Session s : activeSession) {
+            jsonArray.put(s.toJson());
+        }
+        return jsonArray;
+    }
+
+    public void loadFromJson(JSONArray jsonArray, UserManager userManager) {
+        activeSession.clear();
+        for (Object obj : jsonArray) {
+            JSONObject jsonSession = (JSONObject) obj;
+            addSession(parseSession(jsonSession, userManager));
+        }
+    }
+
+    private Session parseSession(JSONObject json, UserManager userManager) {
+        String ownerName = json.getString("ownerName");
+        SportType sport = SportType.valueOf(json.getString("sport"));
+        String facilityName = json.getString("facilityName");
+        String courtId = json.getString("courtId");
+        String start = json.getString("startDateTime");
+        String end = json.getString("endDateTime");
+        String description = json.getString("description");
+
+        User owner = userManager.findUserByName(ownerName);
+        // TODO can add null user if want (if owner not found)
+
+        // TODO, faciity and courtUnit still null
+        Session session = new Session(owner, sport, null, null, java.time.LocalDateTime.parse(start),
+                java.time.LocalDateTime.parse(end));
+
+        return session;
     }
 }

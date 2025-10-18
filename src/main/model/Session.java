@@ -106,7 +106,7 @@ public class Session implements Writable {
         json.put("ownerName", owner.getName());
         json.put("sport", sport.toString());
         json.put("facilityName", facility.getFacilityName());
-        json.put("courtID", courtUnit.getcourtID());
+        json.put("courtId", courtUnit.getcourtID());
         json.put("startDateTime", startDateTime.toString());
         json.put("endDateTime", endDateTime.toString());
         json.put("description", description);
