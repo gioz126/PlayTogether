@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -75,7 +77,7 @@ public class SessionManagerTest {
         assertTrue(sessionManagerTest.getActiveSession().isEmpty());
         assertFalse(sessionManagerTest.getActiveSession().contains(session1));
 
-        //remove session called by other user who is not the owner
+        // remove session called by other user who is not the owner
         sessionManagerTest.addSession(session1);
         sessionManagerTest.addSession(session2);
         assertFalse(sessionManagerTest.removeSession(user2, session2));
@@ -125,6 +127,53 @@ public class SessionManagerTest {
 
         sessionManagerTest.joinSession(user2, session1);
         assertTrue(sessionManagerTest.leaveSession(user2, session1));
+    }
+
+    @Test
+    public void testToJsonEmptyList() {
+        JSONObject json = sessionManagerTest.toJson();
+        assertTrue(json.has("sessions"));
+        assertEquals(0, json.getJSONArray("sessions").length());
+    }
+
+    @Test
+    public void testToJsonOneSessio() {
+        sessionManagerTest.addSession(session1);
+
+        JSONObject json = sessionManagerTest.toJson();
+        JSONArray array = json.getJSONArray("sessions");
+
+        assertEquals(1, array.length());
+        JSONObject sessionJson = array.getJSONObject(0);
+        assertEquals("BADMINTON", sessionJson.getString("sport"));
+        assertEquals("Gio", sessionJson.getString("ownerName"));
+    }
+
+    @Test
+    public void testLoadJson() {
+        UserManager userManager = new UserManager();
+        userManager.addUser(owner);
+        JSONObject sessionJson = new JSONObject();
+
+        sessionJson.put("ownerName", "Gio");
+        sessionJson.put("sport", "BADMINTON");
+        sessionJson.put("facilityName", "UBC Courts");
+        sessionJson.put("courtId", "Court1");
+        sessionJson.put("startDateTime", "2025-10-18T10:00");
+        sessionJson.put("endDateTime", "2025-10-18T12:00");
+        sessionJson.put("description", "Morning match");
+
+        JSONArray jsonArray = new JSONArray().put(sessionJson);
+
+        sessionManagerTest.loadFromJson(jsonArray, userManager);
+
+        assertEquals(1, sessionManagerTest.getActiveSession().size());
+        Session loaded = sessionManagerTest.getActiveSession().get(0);
+        assertEquals("Gio", loaded.getOwner().getName());
+        assertEquals(SportType.BADMINTON, loaded.getSport());
+        assertEquals(LocalDateTime.of(2025, 10, 18, 10, 0), loaded.getStartDateTime());
+        assertEquals(LocalDateTime.of(2025, 10, 18, 12, 0), loaded.getEndDateTime());
+
     }
 
 }

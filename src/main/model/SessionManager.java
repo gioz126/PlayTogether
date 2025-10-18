@@ -116,7 +116,7 @@ public class SessionManager implements Writable {
         User owner = userManager.findUserByName(ownerName);
         // TODO can add null user if want (if owner not found)
 
-        // TODO, faciity and courtUnit still null
+        // TODO, facility and courtUnit still null
         Session session = new Session(owner, sport, null, null, java.time.LocalDateTime.parse(start),
                 java.time.LocalDateTime.parse(end));
 
