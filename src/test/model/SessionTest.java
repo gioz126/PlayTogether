@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -83,5 +85,25 @@ public class SessionTest {
     public void setDescriptiontest() {
         testSession.setDescription("Play at October 3'rd 2025");
         assertEquals("Play at October 3'rd 2025", testSession.getDescription());
+    }
+
+    @Test
+    public void toJsonTest() {
+        User participant1 = new User("zio", "1234", SportType.BADMINTON);
+        testSession.addParticipant(participant1);
+        JSONObject json = testSession.toJson();
+
+        assertEquals("Gio", json.getString("ownerName"));
+        assertEquals("BADMINTON", json.getString("sport"));
+        assertEquals("UBC NORTH REC", json.getString("facilityName"));
+        assertEquals("B1", json.getString("courtId"));
+        assertEquals("2025-10-03T18:00", json.getString("startDateTime"));
+        assertEquals("2025-10-03T19:00", json.getString("endDateTime"));
+        assertEquals("", json.getString("description")); 
+
+        JSONArray participants = json.getJSONArray("participants");
+        assertEquals(2, participants.length());
+        assertTrue(participants.toList().contains("Gio"));
+        assertTrue(participants.toList().contains("zio"));
     }
 }

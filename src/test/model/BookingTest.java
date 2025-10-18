@@ -48,11 +48,11 @@ public class BookingTest {
     public void testToJson() {
         JSONObject json = bookingTest.toJson();
 
-        assertEquals("GYM", json.get("facilityName"));
-        assertEquals("BADMINTON1", json.get("courtId"));
+        assertEquals("GYM", json.getString("facilityName"));
+        assertEquals("BADMINTON1", json.getString("courtId"));
         assertEquals("John", json.get("userName"));
-        assertEquals("2025-10-15T12:00", json.get("startTime"));
-        assertEquals("2025-10-15T14:00", json.get("endTime"));
+        assertEquals("2025-10-15T12:00", json.getString("startTime"));
+        assertEquals("2025-10-15T14:00", json.getString("endTime"));
     }
 
 }
