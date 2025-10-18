@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -146,6 +148,40 @@ public class UserTest {
 
         // hasmember false, community full false, community joined true
         assertFalse(newUser.joinCommunity(openCommunity));
+    }
+
+    @Test
+    public void testToJsonEmptyList() {
+        JSONObject json = testUser.toJson();
+
+        assertEquals("Gio", json.getString("name"));
+        assertEquals("123456789", json.getString("contactNumber"));
+        assertEquals("BADMINTON", json.getString("sportInterest"));
+
+        assertEquals(0, json.getJSONArray("bookings").length());
+        assertEquals(0, json.getJSONArray("sessionsJoined").length());
+        assertEquals(0, json.getJSONArray("sessionsCreated").length());
+        assertEquals(0, json.getJSONArray("communityJoined").length());
+        assertEquals(0, json.getJSONArray("communityLed").length());
+    }
+
+    @Test
+    public void testToJsonWithCommunity() {
+        // make user create community so that it leads and a member of the community
+        testUser.createCommunity("Thunderbird", SportType.BADMINTON, AreaLocation.VANCOUVER, 2);
+
+        JSONObject json = testUser.toJson();
+
+        assertEquals(0, json.getJSONArray("bookings").length());
+        assertEquals(0, json.getJSONArray("sessionsJoined").length());
+        assertEquals(0, json.getJSONArray("sessionsCreated").length());
+
+        JSONArray joined = json.getJSONArray("communityJoined");
+        JSONArray led = json.getJSONArray("communityLed");
+
+        // check communities joined and led
+        assertEquals(1, joined.length());
+        assertEquals(1, led.length());
     }
 
 }
