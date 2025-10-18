@@ -1,9 +1,15 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class CommunityManager {
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import persistence.Writable;
+
+public class CommunityManager implements Writable {
     private List<Community> activeCommunity;
 
     // EFFECTS: constrcuts a new community manager with empty active community
@@ -84,6 +90,43 @@ public class CommunityManager {
     // getters
     public List<Community> getActiveCommunities() {
         return new ArrayList<>(activeCommunity);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("communities", communitiesToJson());
+        return json;
+    }
+
+    //EFFECTS: return active communities as JSON array
+    private JSONArray communitiesToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for(Community c : activeCommunity) {
+            jsonArray.put(c.toJson());
+        }
+        return jsonArray;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: clears and loads communities from JSON array
+    public void loadFromJson(JSONArray jsonArray) {
+        activeCommunity.clear();
+        for(Object obj : jsonArray) {
+            JSONObject next = (JSONObject) obj;
+            addCommunity(parseCommunity(next));
+        }
+    }
+    //EFFECTS: parses a community from JSON object
+    private Community parseCommunity(JSONObject jsonObject) {
+        String name = jsonObject.getString("communityName");
+        SportType sport = SportType.valueOf(jsonObject.getString("sport"));
+        AreaLocation location = AreaLocation.valueOf(jsonObject.getString("location"));
+        int maxMembers = jsonObject.getInt("maxMembers");
+        String leaderName = jsonObject.getString("leaderName");
+
+        //TODO return community
+        
     }
 
 }

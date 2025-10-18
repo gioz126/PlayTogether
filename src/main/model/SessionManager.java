@@ -3,7 +3,11 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SessionManager {
+import org.json.JSONObject;
+
+import persistence.Writable;
+
+public class SessionManager implements Writable {
     private List<Session> activeSession;
 
     // EFFECTS: constructs a new session manager with empty active session
@@ -70,5 +74,11 @@ public class SessionManager {
     // getters
     public List<Session> getActiveSession() {
         return new ArrayList<>(activeSession);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
     }
 }

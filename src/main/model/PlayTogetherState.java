@@ -2,6 +2,7 @@ package model;
 
 import org.json.JSONObject;
 
+import persistence.JsonReader;
 import persistence.Writable;
 
 // Represents the full state of PlayTogether App
@@ -33,8 +34,13 @@ public class PlayTogetherState implements Writable {
     //EFFECTS: converts this full app state to JSON
     @Override
     public JSONObject toJson() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
+        JSONObject json = new JSONObject();
+        json.put("users", userManager.toJson());
+        json.put("communities", communityManager.toJson());
+        json.put("sessions", sessionManager.toJson());
+        return json;
     }
+
+    //TODO load method
 
 }
