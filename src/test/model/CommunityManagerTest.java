@@ -143,13 +143,15 @@ public class CommunityManagerTest {
         assertEquals("Thunderbird", c.getString("communityName"));
         assertEquals("BADMINTON", c.getString("sport"));
         assertEquals("VANCOUVER", c.getString("location"));
-        assertEquals(5, c.getString("maxMembers"));
-        assertEquals("Gio", c.getString("leaderName"));
+        assertEquals(2, c.getInt("maxMembers"));
+        assertEquals("gio", c.getString("leaderName"));
 
         JSONArray members = c.getJSONArray("members");
         assertEquals(2, members.length());
-        assertTrue(members.toList().contains("Gio"));
-        assertTrue(members.toList().contains("Zio"));
+        assertTrue(members.toList().contains("gio"));
+        assertTrue(members.toList().contains("zio"));
     }
+
+
 
 }
