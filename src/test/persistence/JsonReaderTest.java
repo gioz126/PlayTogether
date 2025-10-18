@@ -27,7 +27,7 @@ public class JsonReaderTest {
         }
     }
 
-    @Test 
+    @Test
     public void testReaderEmptyPlayTogeterState() {
         JsonReader reader = new JsonReader("./data/testReaderEmptyPlayTogether.json");
         try {
@@ -55,7 +55,7 @@ public class JsonReaderTest {
 
             assertEquals(0, state.getCommunityManager().getActiveCommunities().size());
             assertEquals(0, state.getSessionManager().getActiveSession().size());
-        } catch(IOException e) {
+        } catch (IOException e) {
             fail("Couldn't read from file");
         }
     }

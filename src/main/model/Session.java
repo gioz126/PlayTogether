@@ -112,7 +112,7 @@ public class Session implements Writable {
         json.put("description", description);
 
         JSONArray participantsArray = new JSONArray();
-        for(User u : participants) {
+        for (User u : participants) {
             participantsArray.put(u.getName());
         }
         json.put("participants", participantsArray);

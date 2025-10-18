@@ -14,6 +14,7 @@ import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import exception.CourtUnavailableException;
 
 import org.junit.jupiter.api.BeforeEach;
+
 @ExcludeFromJacocoGeneratedReport
 public class CourtFacilityTest {
     private String facilityName;
