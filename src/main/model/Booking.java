@@ -2,7 +2,12 @@ package model;
 
 import java.time.LocalDateTime;
 
-public class Booking {
+import org.json.JSONObject;
+
+import persistence.JsonReader;
+import persistence.Writable;
+
+public class Booking implements Writable {
     private User user;
     private CourtFacility facility;
     private CourtUnit court;
@@ -37,5 +42,16 @@ public class Booking {
 
     public LocalDateTime getEndTime() {
         return endTime;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("facilityName", facility.getFacilityName());
+        json.put("courtID", court.getcourtID());
+        json.put("userName", user.getName());
+        json.put("startTime", startTime.toString());
+        json.put("endTime", endTime.toString());
+        return json;
     }
 }
