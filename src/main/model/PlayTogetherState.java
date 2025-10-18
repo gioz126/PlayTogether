@@ -1,5 +1,6 @@
 package model;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import persistence.JsonReader;
@@ -31,16 +32,29 @@ public class PlayTogetherState implements Writable {
         return sessionManager;
     }
 
-    //EFFECTS: converts this full app state to JSON
+    // EFFECTS: converts this full app state to JSON
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("users", userManager.toJson());
-        json.put("communities", communityManager.toJson());
-        json.put("sessions", sessionManager.toJson());
+        json.put("userManager", userManager.toJson());
+        json.put("communityManager", communityManager.toJson());
+        json.put("sessionManager", sessionManager.toJson());
         return json;
     }
 
-    //TODO load method
+    // MODIFIES: this
+    // EFFECTS: loads the state of the app from JSON object
+    public void loadFromJson(JSONObject jsonObject) {
+        JSONObject userObject = jsonObject.getJSONObject("userManager");
+        JSONArray userArray = userObject.getJSONArray("users");
+        userManager.loadFromJson(userArray);
 
+        JSONObject communitiesObject = jsonObject.getJSONObject("communityManager");
+        JSONArray communitiesArray = jsonObject.getJSONArray("communities");
+        communityManager.loadFromJson(communitiesArray, userManager);
+
+        JSONObject sessionsObject = jsonObject.getJSONObject("sessionManager");
+        JSONArray sessionsArray = jsonObject.getJSONArray("sessions");
+        sessionManager.loadFromJson(sessionsArray, userManager);
+    }
 }
