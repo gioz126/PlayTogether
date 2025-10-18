@@ -42,24 +42,29 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
+    // EFFECTS: parses PlayTogetherState from JSON object
     private PlayTogetherState parsePlayTogetherState(JSONObject jsonObject) {
         UserManager userManager = new UserManager();
         CommunityManager communityManager = new CommunityManager();
         SessionManager sessionManager = new SessionManager();
 
-        JSONObject usersObject = jsonObject.getJSONObject("userManager");
-        JSONArray usersArray = usersObject.getJSONArray("users");
-        userManager.loadFromJson(usersArray);
+        // JSONObject usersObject = jsonObject.getJSONObject("userManager");
+        // JSONArray usersArray = usersObject.getJSONArray("users");
+        // userManager.loadFromJson(usersArray);
 
-        JSONObject communitiesObject = jsonObject.getJSONObject("communityManager");
-        JSONArray communitiesArray = communitiesObject.getJSONArray("communities");
-        communityManager.loadFromJson(communitiesArray, userManager);
+        // JSONObject communitiesObject = jsonObject.getJSONObject("communityManager");
+        // JSONArray communitiesArray = communitiesObject.getJSONArray("communities");
+        // communityManager.loadFromJson(communitiesArray, userManager);
 
-        JSONObject sessionsObject = jsonObject.getJSONObject("sessionManager");
-        JSONArray sessionsArray = sessionsObject.getJSONArray("sessions");
-        sessionManager.loadFromJson(sessionsArray, userManager);
+        // JSONObject sessionsObject = jsonObject.getJSONObject("sessionManager");
+        // JSONArray sessionsArray = sessionsObject.getJSONArray("sessions");
+        // sessionManager.loadFromJson(sessionsArray, userManager);
 
-        return new PlayTogetherState(userManager, communityManager, sessionManager);
+        PlayTogetherState state = new PlayTogetherState(userManager, communityManager, sessionManager);
+
+        state.loadFromJson(jsonObject);
+
+        return state;
     }
 
 }

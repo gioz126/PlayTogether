@@ -50,11 +50,11 @@ public class PlayTogetherState implements Writable {
         userManager.loadFromJson(userArray);
 
         JSONObject communitiesObject = jsonObject.getJSONObject("communityManager");
-        JSONArray communitiesArray = jsonObject.getJSONArray("communities");
+        JSONArray communitiesArray = communitiesObject.getJSONArray("communities");
         communityManager.loadFromJson(communitiesArray, userManager);
 
         JSONObject sessionsObject = jsonObject.getJSONObject("sessionManager");
-        JSONArray sessionsArray = jsonObject.getJSONArray("sessions");
+        JSONArray sessionsArray = sessionsObject.getJSONArray("sessions");
         sessionManager.loadFromJson(sessionsArray, userManager);
     }
 }
