@@ -1,7 +1,10 @@
 package persistence;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+
+import org.json.JSONObject;
 
 import model.PlayTogetherState;
 
@@ -20,25 +23,26 @@ public class JsonWriter {
     // EFFECTS: opens writer; throws FileNotFoundException if destination file
     // cannot be opened
     public void open() throws FileNotFoundException {
-        // TODO stub
+        writer = new PrintWriter(new File(destination));
     }
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of PlayTogetherState to file
     public void write(PlayTogetherState state) {
-        // TODO stub
+        JSONObject json = state.toJson();
+        saveToFile(json.toString(TAB));
     }
 
     // MODIFIES: this
     // EFFECTS: closes writer
     public void close() {
-        // TODO stub
+        writer.close();;
     }
 
     // MODIFIES: this
     // EFFECTS: writes string to file
     public void saveToFile(String json) {
-        // TODO stub
+        writer.print(json);
     }
 
 }
