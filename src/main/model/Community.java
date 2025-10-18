@@ -3,7 +3,13 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Community {
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import persistence.JsonReader;
+import persistence.Writable;
+
+public class Community implements Writable {
     private String communityName;
     private SportType sport;
     private AreaLocation location;
@@ -82,6 +88,25 @@ public class Community {
 
     public User getCommunityLeader() {
         return communityLeader;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+
+        json.put("communityName", communityName);
+        json.put("sport", sport.toString());
+        json.put("location", location.toString());
+        json.put("maxMembers", maxMembers);
+        json.put("leaderName", communityLeader.getName());
+
+        JSONArray memberArray = new JSONArray();
+        for (User u : communityMember) {
+            memberArray.put(u.getName());
+        }
+        json.put("members", memberArray);
+
+        return json;
     }
 
 }

@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import exception.CourtUnavailableException;
 import persistence.Writable;
 
-public class User implements Writable{
+public class User implements Writable {
     private String name;
     private String contactNumber;
     private SportType sportInterest;
@@ -156,12 +156,14 @@ public class User implements Writable{
         json.put("communityJoined", listToJson(communityJoined));
         json.put("communityLed", listToJson(communityLed));
 
+        return json;
+
     }
 
-    //EFFECTS: converts a list of Writable objects to JSON array
+    // EFFECTS: converts a list of Writable objects to JSON array
     private <T extends Writable> org.json.JSONArray listToJson(List<T> list) {
         org.json.JSONArray jsonArray = new org.json.JSONArray();
-        for(T items : list) {
+        for (T items : list) {
             jsonArray.put(items.toJson());
         }
         return jsonArray;
