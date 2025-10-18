@@ -152,6 +152,35 @@ public class CommunityManagerTest {
         assertTrue(members.toList().contains("zio"));
     }
 
+    @Test
+    public void testLoadFromJson() {
+        User member = new User("zio", "123", SportType.BADMINTON);
+        UserManager userManager = new UserManager();
+
+        userManager.addUser(owner);
+        userManager.addUser(member);
+
+        // make JSON manually
+        JSONArray jsonArray = new JSONArray();
+
+        JSONObject c1 = new JSONObject();
+        c1.put("communityName", "Thunderbird");
+        c1.put("sport", "BADMINTON");
+        c1.put("location", "VANCOUVER");
+        c1.put("maxMembers", 2);
+        c1.put("leaderName", "gio");
+        c1.put("members", new JSONArray().put("zio"));
+        jsonArray.put(c1);
+
+        testCommunityManager.loadFromJson(jsonArray, userManager);
+        assertEquals(1, testCommunityManager.getActiveCommunities().size());
+        Community loaded = testCommunityManager.getActiveCommunities().get(0);
+        assertEquals("Thunderbird", loaded.getCommunityName());
+        assertEquals(SportType.BADMINTON, loaded.getSport());
+        assertEquals(AreaLocation.VANCOUVER, loaded.getLocation());
+        assertEquals(2, loaded.getMaxMembers());
+        assertEquals("gio", loaded.getCommunityLeader().getName());
+    }
 
 
 }
