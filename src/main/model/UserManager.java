@@ -3,7 +3,13 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserManager {
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import persistence.JsonReader;
+import persistence.Writable;
+
+public class UserManager implements Writable {
     private List<User> users;
 
     // EFFECTS: constructs a new user manager with empty user
@@ -52,4 +58,43 @@ public class UserManager {
     public int getUsersCount() {
         return users.size();
     }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("users", usersToJson());
+        return json;
+    }
+
+    private JSONArray usersToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (User u : users) {
+            jsonArray.put(u.toJson());
+        }
+        return jsonArray;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: load users from JSON array
+    public void loadFromJson(JSONArray jsonArray) {
+        users.clear();
+        for (Object json : jsonArray) {
+            JSONObject nextUser = (JSONObject) json;
+            addUser(parseUser(nextUser));
+        }
+    }
+
+    // EFFECTS: parses a user from JSON object
+    private User parseUser(JSONObject jsonObject) {
+        String name = jsonObject.getString("name");
+        String contactNumber = jsonObject.getString("contactNumber");
+        SportType sportInterest = SportType.valueOf(jsonObject.getString("sportInterest"));
+
+        User user = new User(name, contactNumber, sportInterest);
+
+        //TODO for booking, session, community
+
+        return user;
+    }
+
 }

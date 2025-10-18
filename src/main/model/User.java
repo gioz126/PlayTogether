@@ -4,9 +4,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import exception.CourtUnavailableException;
+import org.json.JSONObject;
 
-public class User {
+import exception.CourtUnavailableException;
+import persistence.Writable;
+
+public class User implements Writable{
     private String name;
     private String contactNumber;
     private SportType sportInterest;
@@ -138,6 +141,30 @@ public class User {
 
     public List<Community> getCommunityLed() {
         return communityLed;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("contactNumber", contactNumber);
+        json.put("sportInterest", sportInterest.toString());
+
+        json.put("bookings", listToJson(bookings));
+        json.put("sessionsJoined", listToJson(sessionsJoined));
+        json.put("sessionsCreated", listToJson(sessionsCreated));
+        json.put("communityJoined", listToJson(communityJoined));
+        json.put("communityLed", listToJson(communityLed));
+
+    }
+
+    //EFFECTS: converts a list of Writable objects to JSON array
+    private <T extends Writable> org.json.JSONArray listToJson(List<T> list) {
+        org.json.JSONArray jsonArray = new org.json.JSONArray();
+        for(T items : list) {
+            jsonArray.put(items.toJson());
+        }
+        return jsonArray;
     }
 
 }
