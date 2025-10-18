@@ -4,7 +4,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Session {
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import persistence.JsonReader;
+import persistence.Writable;
+
+public class Session implements Writable {
     private User owner;
     private CourtFacility facility;
     private CourtUnit courtUnit;
@@ -92,5 +98,25 @@ public class Session {
 
     public List<User> getParticipant() {
         return new ArrayList<>(participants);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("ownerName", owner.getName());
+        json.put("sport", sport.toString());
+        json.put("facilityName", facility.getFacilityName());
+        json.put("courtID", courtUnit.getcourtID());
+        json.put("startDateTime", startDateTime.toString());
+        json.put("endDateTime", endDateTime.toString());
+        json.put("description", description);
+
+        JSONArray participantsArray = new JSONArray();
+        for(User u : participants) {
+            participantsArray.put(u.getName());
+        }
+        json.put("participants", participantsArray);
+
+        return json;
     }
 }
