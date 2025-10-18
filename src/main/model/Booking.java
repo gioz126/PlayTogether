@@ -48,7 +48,7 @@ public class Booking implements Writable {
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("facilityName", facility.getFacilityName());
-        json.put("courtID", court.getcourtID());
+        json.put("courtId", court.getcourtID());
         json.put("userName", user.getName());
         json.put("startTime", startTime.toString());
         json.put("endTime", endTime.toString());

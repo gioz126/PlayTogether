@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 
 @ExcludeFromJacocoGeneratedReport
@@ -41,6 +42,17 @@ public class BookingTest {
         assertEquals(court1, bookingTest.getCourt());
         assertEquals(start, bookingTest.getStartTime());
         assertEquals(end, bookingTest.getEndTime());
+    }
+
+    @Test 
+    public void testToJson() {
+        JSONObject json = bookingTest.toJson();
+
+        assertEquals("GYM", json.get("facilityName"));
+        assertEquals("BADMINTON1", json.get("courtId"));
+        assertEquals("John", json.get("userName"));
+        assertEquals("2025-10-15T12:00", json.get("startTime"));
+        assertEquals("2025-10-15T14:00", json.get("endTime"));
     }
 
 }
