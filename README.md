@@ -21,3 +21,5 @@ I am interested with this project because I am fond of playing badminton but har
 - As a users, I want to be able to open play session so that other users can join my play session.
 - As a users, I want to be able to see available play sessions and join it.
 - As a users, I want to be able to open and join community based on my sports' interest.
+- As a users, I want to have the option to save my bookings, communities joined, and sessions joined.
+- As a users, I want to have the option to load/see my bookings, communities joined, and sessions joined.
