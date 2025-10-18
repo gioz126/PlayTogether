@@ -23,7 +23,7 @@ public class JsonReader {
 
     //EFFECTS: reads source file as string and returns it
     private String readFile(String source) throws IOException {
-        return ""; //TODO stubdd
+        return ""; //TODO stub
     }
 
     private PlayTogetherState parsePlayTogetherState(JSONObject jsonObject) {
