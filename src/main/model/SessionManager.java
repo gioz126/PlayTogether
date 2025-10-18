@@ -93,6 +93,8 @@ public class SessionManager implements Writable {
         return jsonArray;
     }
 
+    // MODIFIES: this
+    // EFFECTS: clears and loads sessions from JSON array
     public void loadFromJson(JSONArray jsonArray, UserManager userManager) {
         activeSession.clear();
         for (Object obj : jsonArray) {
@@ -101,6 +103,7 @@ public class SessionManager implements Writable {
         }
     }
 
+    // EFFECTS: parse session from JSON object
     private Session parseSession(JSONObject json, UserManager userManager) {
         String ownerName = json.getString("ownerName");
         SportType sport = SportType.valueOf(json.getString("sport"));

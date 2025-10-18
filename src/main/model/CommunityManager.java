@@ -99,34 +99,38 @@ public class CommunityManager implements Writable {
         return json;
     }
 
-    //EFFECTS: return active communities as JSON array
+    // EFFECTS: return active communities as JSON array
     private JSONArray communitiesToJson() {
         JSONArray jsonArray = new JSONArray();
-        for(Community c : activeCommunity) {
+        for (Community c : activeCommunity) {
             jsonArray.put(c.toJson());
         }
         return jsonArray;
     }
 
-    //MODIFIES: this
-    //EFFECTS: clears and loads communities from JSON array
-    public void loadFromJson(JSONArray jsonArray) {
+    // MODIFIES: this
+    // EFFECTS: clears and loads communities from JSON array
+    public void loadFromJson(JSONArray jsonArray, UserManager userManager) {
         activeCommunity.clear();
-        for(Object obj : jsonArray) {
+        for (Object obj : jsonArray) {
             JSONObject next = (JSONObject) obj;
-            addCommunity(parseCommunity(next));
+            addCommunity(parseCommunity(next, userManager));
         }
     }
-    //EFFECTS: parses a community from JSON object
-    private Community parseCommunity(JSONObject jsonObject) {
+
+    // EFFECTS: parses a community from JSON object
+    private Community parseCommunity(JSONObject jsonObject, UserManager userManager) {
         String name = jsonObject.getString("communityName");
         SportType sport = SportType.valueOf(jsonObject.getString("sport"));
         AreaLocation location = AreaLocation.valueOf(jsonObject.getString("location"));
         int maxMembers = jsonObject.getInt("maxMembers");
         String leaderName = jsonObject.getString("leaderName");
 
-        //TODO return community
-        
+        User leader = userManager.findUserByName(leaderName);
+
+        Community community = new Community(leader, name, sport, location, maxMembers);
+
+        return community;
     }
 
 }
