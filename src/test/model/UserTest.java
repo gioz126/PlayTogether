@@ -11,8 +11,10 @@ import java.time.LocalTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import exception.CourtUnavailableException;
 
+@ExcludeFromJacocoGeneratedReport
 public class UserTest {
 
     private User testUser;

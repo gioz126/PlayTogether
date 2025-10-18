@@ -10,10 +10,12 @@ import java.time.LocalTime;
 
 import org.junit.jupiter.api.Test;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import exception.CourtUnavailableException;
 
 import org.junit.jupiter.api.BeforeEach;
 
+@ExcludeFromJacocoGeneratedReport
 public class CourtUnitTest {
     private CourtUnit courtTest;
     private LocalDateTime start;

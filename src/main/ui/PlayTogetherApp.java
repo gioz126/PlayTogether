@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import exception.CourtUnavailableException;
 import model.AreaLocation;
 import model.Booking;
@@ -19,6 +20,7 @@ import model.SportType;
 import model.User;
 import model.UserManager;
 
+@ExcludeFromJacocoGeneratedReport
 public class PlayTogetherApp {
     private final UserManager userManager;
     private final SessionManager sessionManager;

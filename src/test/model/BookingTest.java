@@ -6,9 +6,12 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.junit.jupiter.api.Test;
+
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 import org.junit.jupiter.api.BeforeEach;
 
-
+@ExcludeFromJacocoGeneratedReport
 public class BookingTest {
 
     private Booking bookingTest;
