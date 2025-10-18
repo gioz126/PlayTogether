@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import model.CommunityManager;
@@ -46,8 +47,17 @@ public class JsonReader {
         CommunityManager communityManager = new CommunityManager();
         SessionManager sessionManager = new SessionManager();
 
-        //TODO methods inside each manager (load)
+        JSONObject usersObject = jsonObject.getJSONObject("userManager");
+        JSONArray usersArray = usersObject.getJSONArray("users");
+        userManager.loadFromJson(usersArray);
 
+        JSONObject communitiesObject = jsonObject.getJSONObject("communityManager");
+        JSONArray communitiesArray = communitiesObject.getJSONArray("communities");
+        communityManager.loadFromJson(communitiesArray, userManager);
+
+        JSONObject sessionsObject = jsonObject.getJSONObject("sessionManager");
+        JSONArray sessionsArray = sessionsObject.getJSONArray("sessions");
+        sessionManager.loadFromJson(sessionsArray, userManager);
 
         return new PlayTogetherState(userManager, communityManager, sessionManager);
     }

@@ -1,0 +1,32 @@
+{
+    "userManager": {
+        "users": [
+            {
+                "sportInterest": "BADMINTON",
+                "communityLed": [],
+                "communityJoined": [],
+                "name": "gio",
+                "contactNumber": "1234",
+                "bookings": [],
+                "sessionsJoined": [],
+                "sessionsCreated": []
+            },
+            {
+                "sportInterest": "PADEL",
+                "communityLed": [],
+                "communityJoined": [],
+                "name": "zio",
+                "contactNumber": "2871",
+                "bookings": [],
+                "sessionsJoined": [],
+                "sessionsCreated": []
+            }
+        ]
+    },
+    "sessionManager": {
+        "sessions": []
+    },
+    "communityManager": {
+        "communities": []
+    }
+}

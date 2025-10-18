@@ -9,9 +9,11 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.PlayTogetherState;
 import model.User;
 
+@ExcludeFromJacocoGeneratedReport
 public class JsonReaderTest {
 
     @Test

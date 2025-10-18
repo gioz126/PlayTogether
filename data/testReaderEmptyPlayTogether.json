@@ -1,0 +1,11 @@
+{
+    "userManager": {
+        "users": []
+    },
+    "communityManager": {
+        "communities": []
+    },
+    "sessionManager": {
+        "sessions": []
+    }
+}
