@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -53,7 +55,7 @@ public class CommunityManagerTest {
 
         // remove community vancouver but not the owner (can't remove, return false)
         User user1 = new User("aaa", "123", SportType.BADMINTON);
-        assertFalse(testCommunityManager.removeCommunity(user1,communityVancouver));
+        assertFalse(testCommunityManager.removeCommunity(user1, communityVancouver));
         assertTrue(testCommunityManager.getActiveCommunities().contains(communityVancouver));
         assertEquals(1, testCommunityManager.getActiveCommunities().size());
 
@@ -80,7 +82,7 @@ public class CommunityManagerTest {
 
     @Test
     public void findCommunityByLocationTest() {
-        //find Vancouver community
+        // find Vancouver community
         testCommunityManager.addCommunity(communityVancouver);
         List<Community> communityVancouverFound = testCommunityManager.findCommunityByLocation(AreaLocation.VANCOUVER);
         assertEquals(1, communityVancouverFound.size());
@@ -92,37 +94,62 @@ public class CommunityManagerTest {
         assertEquals(1, communityRichmondFound.size());
         assertTrue(communityRichmondFound.contains(communityRichmond));
     }
-    
+
     @Test
     public void joinCommunityTest() {
-        //user wants to join community that doesn't exist
+        // user wants to join community that doesn't exist
         assertFalse(testCommunityManager.joinCommunity(owner, communityVancouver));
 
-        //user is already a member of the community
+        // user is already a member of the community
         testCommunityManager.addCommunity(communityVancouver);
         assertFalse(testCommunityManager.joinCommunity(owner, communityVancouver));
 
-        //user is not a member and community is active
+        // user is not a member and community is active
         User userSuccess = new User("zio", "123", SportType.BADMINTON);
         assertTrue(testCommunityManager.joinCommunity(userSuccess, communityVancouver));
     }
 
     @Test
     public void leaveCommunityTest() {
-        //community is not an active community (non-existing) and user wants to leave
+        // community is not an active community (non-existing) and user wants to leave
         assertFalse(testCommunityManager.leaveCommunity(owner, communityVancouver));
 
-        //user is the owner of the community
+        // user is the owner of the community
         testCommunityManager.addCommunity(communityVancouver);
         assertFalse(testCommunityManager.leaveCommunity(owner, communityVancouver));
 
-        //user is not a participant
+        // user is not a participant
         User userFailed = new User("zio", "123", SportType.BADMINTON);
         assertFalse(testCommunityManager.leaveCommunity(userFailed, communityVancouver));
 
-        //user is not a member yet and not the leader of the community
+        // user is not a member yet and not the leader of the community
         testCommunityManager.joinCommunity(userFailed, communityVancouver);
         assertTrue(testCommunityManager.leaveCommunity(userFailed, communityVancouver));
+    }
+
+    @Test
+    public void testToJson() {
+        User member = new User("zio", "123", SportType.BADMINTON);
+        communityVancouver.addMember(member);
+        testCommunityManager.addCommunity(communityVancouver);
+
+        JSONObject json = testCommunityManager.toJson();
+
+        assertTrue(json.has("communities"));
+        JSONArray array = json.getJSONArray("communities");
+        assertEquals(1, array.length());
+
+        JSONObject c = array.getJSONObject(0);
+        assertEquals("Thunderbird", c.getString("communityName"));
+        assertEquals("BADMINTON", c.getString("sport"));
+        assertEquals("VANCOUVER", c.getString("location"));
+        assertEquals(5, c.getString("maxMembers"));
+        assertEquals("Gio", c.getString("leaderName"));
+
+        JSONArray members = c.getJSONArray("members");
+        assertEquals(2, members.length());
+        assertTrue(members.toList().contains("Gio"));
+        assertTrue(members.toList().contains("Zio"));
     }
 
 }
