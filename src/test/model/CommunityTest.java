@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -64,5 +66,23 @@ public class CommunityTest {
 
         //remove user who is inside the community and is not leader should return true
         assertTrue(testCommunity.removeMember(user1));
+    }
+
+    @Test
+    public void toJsonTest() {
+        assertTrue(testCommunity.addMember(user1));
+        JSONObject json = testCommunity.toJson();
+
+        assertEquals("Thunderbird", json.getString("communityName"));
+        assertEquals("BADMINTON", json.getString("sport"));
+        assertEquals("VANCOUVER", json.getString("location"));
+        assertEquals(2, json.get("maxMembers"));
+        assertEquals("Gio", json.get("leaderName"));
+        
+
+        JSONArray members = json.getJSONArray("members");
+        assertEquals(2, members.length());
+        assertTrue(members.toList().contains("Gio"));
+        assertTrue(members.toList().contains("zio"));
     }
 }
