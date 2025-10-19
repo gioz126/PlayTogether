@@ -1,5 +1,7 @@
 package ui;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -14,11 +16,14 @@ import model.Community;
 import model.CommunityManager;
 import model.CourtFacility;
 import model.CourtUnit;
+import model.PlayTogetherState;
 import model.Session;
 import model.SessionManager;
 import model.SportType;
 import model.User;
 import model.UserManager;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 @ExcludeFromJacocoGeneratedReport
 public class PlayTogetherApp {
@@ -28,6 +33,11 @@ public class PlayTogetherApp {
     private final List<CourtFacility> facilities;
     private final Scanner input;
     private User currentUser;
+
+    private static final String JSON_STORE = "./data/playtogether.json";
+    private final JsonWriter jsonWriter;
+    private final JsonReader jsonReader;
+    private PlayTogetherState appState;
 
     // EFFECTS: constructs and initializes the PlayTogether app
     public PlayTogetherApp() {
@@ -41,6 +51,11 @@ public class PlayTogetherApp {
         setupCourts();
 
         input = new Scanner(System.in);
+
+        // initialize persistence
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+        appState = new PlayTogetherState(userManager, communityManager, sessionManager);
     }
 
     // EFFECTS: setup court unit for court facility
@@ -62,6 +77,13 @@ public class PlayTogetherApp {
     // EFFECTS: runs the app
     public void runPlayTogether() {
         System.out.println("🏸 Welcome to PlayTogether!");
+
+        System.out.println("Would you like to load previous session? (y/n): ");
+        String choice1 = input.nextLine();
+        if (choice1.equals("y")) {
+            loadAppState();
+        }
+
         loginOrRegister();
 
         boolean running = true;
@@ -72,12 +94,57 @@ public class PlayTogetherApp {
                 case 1 -> handleCourtMenu();
                 case 2 -> handleSessionMenu();
                 case 3 -> handleCommunityMenu();
-                case 4 -> {
+                case 4 -> saveAppState();
+                case 5 -> loadAppState();
+                case 6 -> {
                     System.out.println("Goodbye, " + currentUser.getName() + "!");
                     running = false;
                 }
                 default -> System.out.println("Invalid choice, please try again");
             }
+        }
+    }
+
+    // EFFECTS: load app state from JSON file
+    private void loadAppState() {
+        try {
+            PlayTogetherState loadedState = jsonReader.read();
+            this.appState = loadedState;
+
+            System.out.println("App state loaded from " + JSON_STORE);
+            System.out.println("Loaded " + loadedState.getUserManager().getUsersCount() + " users");
+            System.out.println(
+                    "Loaded " + loadedState.getCommunityManager().getActiveCommunities().size() + " communities");
+            System.out.println("Loaded " + loadedState.getSessionManager().getActiveSession().size() + " sessions");
+
+            syncManagersFromState(loadedState);
+
+        } catch (IOException e) {
+            System.out.println("Unable to read from " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: update all managers from loaded PlayTogetherState
+    private void syncManagersFromState(PlayTogetherState loadedState) {
+        userManager.loadFromJson(loadedState.getUserManager().toJson().getJSONArray("users"));
+        communityManager.loadFromJson(loadedState.getCommunityManager().toJson().getJSONArray("communities"),
+                userManager);
+        sessionManager.loadFromJson(loadedState.getSessionManager().toJson().getJSONArray("sessions"),
+                userManager);
+    }
+
+    // EFFECTS: saves current app state to JSON file
+    private void saveAppState() {
+        try {
+            appState = new PlayTogetherState(userManager, communityManager, sessionManager);
+            jsonWriter.open();
+            jsonWriter.write(appState);
+            jsonWriter.close();
+            System.out.println("App state saved to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to save to " + JSON_STORE);
+            e.printStackTrace(); //TODO delete after debugging
         }
     }
 
@@ -251,7 +318,9 @@ public class PlayTogetherApp {
                 1. Book Court
                 2. Session
                 3. Community
-                4. Exit
+                4. Save App State
+                5. Load App State
+                6. Exit
                 ====================
                 """);
     }
@@ -275,7 +344,7 @@ public class PlayTogetherApp {
             }
         }
     }
-    
+
     @SuppressWarnings("methodlength")
     private void bookCourtUI() {
         System.out.println("\n === Book a Court ===");
