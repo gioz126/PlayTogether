@@ -54,8 +54,8 @@ public class PlayTogetherApp {
 
         // initialize persistence
         jsonWriter = new JsonWriter(JSON_STORE);
-        jsonReader = new JsonReader(JSON_STORE);
-        appState = new PlayTogetherState(userManager, communityManager, sessionManager);
+        jsonReader = new JsonReader(JSON_STORE, facilities);
+        appState = new PlayTogetherState(userManager, communityManager, sessionManager, facilities);
     }
 
     // EFFECTS: setup court unit for court facility
@@ -131,13 +131,13 @@ public class PlayTogetherApp {
         communityManager.loadFromJson(loadedState.getCommunityManager().toJson().getJSONArray("communities"),
                 userManager);
         sessionManager.loadFromJson(loadedState.getSessionManager().toJson().getJSONArray("sessions"),
-                userManager);
+                userManager, loadedState.getFacilities());
     }
 
     // EFFECTS: saves current app state to JSON file
     private void saveAppState() {
         try {
-            appState = new PlayTogetherState(userManager, communityManager, sessionManager);
+            appState = new PlayTogetherState(userManager, communityManager, sessionManager, facilities);
             jsonWriter.open();
             jsonWriter.write(appState);
             jsonWriter.close();

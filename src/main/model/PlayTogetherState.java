@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -11,12 +13,14 @@ public class PlayTogetherState implements Writable {
     private UserManager userManager;
     private CommunityManager communityManager;
     private SessionManager sessionManager;
+    private List<CourtFacility> facilities;
 
     // EFFECTS: contructs an app state given managers
-    public PlayTogetherState(UserManager um, CommunityManager cm, SessionManager sm) {
+    public PlayTogetherState(UserManager um, CommunityManager cm, SessionManager sm, List<CourtFacility> facilities) {
         this.userManager = um;
         this.communityManager = cm;
         this.sessionManager = sm;
+        this.facilities = facilities;
     }
 
     // getters
@@ -30,6 +34,10 @@ public class PlayTogetherState implements Writable {
 
     public SessionManager getSessionManager() {
         return sessionManager;
+    }
+
+    public List<CourtFacility> getFacilities() {
+        return facilities;
     }
 
     // EFFECTS: converts this full app state to JSON
@@ -55,6 +63,6 @@ public class PlayTogetherState implements Writable {
 
         JSONObject sessionsObject = jsonObject.getJSONObject("sessionManager");
         JSONArray sessionsArray = sessionsObject.getJSONArray("sessions");
-        sessionManager.loadFromJson(sessionsArray, userManager);
+        sessionManager.loadFromJson(sessionsArray, userManager, facilities);
     }
 }

@@ -2,31 +2,41 @@
     "userManager": {
         "users": [
             {
-                "sportInterest": "BADMINTON",
-                "communityLed": [],
-                "communityJoined": [],
                 "name": "gio",
                 "contactNumber": "1234",
+                "sportInterest": "BADMINTON",
                 "bookings": [],
                 "sessionsJoined": [],
-                "sessionsCreated": []
+                "sessionsCreated": [],
+                "communityJoined": [],
+                "communityLed": []
             },
             {
-                "sportInterest": "PADEL",
-                "communityLed": [],
-                "communityJoined": [],
                 "name": "zio",
-                "contactNumber": "2871",
+                "contactNumber": "5678",
+                "sportInterest": "PADEL",
                 "bookings": [],
                 "sessionsJoined": [],
-                "sessionsCreated": []
+                "sessionsCreated": [],
+                "communityJoined": [],
+                "communityLed": []
             }
         ]
     },
-    "sessionManager": {
-        "sessions": []
-    },
     "communityManager": {
         "communities": []
+    },
+    "sessionManager": {
+        "sessions": [
+            {
+                "ownerName": "gio",
+                "sport": "BADMINTON",
+                "facilityName": "UBC North Recreation",
+                "courtId": "Badminton 1",
+                "startDateTime": "2025-10-20T14:00",
+                "endDateTime": "2025-10-20T15:00",
+                "description": "Evening doubles"
+            }
+        ]
     }
 }

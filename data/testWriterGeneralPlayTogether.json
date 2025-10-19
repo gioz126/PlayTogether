@@ -21,6 +21,15 @@
             "sessionsCreated": []
         }
     ]},
-    "sessionManager": {"sessions": []},
+    "sessionManager": {"sessions": [{
+        "startDateTime": "2025-10-20T14:00",
+        "ownerName": "gio",
+        "description": "",
+        "facilityName": "UBC North Recreation",
+        "endDateTime": "2025-10-20T15:00",
+        "sport": "BADMINTON",
+        "courtId": "Badminton 1",
+        "participants": ["gio"]
+    }]},
     "communityManager": {"communities": []}
 }

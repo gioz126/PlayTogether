@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import model.CommunityManager;
+import model.CourtFacility;
 import model.PlayTogetherState;
 import model.SessionManager;
 import model.UserManager;
@@ -17,10 +19,12 @@ import model.UserManager;
 //Reads PlayTogetherState from JSON data stored in file
 public class JsonReader {
     private String source;
+    private List<CourtFacility> facilities;
 
     // EFFECTS: constructs reader to read from source file
-    public JsonReader(String source) {
+    public JsonReader(String source, List<CourtFacility> facilities) {
         this.source = source;
+        this.facilities = facilities;
     }
 
     // EFFECTS: reads PlayTogetherState from file and returns it; throws IOException
@@ -60,7 +64,7 @@ public class JsonReader {
         // JSONArray sessionsArray = sessionsObject.getJSONArray("sessions");
         // sessionManager.loadFromJson(sessionsArray, userManager);
 
-        PlayTogetherState state = new PlayTogetherState(userManager, communityManager, sessionManager);
+        PlayTogetherState state = new PlayTogetherState(userManager, communityManager, sessionManager, facilities);
 
         state.loadFromJson(jsonObject);
 

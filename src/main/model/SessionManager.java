@@ -95,16 +95,16 @@ public class SessionManager implements Writable {
 
     // MODIFIES: this
     // EFFECTS: clears and loads sessions from JSON array
-    public void loadFromJson(JSONArray jsonArray, UserManager userManager) {
+    public void loadFromJson(JSONArray jsonArray, UserManager userManager, List<CourtFacility> facilities) {
         activeSession.clear();
         for (Object obj : jsonArray) {
             JSONObject jsonSession = (JSONObject) obj;
-            addSession(parseSession(jsonSession, userManager));
+            addSession(parseSession(jsonSession, userManager, facilities));
         }
     }
 
     // EFFECTS: parse session from JSON object
-    private Session parseSession(JSONObject json, UserManager userManager) {
+    private Session parseSession(JSONObject json, UserManager userManager, List<CourtFacility> facilities) {
         String ownerName = json.getString("ownerName");
         SportType sport = SportType.valueOf(json.getString("sport"));
         String facilityName = json.getString("facilityName");
@@ -114,12 +114,37 @@ public class SessionManager implements Writable {
         String description = json.getString("description");
 
         User owner = userManager.findUserByName(ownerName);
-        // TODO can add null user if want (if owner not found)
 
-        // TODO, facility and courtUnit still null
-        Session session = new Session(owner, sport, null, null, java.time.LocalDateTime.parse(start),
+        CourtFacility facility = findFacilityByName(facilityName, facilities);
+        CourtUnit court = findCourtById(facility, courtId);
+
+        Session session = new Session(owner, sport, facility, court, java.time.LocalDateTime.parse(start),
                 java.time.LocalDateTime.parse(end));
 
         return session;
+    }
+
+    // EFFECTS: helper to find court facility by Name
+    private CourtFacility findFacilityByName(String name, List<CourtFacility> facilities) {
+        for (CourtFacility f : facilities) {
+            if (f.getFacilityName().equalsIgnoreCase(name)) {
+                return f;
+            }
+        }
+        return null;
+    }
+
+    // EFFECTS: helper to find court by ID
+    private CourtUnit findCourtById(CourtFacility facility, String courtId) {
+        if (facility == null) {
+            return null;
+        } else {
+            for (CourtUnit c : facility.getCourts()) {
+                if (c.getcourtID().equalsIgnoreCase(courtId)) {
+                    return c;
+                }
+            }
+            return null;
+        }
     }
 }

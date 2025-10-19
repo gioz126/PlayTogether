@@ -2,10 +2,12 @@ package model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -151,6 +153,12 @@ public class SessionManagerTest {
 
     @Test
     public void testLoadJson() {
+        List<CourtFacility> facilities = new ArrayList<>();
+        CourtFacility ubcFacility = new CourtFacility("UBC Courts", AreaLocation.VANCOUVER);
+        ubcFacility.addCourt(new CourtUnit("Court1", SportType.BADMINTON,
+                LocalTime.of(8, 0), LocalTime.of(22, 0)));
+        facilities.add(ubcFacility);
+
         UserManager userManager = new UserManager();
         userManager.addUser(owner);
         JSONObject sessionJson = new JSONObject();
@@ -165,7 +173,7 @@ public class SessionManagerTest {
 
         JSONArray jsonArray = new JSONArray().put(sessionJson);
 
-        sessionManagerTest.loadFromJson(jsonArray, userManager);
+        sessionManagerTest.loadFromJson(jsonArray, userManager, facilities);
 
         assertEquals(1, sessionManagerTest.getActiveSession().size());
         Session loaded = sessionManagerTest.getActiveSession().get(0);
@@ -175,5 +183,8 @@ public class SessionManagerTest {
         assertEquals(LocalDateTime.of(2025, 10, 18, 12, 0), loaded.getEndDateTime());
 
     }
+
+
+
 
 }
