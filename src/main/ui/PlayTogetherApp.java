@@ -144,7 +144,6 @@ public class PlayTogetherApp {
             System.out.println("App state saved to " + JSON_STORE);
         } catch (FileNotFoundException e) {
             System.out.println("Unable to save to " + JSON_STORE);
-            e.printStackTrace(); //TODO delete after debugging
         }
     }
 
