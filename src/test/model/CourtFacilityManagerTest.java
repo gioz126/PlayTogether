@@ -1,6 +1,7 @@
 package model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalTime;
 
@@ -32,10 +33,12 @@ public class CourtFacilityManagerTest {
 
     @Test
     public void findFacilityByNameTest() {
+        testFacilityManager.addFacility(facility1);
         //not found return null
-        assertEquals(null, testFacilityManager.findFacilityByName("Richmon Badminton"));
+        assertEquals(null, testFacilityManager.findFacilityByName("Richmond Badminton"));
 
         //found, return the facility
+        
         assertEquals(facility1, testFacilityManager.findFacilityByName("UBC Badminton"));
     }
 

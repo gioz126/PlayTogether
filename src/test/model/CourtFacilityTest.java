@@ -89,4 +89,15 @@ public class CourtFacilityTest {
 
         assertNull(courtFacilityTest.findAvailableCourt(start, end));
     }
+
+    @Test
+    public void findCourtByIdTest() {
+        courtFacilityTest.addCourt(courtUnit1);
+
+        //not found
+        assertNull(courtFacilityTest.findCourtById("not found"));
+
+        //found
+        assertEquals(courtUnit1, courtFacilityTest.findCourtById("Badminton1"));
+    }
 }

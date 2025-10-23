@@ -13,12 +13,17 @@ public class CourtFacilityManager {
     // MODIFIES: this
     // EFFECTS: adds facility if not already in the list
     public void addFacility(CourtFacility facility) {
-        // stub
+        facilities.add(facility);
     }
 
     // EFFECTS: return facility with given name, null if not found
     public CourtFacility findFacilityByName(String name) {
-        return null; // stub
+        for(CourtFacility facility : facilities) {
+            if(facility.getFacilityName().equals(name)) {
+                return facility;
+            } 
+        }
+        return null;
     }
 
     // getters
