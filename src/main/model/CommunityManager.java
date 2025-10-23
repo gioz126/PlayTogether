@@ -130,6 +130,10 @@ public class CommunityManager implements Writable {
 
         Community community = new Community(leader, name, sport, location, maxMembers);
 
+        //TODO link back leader to community
+
+        //TODO load members and link both side (add community joined to the user)
+
         return community;
     }
 

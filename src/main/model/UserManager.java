@@ -92,9 +92,20 @@ public class UserManager implements Writable {
 
         User user = new User(name, contactNumber, sportInterest);
 
-        //TODO for booking, session, community
+        JSONArray bookingsArray = jsonObject.getJSONArray("bookings");
+        for(Object obj : bookingsArray) {
+            JSONObject bookingJson = (JSONObject) obj;
+            Booking booking = parseBooking(bookingJson);
+            user.addBooking(booking);
+        }
 
         return user;
+    }
+    
+    //EFFECTS: parses booking from json object
+    private Booking parseBooking(JSONObject bookingJson) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'parseBooking'");
     }
 
 }

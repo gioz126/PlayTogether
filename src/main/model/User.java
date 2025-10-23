@@ -110,6 +110,36 @@ public class User implements Writable {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: add booking to user's booking
+    public void addBooking(Booking b) {
+        this.bookings.add(b);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: add session to user's sessions joined
+    public void addSessionsJoined(Session s) {
+        this.sessionsJoined.add(s);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: add session to user's sessions created
+    public void addSessionCreated(Session s){
+        this.sessionsCreated.add(s);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: add community to user's communities joined
+    public void addCommunityJoined(Community c) {
+        this.communityJoined.add(c);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: add community to user's communities led
+    public void addCommunityLed(Community c) {
+        this.communityLed.add(c);
+    }
+
     // getters
     public String getName() {
         return name;

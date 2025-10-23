@@ -121,6 +121,12 @@ public class SessionManager implements Writable {
         Session session = new Session(owner, sport, facility, court, java.time.LocalDateTime.parse(start),
                 java.time.LocalDateTime.parse(end));
 
+        //TODO add owner back
+
+        //TODO for each loop all participants and add it back
+
+        
+
         return session;
     }
 
