@@ -33,6 +33,16 @@ public class CourtFacility {
         return null;
     }
 
+    //EFFECTS: return the court with given Id, null if not found
+    public CourtUnit findCourtById(String courtId) {
+        for(CourtUnit court : courts) {
+            if(court.getcourtID().equals(courtId)) {
+                return court;
+            }
+        }
+        return null;
+    }
+
     // getters
     public String getFacilityName() {
         return facilityName;
