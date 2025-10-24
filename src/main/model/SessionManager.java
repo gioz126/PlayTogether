@@ -95,16 +95,16 @@ public class SessionManager implements Writable {
 
     // MODIFIES: this
     // EFFECTS: clears and loads sessions from JSON array
-    public void loadFromJson(JSONArray jsonArray, UserManager userManager, List<CourtFacility> facilities) {
+    public void loadFromJson(JSONArray jsonArray, UserManager userManager, CourtFacilityManager facilityManager) {
         activeSession.clear();
         for (Object obj : jsonArray) {
             JSONObject jsonSession = (JSONObject) obj;
-            addSession(parseSession(jsonSession, userManager, facilities));
+            addSession(parseSession(jsonSession, userManager, facilityManager));
         }
     }
 
     // EFFECTS: parse session from JSON object
-    private Session parseSession(JSONObject json, UserManager userManager, List<CourtFacility> facilities) {
+    private Session parseSession(JSONObject json, UserManager userManager, CourtFacilityManager facilityManager) {
         String ownerName = json.getString("ownerName");
         SportType sport = SportType.valueOf(json.getString("sport"));
         String facilityName = json.getString("facilityName");
@@ -115,42 +115,24 @@ public class SessionManager implements Writable {
 
         User owner = userManager.findUserByName(ownerName);
 
-        CourtFacility facility = findFacilityByName(facilityName, facilities);
-        CourtUnit court = findCourtById(facility, courtId);
+        CourtFacility facility = facilityManager.findFacilityByName(facilityName);
+        CourtUnit court = (facility != null) ? facility.findCourtById(courtId) : null;
 
         Session session = new Session(owner, sport, facility, court, java.time.LocalDateTime.parse(start),
                 java.time.LocalDateTime.parse(end));
 
-        //TODO add owner back
-
-        //TODO for each loop all participants and add it back
-
-        
+        if (json.has("participants")) {
+            JSONArray participantsArray = json.getJSONArray("participants");
+            for (Object p : participantsArray) {
+                String participantName = (String) p;
+                User participant = userManager.findUserByName(participantName);
+                if (participant != null) {
+                    session.addParticipant(participant);
+                }
+            }
+        }
 
         return session;
     }
 
-    // EFFECTS: helper to find court facility by Name
-    private CourtFacility findFacilityByName(String name, List<CourtFacility> facilities) {
-        for (CourtFacility f : facilities) {
-            if (f.getFacilityName().equalsIgnoreCase(name)) {
-                return f;
-            }
-        }
-        return null;
-    }
-
-    // EFFECTS: helper to find court by ID
-    private CourtUnit findCourtById(CourtFacility facility, String courtId) {
-        if (facility == null) {
-            return null;
-        } else {
-            for (CourtUnit c : facility.getCourts()) {
-                if (c.getcourtID().equalsIgnoreCase(courtId)) {
-                    return c;
-                }
-            }
-            return null;
-        }
-    }
 }

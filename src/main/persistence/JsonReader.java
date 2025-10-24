@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import model.CommunityManager;
 import model.CourtFacility;
+import model.CourtFacilityManager;
 import model.PlayTogetherState;
 import model.SessionManager;
 import model.UserManager;
@@ -19,12 +20,12 @@ import model.UserManager;
 //Reads PlayTogetherState from JSON data stored in file
 public class JsonReader {
     private String source;
-    private List<CourtFacility> facilities;
+    private CourtFacilityManager facilityManager;
 
     // EFFECTS: constructs reader to read from source file
-    public JsonReader(String source, List<CourtFacility> facilities) {
+    public JsonReader(String source, CourtFacilityManager facilityManager) {
         this.source = source;
-        this.facilities = facilities;
+        this.facilityManager = facilityManager;
     }
 
     // EFFECTS: reads PlayTogetherState from file and returns it; throws IOException
@@ -64,7 +65,7 @@ public class JsonReader {
         // JSONArray sessionsArray = sessionsObject.getJSONArray("sessions");
         // sessionManager.loadFromJson(sessionsArray, userManager);
 
-        PlayTogetherState state = new PlayTogetherState(userManager, communityManager, sessionManager, facilities);
+        PlayTogetherState state = new PlayTogetherState(userManager, communityManager, sessionManager, facilityManager);
 
         state.loadFromJson(jsonObject);
 

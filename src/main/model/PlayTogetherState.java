@@ -13,14 +13,14 @@ public class PlayTogetherState implements Writable {
     private UserManager userManager;
     private CommunityManager communityManager;
     private SessionManager sessionManager;
-    private List<CourtFacility> facilities;
+    private CourtFacilityManager facilityManager;
 
     // EFFECTS: contructs an app state given managers
-    public PlayTogetherState(UserManager um, CommunityManager cm, SessionManager sm, List<CourtFacility> facilities) {
+    public PlayTogetherState(UserManager um, CommunityManager cm, SessionManager sm, CourtFacilityManager facilityManager) {
         this.userManager = um;
         this.communityManager = cm;
         this.sessionManager = sm;
-        this.facilities = facilities;
+        this.facilityManager = facilityManager;
     }
 
     // getters
@@ -36,8 +36,8 @@ public class PlayTogetherState implements Writable {
         return sessionManager;
     }
 
-    public List<CourtFacility> getFacilities() {
-        return facilities;
+    public CourtFacilityManager getFacilityManager(){
+        return facilityManager;
     }
 
     // EFFECTS: converts this full app state to JSON
@@ -55,7 +55,7 @@ public class PlayTogetherState implements Writable {
     public void loadFromJson(JSONObject jsonObject) {
         JSONObject userObject = jsonObject.getJSONObject("userManager");
         JSONArray userArray = userObject.getJSONArray("users");
-        userManager.loadFromJson(userArray);
+        userManager.loadFromJson(userArray, facilityManager);
 
         JSONObject communitiesObject = jsonObject.getJSONObject("communityManager");
         JSONArray communitiesArray = communitiesObject.getJSONArray("communities");
@@ -63,6 +63,6 @@ public class PlayTogetherState implements Writable {
 
         JSONObject sessionsObject = jsonObject.getJSONObject("sessionManager");
         JSONArray sessionsArray = sessionsObject.getJSONArray("sessions");
-        sessionManager.loadFromJson(sessionsArray, userManager, facilities);
+        sessionManager.loadFromJson(sessionsArray, userManager, facilityManager);
     }
 }

@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.AreaLocation;
 import model.CourtFacility;
+import model.CourtFacilityManager;
 import model.CourtUnit;
 import model.PlayTogetherState;
 import model.Session;
@@ -24,11 +24,11 @@ import model.User;
 @ExcludeFromJacocoGeneratedReport
 public class JsonReaderTest {
 
-    private List<CourtFacility> facilities;
+    private CourtFacilityManager facilityManager;
 
     @BeforeEach
     public void runBefore() {
-        facilities = new ArrayList<>();
+        facilityManager = new CourtFacilityManager();
 
         CourtFacility badmintonVancouver = new CourtFacility("UBC North Recreation", AreaLocation.VANCOUVER);
         badmintonVancouver.addCourt(new CourtUnit("Badminton 1", SportType.BADMINTON,
@@ -38,13 +38,13 @@ public class JsonReaderTest {
         padelRichmond.addCourt(new CourtUnit("Padel 1", SportType.PADEL,
                 LocalTime.of(8, 0), LocalTime.of(22, 0)));
 
-        facilities.add(badmintonVancouver);
-        facilities.add(padelRichmond);
+        facilityManager.addFacility(badmintonVancouver);
+        facilityManager.addFacility(padelRichmond);
     }
 
     @Test
     public void testReaderNonExistentFile() {
-        JsonReader reader = new JsonReader("./data/noSuchFile.json", facilities);
+        JsonReader reader = new JsonReader("./data/noSuchFile.json", facilityManager);
         try {
             PlayTogetherState state = reader.read();
             fail("IOException expected");
@@ -55,7 +55,7 @@ public class JsonReaderTest {
 
     @Test
     public void testReaderEmptyPlayTogeterState() {
-        JsonReader reader = new JsonReader("./data/testReaderEmptyPlayTogether.json", facilities);
+        JsonReader reader = new JsonReader("./data/testReaderEmptyPlayTogether.json", facilityManager);
         try {
             PlayTogetherState state = reader.read();
             assertNotNull(state);
@@ -69,7 +69,7 @@ public class JsonReaderTest {
 
     @Test
     public void testReaderGeneralPlayTogetherState() {
-        JsonReader reader = new JsonReader("./data/testReaderGeneralPlayTogether.json", facilities);
+        JsonReader reader = new JsonReader("./data/testReaderGeneralPlayTogether.json", facilityManager);
         try {
             PlayTogetherState state = reader.read();
             assertNotNull(state);

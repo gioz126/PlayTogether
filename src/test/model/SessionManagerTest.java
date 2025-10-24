@@ -154,10 +154,11 @@ public class SessionManagerTest {
     @Test
     public void testLoadJson() {
         List<CourtFacility> facilities = new ArrayList<>();
+        CourtFacilityManager facilityManager = new CourtFacilityManager();
         CourtFacility ubcFacility = new CourtFacility("UBC Courts", AreaLocation.VANCOUVER);
         ubcFacility.addCourt(new CourtUnit("Court1", SportType.BADMINTON,
                 LocalTime.of(8, 0), LocalTime.of(22, 0)));
-        facilities.add(ubcFacility);
+        facilityManager.addFacility(ubcFacility);
 
         UserManager userManager = new UserManager();
         userManager.addUser(owner);
@@ -173,7 +174,7 @@ public class SessionManagerTest {
 
         JSONArray jsonArray = new JSONArray().put(sessionJson);
 
-        sessionManagerTest.loadFromJson(jsonArray, userManager, facilities);
+        sessionManagerTest.loadFromJson(jsonArray, userManager, facilityManager);
 
         assertEquals(1, sessionManagerTest.getActiveSession().size());
         Session loaded = sessionManagerTest.getActiveSession().get(0);

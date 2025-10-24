@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,16 +78,16 @@ public class UserManager implements Writable {
 
     // MODIFIES: this
     // EFFECTS: load users from JSON array
-    public void loadFromJson(JSONArray jsonArray) {
+    public void loadFromJson(JSONArray jsonArray, CourtFacilityManager facilityManager) {
         users.clear();
         for (Object json : jsonArray) {
             JSONObject nextUser = (JSONObject) json;
-            addUser(parseUser(nextUser));
+            addUser(parseUser(nextUser, facilityManager));
         }
     }
 
     // EFFECTS: parses a user from JSON object
-    private User parseUser(JSONObject jsonObject) {
+    private User parseUser(JSONObject jsonObject, CourtFacilityManager facilityManager) {
         String name = jsonObject.getString("name");
         String contactNumber = jsonObject.getString("contactNumber");
         SportType sportInterest = SportType.valueOf(jsonObject.getString("sportInterest"));
@@ -95,7 +97,7 @@ public class UserManager implements Writable {
         JSONArray bookingsArray = jsonObject.getJSONArray("bookings");
         for(Object obj : bookingsArray) {
             JSONObject bookingJson = (JSONObject) obj;
-            Booking booking = parseBooking(bookingJson);
+            Booking booking = parseBooking(bookingJson, facilityManager, user);
             user.addBooking(booking);
         }
 
@@ -103,9 +105,17 @@ public class UserManager implements Writable {
     }
     
     //EFFECTS: parses booking from json object
-    private Booking parseBooking(JSONObject bookingJson) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'parseBooking'");
+    private Booking parseBooking(JSONObject bookingJson, CourtFacilityManager facilityManager, User user) {
+        String facilityName = bookingJson.getString("facilityName");
+        String courtId = bookingJson.getString("courtId");
+        // String userName = bookingJson.getString("userName");
+        LocalDateTime startTime = LocalDateTime.parse(bookingJson.getString("startTime"));
+        LocalDateTime endTime = LocalDateTime.parse(bookingJson.getString("endTime"));
+
+        CourtFacility facility = facilityManager.findFacilityByName(facilityName);
+        CourtUnit court = (facility != null) ? facility.findCourtById(courtId) : null;
+
+        return new Booking(user, facility, court, startTime, endTime);
     }
 
 }

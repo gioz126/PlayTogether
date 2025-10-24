@@ -15,6 +15,7 @@ import model.Booking;
 import model.Community;
 import model.CommunityManager;
 import model.CourtFacility;
+import model.CourtFacilityManager;
 import model.CourtUnit;
 import model.PlayTogetherState;
 import model.Session;
@@ -30,7 +31,8 @@ public class PlayTogetherApp {
     private final UserManager userManager;
     private final SessionManager sessionManager;
     private final CommunityManager communityManager;
-    private final List<CourtFacility> facilities;
+    private final CourtFacilityManager facilityManager;
+
     private final Scanner input;
     private User currentUser;
 
@@ -44,18 +46,17 @@ public class PlayTogetherApp {
         userManager = new UserManager();
         sessionManager = new SessionManager();
         communityManager = new CommunityManager();
-        facilities = new ArrayList<>();
+        facilityManager = new CourtFacilityManager();
 
         // creates facility and add courts
-        // facility = new CourtFacility("UBC North Recreation", AreaLocation.VANCOUVER);
         setupCourts();
 
         input = new Scanner(System.in);
 
         // initialize persistence
         jsonWriter = new JsonWriter(JSON_STORE);
-        jsonReader = new JsonReader(JSON_STORE, facilities);
-        appState = new PlayTogetherState(userManager, communityManager, sessionManager, facilities);
+        jsonReader = new JsonReader(JSON_STORE, facilityManager);
+        appState = new PlayTogetherState(userManager, communityManager, sessionManager, facilityManager);
     }
 
     // EFFECTS: setup court unit for court facility
@@ -70,8 +71,8 @@ public class PlayTogetherApp {
         padelRichmond.addCourt(new CourtUnit("Padel 1", SportType.PADEL, LocalTime.of(8, 0), LocalTime.of(22, 0)));
         padelRichmond.addCourt(new CourtUnit("Padel 2", SportType.PADEL, LocalTime.of(8, 0), LocalTime.of(22, 0)));
 
-        facilities.add(badmintonVancouver);
-        facilities.add(padelRichmond);
+        facilityManager.addFacility(badmintonVancouver);
+        facilityManager.addFacility(padelRichmond);
     }
 
     // EFFECTS: runs the app
@@ -127,17 +128,17 @@ public class PlayTogetherApp {
     // MODIFIES: this
     // EFFECTS: update all managers from loaded PlayTogetherState
     private void syncManagersFromState(PlayTogetherState loadedState) {
-        userManager.loadFromJson(loadedState.getUserManager().toJson().getJSONArray("users"));
+        userManager.loadFromJson(loadedState.getUserManager().toJson().getJSONArray("users"), loadedState.getFacilityManager());
         communityManager.loadFromJson(loadedState.getCommunityManager().toJson().getJSONArray("communities"),
                 userManager);
         sessionManager.loadFromJson(loadedState.getSessionManager().toJson().getJSONArray("sessions"),
-                userManager, loadedState.getFacilities());
+                userManager, loadedState.getFacilityManager());
     }
 
     // EFFECTS: saves current app state to JSON file
     private void saveAppState() {
         try {
-            appState = new PlayTogetherState(userManager, communityManager, sessionManager, facilities);
+            appState = new PlayTogetherState(userManager, communityManager, sessionManager, facilityManager);
             jsonWriter.open();
             jsonWriter.write(appState);
             jsonWriter.close();
@@ -348,23 +349,24 @@ public class PlayTogetherApp {
     private void bookCourtUI() {
         System.out.println("\n === Book a Court ===");
 
-        if (facilities.isEmpty()) {
+        List<CourtFacility> allFacilities = facilityManager.getAllFacilities();
+        if (allFacilities.isEmpty()) {
             System.out.println("No facilities available");
             return;
         }
         System.out.println("Choose a facility: ");
-        for (int i = 0; i < facilities.size(); i++) {
-            CourtFacility f = facilities.get(i);
+        for (int i = 0; i < allFacilities.size(); i++) {
+            CourtFacility f = allFacilities.get(i);
             System.out.println((i + 1) + ". " + f.getFacilityName() + " (" + f.getFacilityLocation() + ")");
         }
 
         int facilityIndex = getIntInput() - 1;
-        if (facilityIndex < 0 || facilityIndex >= facilities.size()) {
+        if (facilityIndex < 0 || facilityIndex >= allFacilities.size()) {
             System.out.println("Invalid facility choice.");
             return;
         }
 
-        CourtFacility selectedCourtFacility = facilities.get(facilityIndex);
+        CourtFacility selectedCourtFacility = allFacilities.get(facilityIndex);
 
         try {
             System.out.println("Enter a year (e.g. 2025): ");

@@ -1,14 +1,11 @@
 package persistence;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +15,7 @@ import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.AreaLocation;
 import model.CommunityManager;
 import model.CourtFacility;
+import model.CourtFacilityManager;
 import model.CourtUnit;
 import model.PlayTogetherState;
 import model.Session;
@@ -29,11 +27,11 @@ import model.UserManager;
 @ExcludeFromJacocoGeneratedReport
 public class JsonWriterTest {
 
-    private List<CourtFacility> facilities;
+    private CourtFacilityManager facilityManager;
 
     @BeforeEach
     public void runBefore() {
-        facilities = new ArrayList<>();
+        facilityManager = new CourtFacilityManager();
 
         CourtFacility badmintonVancouver = new CourtFacility("UBC North Recreation", AreaLocation.VANCOUVER);
         badmintonVancouver.addCourt(new CourtUnit("Badminton 1", SportType.BADMINTON,
@@ -43,8 +41,8 @@ public class JsonWriterTest {
         padelRichmond.addCourt(new CourtUnit("Padel 1", SportType.PADEL,
                 LocalTime.of(8, 0), LocalTime.of(22, 0)));
 
-        facilities.add(badmintonVancouver);
-        facilities.add(padelRichmond);
+        facilityManager.addFacility(badmintonVancouver);
+        facilityManager.addFacility(padelRichmond);
     }
 
     @Test
@@ -62,13 +60,13 @@ public class JsonWriterTest {
     public void testWriterEmptyPlayTogetherState() {
         try {
             PlayTogetherState state = new PlayTogetherState(new UserManager(), new CommunityManager(),
-                    new SessionManager(), facilities);
+                    new SessionManager(), facilityManager);
             JsonWriter writer = new JsonWriter("./data/testWriterEmptyPlayTogether.json");
             writer.open();
             writer.write(state);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterEmptyPlayTogether.json", facilities);
+            JsonReader reader = new JsonReader("./data/testWriterEmptyPlayTogether.json", facilityManager);
             PlayTogetherState readState = reader.read();
 
             assertEquals(0, readState.getUserManager().getAllUsers().size());
@@ -90,21 +88,21 @@ public class JsonWriterTest {
             um.addUser(user2);
 
             SessionManager sm = new SessionManager();
-            Session session = new Session(user1, SportType.BADMINTON, facilities.get(0),
-                    facilities.get(0).getCourts().get(0),
+            Session session = new Session(user1, SportType.BADMINTON, facilityManager.getAllFacilities().get(0),
+                    facilityManager.getAllFacilities().get(0).getCourts().get(0),
                     LocalDateTime.of(2025, 10, 20, 14, 0),
                     LocalDateTime.of(2025, 10, 20, 15, 0));
             sm.addSession(session);
 
             PlayTogetherState state = new PlayTogetherState(um, new CommunityManager(), sm,
-                    facilities);
+                    facilityManager);
 
             JsonWriter writer = new JsonWriter("./data/testWriterGeneralPlayTogether.json");
             writer.open();
             writer.write(state);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterGeneralPlayTogether.json", facilities);
+            JsonReader reader = new JsonReader("./data/testWriterGeneralPlayTogether.json", facilityManager);
             PlayTogetherState readState = reader.read();
 
             List<User> users = readState.getUserManager().getAllUsers();
