@@ -18,10 +18,10 @@ public class CourtFacilityManager {
 
     // EFFECTS: return facility with given name, null if not found
     public CourtFacility findFacilityByName(String name) {
-        for(CourtFacility facility : facilities) {
-            if(facility.getFacilityName().equals(name)) {
+        for (CourtFacility facility : facilities) {
+            if (facility.getFacilityName().equals(name)) {
                 return facility;
-            } 
+            }
         }
         return null;
     }

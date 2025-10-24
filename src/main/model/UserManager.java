@@ -1,6 +1,5 @@
 package model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import persistence.JsonReader;
 import persistence.Writable;
 
 public class UserManager implements Writable {
@@ -93,20 +91,18 @@ public class UserManager implements Writable {
         SportType sportInterest = SportType.valueOf(jsonObject.getString("sportInterest"));
 
         User user = new User(name, contactNumber, sportInterest);
-        
+
         JSONArray bookingsArray = jsonObject.getJSONArray("bookings");
-        for(Object obj : bookingsArray) {
+        for (Object obj : bookingsArray) {
             JSONObject bookingJson = (JSONObject) obj;
             Booking booking = parseBooking(bookingJson, facilityManager, user);
             user.addBooking(booking);
         }
 
-        
-
         return user;
     }
-    
-    //EFFECTS: parses booking from json object
+
+    // EFFECTS: parses booking from json object
     private Booking parseBooking(JSONObject bookingJson, CourtFacilityManager facilityManager, User user) {
         String facilityName = bookingJson.getString("facilityName");
         String courtId = bookingJson.getString("courtId");

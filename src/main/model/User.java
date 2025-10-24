@@ -41,14 +41,14 @@ public class User implements Writable {
     // EFFECTS: finds an available court in the facility, creates a booking for this
     // user, reserves the court, adds booking to the user, return booking
     public Booking bookCourt(CourtFacility facility, LocalDateTime startTime, LocalDateTime endTime)
-            throws CourtUnavailableException, EndTimeBeforeStartTimeException{
+            throws CourtUnavailableException, EndTimeBeforeStartTimeException {
 
-        if(endTime.isBefore(startTime)) {
+        if (endTime.isBefore(startTime)) {
             throw new EndTimeBeforeStartTimeException("End time cannot be before start time");
         }
-    
+
         CourtUnit availableCourt = facility.findAvailableCourt(startTime, endTime);
-    
+
         if (availableCourt == null) {
             throw new CourtUnavailableException("No courts available at given time");
         }
@@ -116,32 +116,32 @@ public class User implements Writable {
         }
     }
 
-    //MODIFIES: this
-    //EFFECTS: add booking to user's booking
+    // MODIFIES: this
+    // EFFECTS: add booking to user's booking
     public void addBooking(Booking b) {
         this.bookings.add(b);
     }
 
-    //MODIFIES: this
-    //EFFECTS: add session to user's sessions joined
+    // MODIFIES: this
+    // EFFECTS: add session to user's sessions joined
     public void addSessionsJoined(Session s) {
         this.sessionsJoined.add(s);
     }
 
-    //MODIFIES: this
-    //EFFECTS: add session to user's sessions created
-    public void addSessionCreated(Session s){
+    // MODIFIES: this
+    // EFFECTS: add session to user's sessions created
+    public void addSessionCreated(Session s) {
         this.sessionsCreated.add(s);
     }
 
-    //MODIFIES: this
-    //EFFECTS: add community to user's communities joined
+    // MODIFIES: this
+    // EFFECTS: add community to user's communities joined
     public void addCommunityJoined(Community c) {
         this.communityJoined.add(c);
     }
 
-    //MODIFIES: this
-    //EFFECTS: add community to user's communities led
+    // MODIFIES: this
+    // EFFECTS: add community to user's communities led
     public void addCommunityLed(Community c) {
         this.communityLed.add(c);
     }

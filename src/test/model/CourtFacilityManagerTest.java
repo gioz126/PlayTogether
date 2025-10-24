@@ -1,10 +1,8 @@
 package model;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.time.LocalTime;
-
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +11,7 @@ public class CourtFacilityManagerTest {
     private CourtFacilityManager testFacilityManager;
     private CourtFacility facility1;
     private CourtUnit court1;
+
     @BeforeEach
     public void runBefore() {
         testFacilityManager = new CourtFacilityManager();
@@ -34,14 +33,12 @@ public class CourtFacilityManagerTest {
     @Test
     public void findFacilityByNameTest() {
         testFacilityManager.addFacility(facility1);
-        //not found return null
+        // not found return null
         assertEquals(null, testFacilityManager.findFacilityByName("Richmond Badminton"));
 
-        //found, return the facility
-        
+        // found, return the facility
+
         assertEquals(facility1, testFacilityManager.findFacilityByName("UBC Badminton"));
     }
-
-
 
 }

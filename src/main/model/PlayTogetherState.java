@@ -1,11 +1,8 @@
 package model;
 
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import persistence.JsonReader;
 import persistence.Writable;
 
 // Represents the full state of PlayTogether App
@@ -16,7 +13,8 @@ public class PlayTogetherState implements Writable {
     private CourtFacilityManager facilityManager;
 
     // EFFECTS: contructs an app state given managers
-    public PlayTogetherState(UserManager um, CommunityManager cm, SessionManager sm, CourtFacilityManager facilityManager) {
+    public PlayTogetherState(UserManager um, CommunityManager cm, SessionManager sm,
+            CourtFacilityManager facilityManager) {
         this.userManager = um;
         this.communityManager = cm;
         this.sessionManager = sm;
@@ -36,7 +34,7 @@ public class PlayTogetherState implements Writable {
         return sessionManager;
     }
 
-    public CourtFacilityManager getFacilityManager(){
+    public CourtFacilityManager getFacilityManager() {
         return facilityManager;
     }
 

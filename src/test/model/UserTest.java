@@ -76,14 +76,14 @@ public class UserTest {
             testUser.bookCourt(facility, start, end);
         });
 
-        //user book with end time before start time
+        // user book with end time before start time
         LocalDateTime start2 = LocalDateTime.of(2025, 12, 12, 12, 0);
         LocalDateTime end2 = LocalDateTime.of(2025, 12, 12, 10, 0);
         try {
             testUser.bookCourt(facility, start2, end2);
             fail("Expect EndTimeBeforeStartTime exception");
-        } catch (EndTimeBeforeStartTimeException e){
-            //expected
+        } catch (EndTimeBeforeStartTimeException e) {
+            // expected
         }
 
     }

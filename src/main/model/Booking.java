@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import org.json.JSONObject;
 
-import persistence.JsonReader;
 import persistence.Writable;
 
 public class Booking implements Writable {

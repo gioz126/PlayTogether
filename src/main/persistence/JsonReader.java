@@ -4,14 +4,11 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.stream.Stream;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import model.CommunityManager;
-import model.CourtFacility;
 import model.CourtFacilityManager;
 import model.PlayTogetherState;
 import model.SessionManager;

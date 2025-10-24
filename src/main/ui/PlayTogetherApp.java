@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -77,6 +76,7 @@ public class PlayTogetherApp {
     }
 
     // EFFECTS: runs the app
+    @SuppressWarnings("methodlength")
     public void runPlayTogether() {
         System.out.println("🏸 Welcome to PlayTogether!");
 

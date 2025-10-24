@@ -7,7 +7,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import persistence.JsonReader;
 import persistence.Writable;
 
 public class Session implements Writable {
