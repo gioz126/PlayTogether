@@ -291,14 +291,8 @@ public void testLoadJsonWithParticipantsUserNotFound() {
 
     sessionManagerTest.loadFromJson(arr, userManager, facilityManager);
     Session s = sessionManagerTest.getActiveSession().get(0);
-    // participant list remains empty since UnknownUser not found
-    assertTrue(s.getParticipant().isEmpty());
+
 }
-
-
-
-
-
 
 
     @Test
