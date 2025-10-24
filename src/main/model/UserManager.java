@@ -9,6 +9,11 @@ import org.json.JSONObject;
 
 import persistence.Writable;
 
+/**
+ * Manage all users in PlayTogether app.
+ * UserManager responsible for maintaining users who uses the app and find user
+ * by its name
+ */
 public class UserManager implements Writable {
     private List<User> users;
 
@@ -66,6 +71,7 @@ public class UserManager implements Writable {
         return json;
     }
 
+    // EFFECTS: return users as JSON array
     private JSONArray usersToJson() {
         JSONArray jsonArray = new JSONArray();
         for (User u : users) {
@@ -116,8 +122,8 @@ public class UserManager implements Writable {
         return new Booking(user, facility, court, startTime, endTime);
     }
 
-    //MODIFIES: facilityManager
-    //EFFECTS: get the court reservation back based on user bookings
+    // MODIFIES: facilityManager
+    // EFFECTS: get the court reservation back based on user bookings
     public void restoreCourtReservations() {
         for (User u : users) {
             for (Booking b : u.getBookings()) {

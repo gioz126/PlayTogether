@@ -10,6 +10,14 @@ import exception.CourtUnavailableException;
 import exception.EndTimeBeforeStartTimeException;
 import persistence.Writable;
 
+/**
+ * Represents a user.
+ * User has its name, contact number, sport interest, list of bookings,
+ * list of sessions joined, list of sessions created, list of communities
+ * joined, and list of communities led.
+ * Users responsible to book a booking (court), create sessions from booking,
+ * join session, create communities, and join communities
+ */
 public class User implements Writable {
     private String name;
     private String contactNumber;

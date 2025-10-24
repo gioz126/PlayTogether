@@ -9,6 +9,12 @@ import org.json.JSONObject;
 
 import persistence.Writable;
 
+/**
+ * Represent session where people can playTogether.
+ * Each session has their owner, facility and court to play together,
+ * start date and end date for the session, session's description, and
+ * participants in the session
+ */
 public class Session implements Writable {
     private User owner;
     private CourtFacility facility;

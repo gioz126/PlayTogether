@@ -7,6 +7,11 @@ import java.util.List;
 
 import exception.CourtUnavailableException;
 
+/**
+ * Represents a sport court within a facility.
+ * Each CourtUnit stores its ID, sport type, opening and closing hours, and
+ * a list of reservations.
+ */
 public class CourtUnit {
     private String courtId;
     private SportType sport;

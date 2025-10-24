@@ -3,6 +3,11 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manage all facilities in PlayTogether app
+ * CourtFacilityManager responsible for maintaining active facilities
+ * available in the app and find facilities by name
+ */
 public class CourtFacilityManager {
     private List<CourtFacility> facilities;
 

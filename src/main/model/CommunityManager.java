@@ -8,6 +8,11 @@ import org.json.JSONObject;
 
 import persistence.Writable;
 
+/**
+ * Manage all communities in PlayTogether app.
+ * CommunityManager responsible for retrieving community
+ * objects and maintaining list for active communities across the app
+ */
 public class CommunityManager implements Writable {
     private List<Community> activeCommunity;
 

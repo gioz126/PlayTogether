@@ -6,6 +6,12 @@ import org.json.JSONObject;
 
 import persistence.Writable;
 
+/**
+ * Represents a booking.
+ * Booking has its user who books the booking
+ * Which facility the user booked, which court the user booked and
+ * its start time and end time of booking
+ */
 public class Booking implements Writable {
     private User user;
     private CourtFacility facility;

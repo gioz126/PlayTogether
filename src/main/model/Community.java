@@ -8,6 +8,12 @@ import org.json.JSONObject;
 
 import persistence.Writable;
 
+/**
+ * Represents a community
+ * Community has its name, what type of sport played in this community,
+ * location of the community, maximum members for community, leader of the
+ * community, and its members
+ */
 public class Community implements Writable {
     private String communityName;
     private SportType sport;

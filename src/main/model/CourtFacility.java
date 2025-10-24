@@ -4,6 +4,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a facility.
+ * Each CourtFacility stores its name, location and courts inside them.
+ */
 public class CourtFacility {
     private String facilityName;
     private AreaLocation facilityLocation;

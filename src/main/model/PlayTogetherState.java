@@ -5,7 +5,11 @@ import org.json.JSONObject;
 
 import persistence.Writable;
 
-// Represents the full state of PlayTogether App
+/**
+ * Represents the full state of PlayTogether app.
+ * This class store all managers (UserManager, CommunityManager, SessionManager
+ * , and facilityManager) and provides methods to make toJson/fromJson.
+ */
 public class PlayTogetherState implements Writable {
     private UserManager userManager;
     private CommunityManager communityManager;

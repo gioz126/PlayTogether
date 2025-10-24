@@ -27,6 +27,7 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 
 @ExcludeFromJacocoGeneratedReport
+// Represents the PlayTogether app
 public class PlayTogetherApp {
     private final UserManager userManager;
     private final SessionManager sessionManager;

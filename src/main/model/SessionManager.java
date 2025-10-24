@@ -8,6 +8,11 @@ import org.json.JSONObject;
 
 import persistence.Writable;
 
+/**
+ * Manage all sessions in PlayTogether app.
+ * SessionManager responsible to maintain actuve sessios, find sessions
+ * by sport, and maintain session's participant
+ */
 public class SessionManager implements Writable {
     private List<Session> activeSession;
 
