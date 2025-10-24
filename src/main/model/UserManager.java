@@ -93,13 +93,15 @@ public class UserManager implements Writable {
         SportType sportInterest = SportType.valueOf(jsonObject.getString("sportInterest"));
 
         User user = new User(name, contactNumber, sportInterest);
-
+        
         JSONArray bookingsArray = jsonObject.getJSONArray("bookings");
         for(Object obj : bookingsArray) {
             JSONObject bookingJson = (JSONObject) obj;
             Booking booking = parseBooking(bookingJson, facilityManager, user);
             user.addBooking(booking);
         }
+
+        
 
         return user;
     }

@@ -135,4 +135,19 @@ public class SessionManager implements Writable {
         return session;
     }
 
+    //EFFECTS: link back user's session for JSON
+    public void reconnectUsersToSession() {
+        for (Session s : activeSession) {
+            User owner = s.getOwner();
+            if (owner != null && !owner.getSessionsCreated().contains(s)) {
+                owner.getSessionsCreated().add(s);
+            }
+            for (User p : s.getParticipant()) {
+                if (!p.getSessionsJoined().contains(s)) {
+                    p.getSessionsJoined().add(s);
+                }
+            }
+        }
+    }
+
 }

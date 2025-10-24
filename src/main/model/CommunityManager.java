@@ -130,11 +130,22 @@ public class CommunityManager implements Writable {
 
         Community community = new Community(leader, name, sport, location, maxMembers);
 
-        //TODO link back leader to community
-
-        //TODO load members and link both side (add community joined to the user)
-
         return community;
+    }
+
+    //EFFECTS: link back user's community for JSON
+    public void reconnectUsersToCommunities() {
+        for (Community c : activeCommunity) {
+            User leader = c.getCommunityLeader();
+            if (leader != null && !leader.getCommunityLed().contains(c)) {
+                leader.getCommunityLed().add(c);
+            }
+            for (User m : c.getMembers()) {
+                if (!m.getCommunityJoined().contains(c)) {
+                    m.getCommunityJoined().add(c);
+                }
+            }
+        }
     }
 
 }

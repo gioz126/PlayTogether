@@ -61,13 +61,13 @@ public class PlayTogetherApp {
 
     // EFFECTS: setup court unit for court facility
     public void setupCourts() {
-        CourtFacility badmintonVancouver = new CourtFacility("UBC North Recreation", AreaLocation.VANCOUVER);
+        CourtFacility badmintonVancouver = new CourtFacility("UBC North Recreation Badminton", AreaLocation.VANCOUVER);
         badmintonVancouver.addCourt(new CourtUnit("Badminton 1", SportType.BADMINTON,
                 LocalTime.of(8, 0), LocalTime.of(22, 0)));
         badmintonVancouver.addCourt(new CourtUnit("Badminton 2", SportType.BADMINTON,
                 LocalTime.of(8, 0), LocalTime.of(22, 0)));
 
-        CourtFacility padelRichmond = new CourtFacility("Badminton Richmond", AreaLocation.RICHMOND);
+        CourtFacility padelRichmond = new CourtFacility("Padel Richmond", AreaLocation.RICHMOND);
         padelRichmond.addCourt(new CourtUnit("Padel 1", SportType.PADEL, LocalTime.of(8, 0), LocalTime.of(22, 0)));
         padelRichmond.addCourt(new CourtUnit("Padel 2", SportType.PADEL, LocalTime.of(8, 0), LocalTime.of(22, 0)));
 
@@ -133,6 +133,10 @@ public class PlayTogetherApp {
                 userManager);
         sessionManager.loadFromJson(loadedState.getSessionManager().toJson().getJSONArray("sessions"),
                 userManager, loadedState.getFacilityManager());
+
+        // reconnect session and community to its user
+        sessionManager.reconnectUsersToSession();
+        communityManager.reconnectUsersToCommunities();
     }
 
     // EFFECTS: saves current app state to JSON file
