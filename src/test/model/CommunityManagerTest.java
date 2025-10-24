@@ -183,31 +183,99 @@ public class CommunityManagerTest {
     }
 
     @Test
+    public void testLoadFromJsonNoMembersField() {
+        User leader = new User("gio", "123", SportType.BADMINTON);
+        UserManager userManager = new UserManager();
+        userManager.addUser(leader);
+
+        JSONArray jsonArray = new JSONArray();
+        JSONObject c1 = new JSONObject();
+        c1.put("communityName", "NoMembers");
+        c1.put("sport", "BADMINTON");
+        c1.put("location", "VANCOUVER");
+        c1.put("maxMembers", 5);
+        c1.put("leaderName", "gio");
+        jsonArray.put(c1);
+
+        testCommunityManager.loadFromJson(jsonArray, userManager);
+
+        Community loaded = testCommunityManager.getActiveCommunities().get(0);
+        assertEquals("NoMembers", loaded.getCommunityName());
+        assertTrue(loaded.getMembers().contains(leader)); // only leader
+        assertEquals(1, loaded.getMembers().size());
+    }
+
+    @Test
+    public void testLoadFromJsonMemberNotFound() {
+        User leader = new User("gio", "123", SportType.BADMINTON);
+        UserManager userManager = new UserManager();
+        userManager.addUser(leader);
+
+        JSONArray jsonArray = new JSONArray();
+        JSONObject c1 = new JSONObject();
+        c1.put("communityName", "MemberNotFoundClub");
+        c1.put("sport", "BADMINTON");
+        c1.put("location", "RICHMOND");
+        c1.put("maxMembers", 10);
+        c1.put("leaderName", "gio");
+        c1.put("members", new JSONArray().put("notFound")); // ghost not in userManager
+        jsonArray.put(c1);
+
+        testCommunityManager.loadFromJson(jsonArray, userManager);
+
+        Community loaded = testCommunityManager.getActiveCommunities().get(0);
+        assertEquals(1, loaded.getMembers().size()); // only leader, notFound ignored
+    }
+
+    @Test
+    public void testLoadFromJsonDuplicateMemberIgnored() {
+        User leader = new User("gio", "123", SportType.BADMINTON);
+        User member = new User("zio", "555", SportType.BADMINTON);
+
+        UserManager userManager = new UserManager();
+        userManager.addUser(leader);
+        userManager.addUser(member);
+
+        JSONArray jsonArray = new JSONArray();
+        JSONObject c1 = new JSONObject();
+        c1.put("communityName", "DuplicateClub");
+        c1.put("sport", "BADMINTON");
+        c1.put("location", "VANCOUVER");
+        c1.put("maxMembers", 5);
+        c1.put("leaderName", "gio");
+        c1.put("members", new JSONArray().put("zio").put("zio")); // duplicate
+        jsonArray.put(c1);
+
+        testCommunityManager.loadFromJson(jsonArray, userManager);
+
+        Community loaded = testCommunityManager.getActiveCommunities().get(0);
+        assertEquals(2, loaded.getMembers().size()); // leader + zio, not duplicated
+    }
+
+    @Test
     public void testReconnectUsersToCommunities() {
-        //community vancouver owner is gio and has another participant
+        // community vancouver owner is gio and has another participant
         User zio = new User("zio", "123", SportType.BADMINTON);
         communityVancouver.addMember(zio);
 
-        //zio is already inside the community so not added back 
+        // zio is already inside the community so not added back
         zio.addCommunityJoined(communityVancouver);
 
-
         testCommunityManager.addCommunity(communityVancouver);
-        //check first gio's and zio's community is still empty
+        // check first gio's and zio's community is still empty
         assertFalse(owner.getCommunityLed().contains(communityVancouver));
         assertFalse(owner.getCommunityJoined().contains(communityVancouver));
 
         assertTrue(zio.getCommunityJoined().contains(communityVancouver));
 
-        //reconnect it
+        // reconnect it
         testCommunityManager.reconnectUsersToCommunities();
-    
 
-        //check gio's and zio's community
+        // check gio's and zio's community
         assertTrue(owner.getCommunityLed().contains(communityVancouver));
         assertTrue(owner.getCommunityJoined().contains(communityVancouver));
 
-        //check zio's list still 1 (not added again)
+        // check zio's list still 1 (not added again)
         assertEquals(1, zio.getCommunityJoined().size());
     }
 
@@ -216,15 +284,14 @@ public class CommunityManagerTest {
         Community school = new Community(owner, "UBC", SportType.BADMINTON, AreaLocation.VANCOUVER, 10);
 
         owner.addCommunityLed(school);
-        //check the owner communityLed
+        // check the owner communityLed
         assertTrue(owner.getCommunityLed().contains(school));
 
         testCommunityManager.addCommunity(school);
         testCommunityManager.reconnectUsersToCommunities();
 
-        //check the list still size 1
+        // check the list still size 1
         assertEquals(1, owner.getCommunityLed().size());
     }
-
 
 }

@@ -129,11 +129,22 @@ public class CommunityManager implements Writable {
 
         Community community = new Community(leader, name, sport, location, maxMembers);
 
+        if (jsonObject.has("members")) {
+            JSONArray membersArray = jsonObject.getJSONArray("members");
+            for (Object obj : membersArray) {
+                String memberName = (String) obj;
+                User member = userManager.findUserByName(memberName);
+
+                if (member != null && !community.getMembers().contains(member)) {
+                    community.addMember(member);
+                }
+            }
+        }
         return community;
     }
 
-    //REQUIRES: community's leader is not null
-    //EFFECTS: link back user's community for JSON
+    // REQUIRES: community's leader is not null
+    // EFFECTS: link back user's community for JSON
     public void reconnectUsersToCommunities() {
         for (Community c : activeCommunity) {
             User leader = c.getCommunityLeader();
