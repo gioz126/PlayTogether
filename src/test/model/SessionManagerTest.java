@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -183,6 +184,163 @@ public class SessionManagerTest {
         assertEquals(LocalDateTime.of(2025, 10, 18, 10, 0), loaded.getStartDateTime());
         assertEquals(LocalDateTime.of(2025, 10, 18, 12, 0), loaded.getEndDateTime());
 
+    }
+    @Test
+public void testLoadJsonFacilityNotFound() {
+    // no facilities added
+    CourtFacilityManager facilityManager = new CourtFacilityManager();
+    UserManager userManager = new UserManager();
+    userManager.addUser(owner);
+
+    JSONObject json = new JSONObject();
+    json.put("ownerName", "Gio");
+    json.put("sport", "BADMINTON");
+    json.put("facilityName", "NonExisting");
+    json.put("courtId", "Court1");
+    json.put("startDateTime", "2025-10-18T10:00");
+    json.put("endDateTime", "2025-10-18T12:00");
+    json.put("description", "No facility");
+
+    JSONArray jsonArray = new JSONArray().put(json);
+
+    sessionManagerTest.loadFromJson(jsonArray, userManager, facilityManager);
+
+    Session s = sessionManagerTest.getActiveSession().get(0);
+    assertNull(s.getFacility());
+    assertNull(s.getCourtUnit());
+}
+
+@Test
+public void testLoadJsonCourtNotFound() {
+    CourtFacilityManager facilityManager = new CourtFacilityManager();
+    CourtFacility ubc = new CourtFacility("UBC Courts", AreaLocation.VANCOUVER);
+    facilityManager.addFacility(ubc); // facility exists but has no matching court
+
+    UserManager userManager = new UserManager();
+    userManager.addUser(owner);
+
+    JSONObject json = new JSONObject();
+    json.put("ownerName", "Gio");
+    json.put("sport", "BADMINTON");
+    json.put("facilityName", "UBC Courts");
+    json.put("courtId", "NonExistingCourt");
+    json.put("startDateTime", "2025-10-18T10:00");
+    json.put("endDateTime", "2025-10-18T12:00");
+    json.put("description", "Court not found");
+
+    JSONArray arr = new JSONArray().put(json);
+
+    sessionManagerTest.loadFromJson(arr, userManager, facilityManager);
+    Session s = sessionManagerTest.getActiveSession().get(0);
+    assertNotNull(s.getFacility());
+    assertNull(s.getCourtUnit());
+}
+
+@Test
+public void testLoadJsonWithParticipantsUserFound() {
+    CourtFacilityManager facilityManager = new CourtFacilityManager();
+    CourtFacility ubc = new CourtFacility("UBC Courts", AreaLocation.VANCOUVER);
+    ubc.addCourt(new CourtUnit("Court1", SportType.BADMINTON,
+            LocalTime.of(8,0), LocalTime.of(22,0)));
+    facilityManager.addFacility(ubc);
+
+    UserManager userManager = new UserManager();
+    userManager.addUser(owner);
+    User zio = new User("zio", "123", SportType.BADMINTON);
+    userManager.addUser(zio);
+
+    JSONObject json = new JSONObject();
+    json.put("ownerName", "Gio");
+    json.put("sport", "BADMINTON");
+    json.put("facilityName", "UBC Courts");
+    json.put("courtId", "Court1");
+    json.put("startDateTime", "2025-10-18T10:00");
+    json.put("endDateTime", "2025-10-18T12:00");
+    json.put("description", "Morning");
+    json.put("participants", new JSONArray().put("zio"));
+
+    JSONArray arr = new JSONArray().put(json);
+
+    sessionManagerTest.loadFromJson(arr, userManager, facilityManager);
+    Session s = sessionManagerTest.getActiveSession().get(0);
+    assertTrue(s.getParticipant().contains(zio));
+}
+
+@Test
+public void testLoadJsonWithParticipantsUserNotFound() {
+    CourtFacilityManager facilityManager = new CourtFacilityManager();
+    CourtFacility ubc = new CourtFacility("UBC Courts", AreaLocation.VANCOUVER);
+    ubc.addCourt(new CourtUnit("Court1", SportType.BADMINTON,
+            LocalTime.of(8,0), LocalTime.of(22,0)));
+    facilityManager.addFacility(ubc);
+
+    UserManager userManager = new UserManager();
+    userManager.addUser(owner);
+
+    JSONObject json = new JSONObject();
+    json.put("ownerName", "Gio");
+    json.put("sport", "BADMINTON");
+    json.put("facilityName", "UBC Courts");
+    json.put("courtId", "Court1");
+    json.put("startDateTime", "2025-10-18T10:00");
+    json.put("endDateTime", "2025-10-18T12:00");
+    json.put("description", "Morning");
+    json.put("participants", new JSONArray().put("UnknownUser"));
+
+    JSONArray arr = new JSONArray().put(json);
+
+    sessionManagerTest.loadFromJson(arr, userManager, facilityManager);
+    Session s = sessionManagerTest.getActiveSession().get(0);
+    // participant list remains empty since UnknownUser not found
+    assertTrue(s.getParticipant().isEmpty());
+}
+
+
+
+
+
+
+
+    @Test
+    public void testReconnectUsersToSession() {
+        sessionManagerTest.addSession(session1);
+        //owner is not inside
+        assertFalse(owner.getSessionsCreated().contains(session1));
+        assertFalse(owner.getSessionsJoined().contains(session1));
+
+        //session 1 has participant
+        session1.addParticipant(user2);
+
+        //user2 already recognize this session
+        user2.addSessionsJoined(session1);
+
+        assertTrue(user2.getSessionsJoined().contains(session1));
+
+        //reconnect session to its owner
+        sessionManagerTest.reconnectUsersToSession();
+
+        assertTrue(owner.getSessionsCreated().contains(session1));
+        assertTrue(owner.getSessionsJoined().contains(session1));
+
+        //doesn't add again to user2
+        assertEquals(1, user2.getSessionsJoined().size());
+    }
+
+    @Test 
+    public void testReconnectUsersToSessionAlreadyInside() {
+        sessionManagerTest.addSession(session1);    
+        //owner is already inside
+        owner.addSessionCreated(session1);
+        owner.addSessionsJoined(session1);  
+
+        assertTrue(owner.getSessionsJoined().contains(session1));
+        assertTrue(owner.getSessionsJoined().contains(session1));
+
+        //reconnect
+        sessionManagerTest.reconnectUsersToSession();
+        //doesn't add again
+        assertEquals(1, owner.getSessionsJoined().size());
+        assertEquals(1, owner.getSessionsCreated().size());
     }
 
 
