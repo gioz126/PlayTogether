@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 import exception.CourtUnavailableException;
+import exception.EndTimeBeforeStartTimeException;
 import persistence.Writable;
 
 public class User implements Writable {
@@ -40,9 +41,14 @@ public class User implements Writable {
     // EFFECTS: finds an available court in the facility, creates a booking for this
     // user, reserves the court, adds booking to the user, return booking
     public Booking bookCourt(CourtFacility facility, LocalDateTime startTime, LocalDateTime endTime)
-            throws CourtUnavailableException {
-        CourtUnit availableCourt = facility.findAvailableCourt(startTime, endTime);
+            throws CourtUnavailableException, EndTimeBeforeStartTimeException{
 
+        if(endTime.isBefore(startTime)) {
+            throw new EndTimeBeforeStartTimeException("End time cannot be before start time");
+        }
+    
+        CourtUnit availableCourt = facility.findAvailableCourt(startTime, endTime);
+    
         if (availableCourt == null) {
             throw new CourtUnavailableException("No courts available at given time");
         }

@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import exception.CourtUnavailableException;
+import exception.EndTimeBeforeStartTimeException;
 import model.AreaLocation;
 import model.Booking;
 import model.Community;
@@ -128,7 +129,8 @@ public class PlayTogetherApp {
     // MODIFIES: this
     // EFFECTS: update all managers from loaded PlayTogetherState
     private void syncManagersFromState(PlayTogetherState loadedState) {
-        userManager.loadFromJson(loadedState.getUserManager().toJson().getJSONArray("users"), loadedState.getFacilityManager());
+        userManager.loadFromJson(loadedState.getUserManager().toJson().getJSONArray("users"),
+                loadedState.getFacilityManager());
         communityManager.loadFromJson(loadedState.getCommunityManager().toJson().getJSONArray("communities"),
                 userManager);
         sessionManager.loadFromJson(loadedState.getSessionManager().toJson().getJSONArray("sessions"),
@@ -396,6 +398,8 @@ public class PlayTogetherApp {
             bookingConfirmation(year, month, day, startHour, endHour, booking);
 
         } catch (CourtUnavailableException e) {
+            System.out.println(e.getMessage());
+        } catch (EndTimeBeforeStartTimeException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
