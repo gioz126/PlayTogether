@@ -22,6 +22,7 @@ public class Community implements Writable {
     private User communityLeader;
     private List<User> communityMember;
 
+    // REQUIRES: maxMember > 1
     // EFFECTS: creates community with given name, sport, location, max member of
     // the community, community leader is the user who created it, and 1 member of
     // community which is the leader

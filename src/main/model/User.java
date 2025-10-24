@@ -43,8 +43,6 @@ public class User implements Writable {
         this.communityLed = new ArrayList<>();
     }
 
-    // REQUIRES: facility has at least one available court at given [start time, end
-    // time]
     // MODIFIES: this, courtUnit
     // EFFECTS: finds an available court in the facility, creates a booking for this
     // user, reserves the court, adds booking to the user, return booking
@@ -66,8 +64,7 @@ public class User implements Writable {
         return booking;
     }
 
-    // REQUIRES: this user has at least one booking, index is a valid index in this
-    // user's list of booking
+    // REQUIRES: index is a valid index in this user's list of booking
     // MODIFIES: this, session
     // EFFECTS: creates a new play session using the booking at the given index
     // (starts at 0), adds the created session to this user's created session and
@@ -97,6 +94,7 @@ public class User implements Writable {
         }
     }
 
+    // REQUIRES: maxMembers > 1
     // MODIFIES: this, community
     // EFFECTS: users create community with community name, sport, area, and max
     // number of members. Add community to community led to this user and add
