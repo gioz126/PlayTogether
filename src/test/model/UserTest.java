@@ -3,6 +3,7 @@ package model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import exception.CourtUnavailableException;
+import exception.EndTimeBeforeStartTimeException;
 
 @ExcludeFromJacocoGeneratedReport
 public class UserTest {
@@ -57,7 +59,7 @@ public class UserTest {
     }
 
     @Test
-    public void bookCourtSuccessTest() throws CourtUnavailableException {
+    public void bookCourtSuccessTest() throws CourtUnavailableException, EndTimeBeforeStartTimeException {
         Booking booking = testUser.bookCourt(facility, start, end);
 
         assertEquals(1, testUser.getBookings().size());
@@ -67,17 +69,27 @@ public class UserTest {
     }
 
     @Test
-    public void bookCourtFailedTest() throws CourtUnavailableException {
+    public void bookCourtFailedTest() throws CourtUnavailableException, EndTimeBeforeStartTimeException {
         testUser.bookCourt(facility, start, end);
 
         assertThrows(CourtUnavailableException.class, () -> {
             testUser.bookCourt(facility, start, end);
         });
 
+        //user book with end time before start time
+        LocalDateTime start2 = LocalDateTime.of(2025, 12, 12, 12, 0);
+        LocalDateTime end2 = LocalDateTime.of(2025, 12, 12, 10, 0);
+        try {
+            testUser.bookCourt(facility, start2, end2);
+            fail("Expect EndTimeBeforeStartTime exception");
+        } catch (EndTimeBeforeStartTimeException e){
+            //expected
+        }
+
     }
 
     @Test
-    public void createSessionTest() throws CourtUnavailableException {
+    public void createSessionTest() throws CourtUnavailableException, EndTimeBeforeStartTimeException {
         Booking booking = testUser.bookCourt(facility, start, end);
 
         Session session = testUser.createSession(testUser, SportType.BADMINTON, 0);
