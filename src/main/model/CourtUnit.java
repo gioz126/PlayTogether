@@ -53,10 +53,11 @@ public class CourtUnit {
         }
     }
 
-    //MODIFIES: this
-    //EFFECTS: adds an existing booking to reservation without availability check (used to restore data JSON)
+    // MODIFIES: this
+    // EFFECTS: adds an existing booking to reservation without availability check
+    // (used to restore data JSON)
     public void addReservation(Booking b) {
-        if(!reservations.contains(b)) {
+        if (!reservations.contains(b)) {
             reservations.add(b);
         }
     }
