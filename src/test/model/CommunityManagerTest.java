@@ -182,5 +182,49 @@ public class CommunityManagerTest {
         assertEquals("gio", loaded.getCommunityLeader().getName());
     }
 
+    @Test
+    public void testReconnectUsersToCommunities() {
+        //community vancouver owner is gio and has another participant
+        User zio = new User("zio", "123", SportType.BADMINTON);
+        communityVancouver.addMember(zio);
+
+        //zio is already inside the community so not added back 
+        zio.addCommunityJoined(communityVancouver);
+
+
+        testCommunityManager.addCommunity(communityVancouver);
+        //check first gio's and zio's community is still empty
+        assertFalse(owner.getCommunityLed().contains(communityVancouver));
+        assertFalse(owner.getCommunityJoined().contains(communityVancouver));
+
+        assertTrue(zio.getCommunityJoined().contains(communityVancouver));
+
+        //reconnect it
+        testCommunityManager.reconnectUsersToCommunities();
+    
+
+        //check gio's and zio's community
+        assertTrue(owner.getCommunityLed().contains(communityVancouver));
+        assertTrue(owner.getCommunityJoined().contains(communityVancouver));
+
+        //check zio's list still 1 (not added again)
+        assertEquals(1, zio.getCommunityJoined().size());
+    }
+
+    @Test
+    public void testReconnectUsersToCommunitiesAlreadyInside() {
+        Community school = new Community(owner, "UBC", SportType.BADMINTON, AreaLocation.VANCOUVER, 10);
+
+        owner.addCommunityLed(school);
+        //check the owner communityLed
+        assertTrue(owner.getCommunityLed().contains(school));
+
+        testCommunityManager.addCommunity(school);
+        testCommunityManager.reconnectUsersToCommunities();
+
+        //check the list still size 1
+        assertEquals(1, owner.getCommunityLed().size());
+    }
+
 
 }

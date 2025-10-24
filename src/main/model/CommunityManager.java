@@ -133,11 +133,12 @@ public class CommunityManager implements Writable {
         return community;
     }
 
+    //REQUIRES: community's leader is not null
     //EFFECTS: link back user's community for JSON
     public void reconnectUsersToCommunities() {
         for (Community c : activeCommunity) {
             User leader = c.getCommunityLeader();
-            if (leader != null && !leader.getCommunityLed().contains(c)) {
+            if (!leader.getCommunityLed().contains(c)) {
                 leader.getCommunityLed().add(c);
             }
             for (User m : c.getMembers()) {
