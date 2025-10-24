@@ -116,4 +116,18 @@ public class UserManager implements Writable {
         return new Booking(user, facility, court, startTime, endTime);
     }
 
+    //MODIFIES: facilityManager
+    //EFFECTS: get the court reservation back based on user bookings
+    public void restoreCourtReservations(CourtFacilityManager facilityManager) {
+        for (User u : users) {
+            for (Booking b : u.getBookings()) {
+                CourtFacility facility = b.getFacility();
+                CourtUnit court = b.getCourt();
+                if (facility != null && court != null) {
+                    court.addReservation(b);
+                }
+            }
+        }
+    }
+
 }

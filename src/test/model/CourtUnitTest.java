@@ -150,4 +150,17 @@ public class CourtUnitTest {
         });
 
     }
+
+    @Test
+    public void addReservationTest() {
+        //added to the reservation
+        courtTest.addReservation(booking1);
+        assertTrue(courtTest.getReservations().contains(booking1));
+
+        //call again
+        courtTest.addReservation(booking1);
+        assertEquals(1, courtTest.getReservations().size()); //duplicate, size still 1
+
+
+    }
 }

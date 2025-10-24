@@ -167,4 +167,97 @@ public class UserManagerTest {
         assertNull(b.getCourt());
     }
 
+    @Test
+    public void testRestoreCourtReservationsValidBooking() {
+        // Setup facility, court, and manager
+        CourtFacilityManager facilityManager = new CourtFacilityManager();
+        CourtFacility facility = new CourtFacility("UBC North Recreation", AreaLocation.VANCOUVER);
+        CourtUnit court = new CourtUnit("Court1", SportType.BADMINTON,
+                LocalTime.of(8, 0), LocalTime.of(22, 0));
+        facility.addCourt(court);
+        facilityManager.addFacility(facility);
+
+        // Create user + booking with valid facility/court
+        User user = new User("gio", "1234", SportType.BADMINTON);
+        Booking booking = new Booking(user, facility, court,
+                java.time.LocalDateTime.of(2025, 12, 12, 12, 0),
+                java.time.LocalDateTime.of(2025, 12, 12, 14, 0));
+        user.addBooking(booking);
+
+        // Add to manager and verify court has no reservation yet
+        testUserManager.addUser(user);
+        assertTrue(court.getReservations().isEmpty());
+
+        // Call restore
+        testUserManager.restoreCourtReservations(facilityManager);
+
+        // Verify reservation added
+        assertEquals(1, court.getReservations().size());
+        assertEquals(booking, court.getReservations().get(0));
+    }
+
+    @Test
+    public void testRestoreCourtReservationsFacilityNull() {
+        CourtFacilityManager facilityManager = new CourtFacilityManager();
+        CourtFacility facility = new CourtFacility("UBC Courts", AreaLocation.VANCOUVER);
+        CourtUnit court = new CourtUnit("Court1", SportType.BADMINTON,
+                LocalTime.of(8, 0), LocalTime.of(22, 0));
+        facility.addCourt(court);
+        facilityManager.addFacility(facility);
+
+        User user = new User("gio", "1234", SportType.BADMINTON);
+
+        // booking's facility is null
+        Booking booking = new Booking(user, null, court,
+                java.time.LocalDateTime.of(2025, 12, 12, 12, 0),
+                java.time.LocalDateTime.of(2025, 12, 12, 14, 0));
+        user.addBooking(booking);
+        testUserManager.addUser(user);
+
+        testUserManager.restoreCourtReservations(facilityManager);
+
+        // Court reservation list should remain empty
+        assertTrue(court.getReservations().isEmpty());
+    }
+
+    @Test
+    public void testRestoreCourtReservationsCourtNull() {
+        CourtFacilityManager facilityManager = new CourtFacilityManager();
+        CourtFacility facility = new CourtFacility("UBC Courts", AreaLocation.VANCOUVER);
+        facilityManager.addFacility(facility);
+
+        User user = new User("gio", "1234", SportType.BADMINTON);
+
+        // booking's court is null
+        Booking booking = new Booking(user, facility, null,
+                java.time.LocalDateTime.of(2025, 12, 12, 12, 0),
+                java.time.LocalDateTime.of(2025, 12, 12, 14, 0));
+        user.addBooking(booking);
+        testUserManager.addUser(user);
+
+        testUserManager.restoreCourtReservations(facilityManager);
+
+        // Nothing should be added (no null pointer)
+        assertTrue(facility.getCourts().isEmpty()); // no reservations occurred
+    }
+
+    @Test
+    public void testRestoreCourtReservationsNoBookings() {
+        CourtFacilityManager facilityManager = new CourtFacilityManager();
+        CourtFacility facility = new CourtFacility("UBC Courts", AreaLocation.VANCOUVER);
+        CourtUnit court = new CourtUnit("Court1", SportType.BADMINTON,
+                LocalTime.of(8, 0), LocalTime.of(22, 0));
+        facility.addCourt(court);
+        facilityManager.addFacility(facility);
+
+        // User with no bookings
+        User user = new User("gio", "1234", SportType.BADMINTON);
+        testUserManager.addUser(user);
+
+        testUserManager.restoreCourtReservations(facilityManager);
+
+        // Still no reservations
+        assertTrue(court.getReservations().isEmpty());
+    }
+
 }
