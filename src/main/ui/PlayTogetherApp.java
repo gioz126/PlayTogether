@@ -141,7 +141,7 @@ public class PlayTogetherApp {
         communityManager.reconnectUsersToCommunities();
 
         // sync court reservation back
-        userManager.restoreCourtReservations(facilityManager);
+        userManager.restoreCourtReservations();
     }
 
     // EFFECTS: saves current app state to JSON file

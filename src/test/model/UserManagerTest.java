@@ -189,7 +189,7 @@ public class UserManagerTest {
         assertTrue(court.getReservations().isEmpty());
 
         // Call restore
-        testUserManager.restoreCourtReservations(facilityManager);
+        testUserManager.restoreCourtReservations();
 
         // Verify reservation added
         assertEquals(1, court.getReservations().size());
@@ -214,7 +214,7 @@ public class UserManagerTest {
         user.addBooking(booking);
         testUserManager.addUser(user);
 
-        testUserManager.restoreCourtReservations(facilityManager);
+        testUserManager.restoreCourtReservations();
 
         // Court reservation list should remain empty
         assertTrue(court.getReservations().isEmpty());
@@ -235,7 +235,7 @@ public class UserManagerTest {
         user.addBooking(booking);
         testUserManager.addUser(user);
 
-        testUserManager.restoreCourtReservations(facilityManager);
+        testUserManager.restoreCourtReservations();
 
         // Nothing should be added (no null pointer)
         assertTrue(facility.getCourts().isEmpty()); // no reservations occurred
@@ -254,7 +254,7 @@ public class UserManagerTest {
         User user = new User("gio", "1234", SportType.BADMINTON);
         testUserManager.addUser(user);
 
-        testUserManager.restoreCourtReservations(facilityManager);
+        testUserManager.restoreCourtReservations();
 
         // Still no reservations
         assertTrue(court.getReservations().isEmpty());
