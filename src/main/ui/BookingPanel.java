@@ -94,6 +94,12 @@ public class BookingPanel extends JPanel {
             LocalDateTime start = LocalDateTime.of(year, month, day, startHour, 0);
             LocalDateTime end = LocalDateTime.of(year, month, day, endHour, 0);
 
+            //prevent booking for past
+            if (start.isBefore(LocalDateTime.now())) {
+                JOptionPane.showMessageDialog(this, "Book failed. Cannot book a time in the past.");
+                return;
+            }
+
             Booking booking = user.bookCourt(selectedCourtFacility, start, end);
 
             JOptionPane.showMessageDialog(this, "Court booked successfully:\n"

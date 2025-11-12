@@ -10,6 +10,7 @@ import java.util.Scanner;
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import exception.CourtUnavailableException;
 import exception.EndTimeBeforeStartTimeException;
+import exception.StartTimeIsInPastException;
 import model.AreaLocation;
 import model.Booking;
 import model.Community;
@@ -166,7 +167,6 @@ public class PlayTogetherApp {
         System.out.println("Enter your name: ");
         String name = input.nextLine();
 
-    
         // Check if user already exists (only with name)
         User existUser = userManager.findUserByName(name);
         if (existUser != null) {
@@ -398,6 +398,10 @@ public class PlayTogetherApp {
             LocalDateTime start = LocalDateTime.of(year, month, day, startHour, 0);
             LocalDateTime end = LocalDateTime.of(year, month, day, endHour, 0);
 
+            if (start.isBefore(LocalDateTime.now())) {
+                throw new StartTimeIsInPastException("Book failed. Cannot book a time in the past.");
+            }
+
             Booking booking = currentUser.bookCourt(selectedCourtFacility, start, end);
 
             bookingConfirmation(year, month, day, startHour, endHour, booking);
@@ -405,6 +409,8 @@ public class PlayTogetherApp {
         } catch (CourtUnavailableException e) {
             System.out.println(e.getMessage());
         } catch (EndTimeBeforeStartTimeException e) {
+            System.out.println(e.getMessage());
+        } catch (StartTimeIsInPastException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
