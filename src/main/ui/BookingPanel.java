@@ -8,6 +8,7 @@ import java.util.concurrent.Flow;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -55,20 +56,20 @@ public class BookingPanel extends JPanel {
     }
 
     // EFFECTS: let user choose facility, start and end hour, the book court
-    private Object bookCourt() {
+    private void bookCourt() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'bookCourt'");
     }
 
     // EFFECTS: display user's current bookings
-    private Object displayMyBookings() {
+    private void displayMyBookings() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'displayMyBookings'");
     }
 
     // EFFECTS: refresh booking display
-    private Object refreshDisplay() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'refreshDisplay'");
+    private void refreshDisplay() {
+        displayMyBookings();
+        JOptionPane.showMessageDialog(this, "🔄 Booking list refreshed!");
     }
 }
