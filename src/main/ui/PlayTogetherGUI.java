@@ -160,11 +160,22 @@ public class PlayTogetherGUI extends JFrame {
             return;
         }
 
-        String phone = JOptionPane.showInputDialog(this, "Enter your phone number:");
-        // handle phone null or empty, exit the app
-        if (phone == null || phone.isBlank()) {
-            JOptionPane.showMessageDialog(this, "Phone cannot be empty, Exiting the app.");
-            System.exit(0);
+        String phone;
+        while (true) {
+            phone = JOptionPane.showInputDialog(this, "Enter your phone number (digits only):");
+
+            // handle phone null or empty, exit the app
+            if (phone == null || phone.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Phone cannot be empty, Exiting the app.");
+                System.exit(0);
+            }
+
+            // digits only (0 - 9)
+            if (phone.matches("\\d+")) {
+                break;
+            } else {
+                JOptionPane.showMessageDialog(this, "❌ Invalid input. Please enter numbers only.");
+            }
         }
 
         SportType sport = chooseSportType();
