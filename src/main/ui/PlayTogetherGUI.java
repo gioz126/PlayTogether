@@ -1,14 +1,20 @@
 package ui;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalTime;
@@ -73,6 +79,24 @@ public class PlayTogetherGUI extends JFrame {
         // setup menu and main panel
         setupMenuBar();
         setupMainPanel();
+
+        // add clock to the frame
+        JPanel clockPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        clockPanel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+
+        JLabel clockLabel = new JLabel();
+        clockLabel.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        clockLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        clockPanel.add(clockLabel);
+        this.add(clockPanel, BorderLayout.SOUTH);
+
+        javax.swing.Timer clockTimer = new javax.swing.Timer(1000, e -> {
+            java.time.LocalDateTime now = java.time.LocalDateTime.now();
+            java.time.format.DateTimeFormatter format = java.time.format.DateTimeFormatter
+                    .ofPattern("EEE, MMM dd yyyy HH:mm:ss");
+            clockLabel.setText("⏰ " + now.format(format) + " ");
+        });
+        clockTimer.start();
 
         this.setVisible(true);
 
