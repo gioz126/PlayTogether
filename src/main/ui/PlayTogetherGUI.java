@@ -65,8 +65,46 @@ public class PlayTogetherGUI extends JFrame {
     }
 
     private void askUserToLogin() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'askUserToLogin'");
+        String name = JOptionPane.showInputDialog(this, "Enter your name:");
+
+        // handle name null or empty, exit the app
+        if (name == null || name.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Name cannot be empty. Exiting the app.");
+            System.exit(0);
+        }
+
+        User existing = userManager.findUserByName(name);
+        if (existing != null) {
+            currentUser = existing;
+            JOptionPane.showMessageDialog(this, "✅ Welcome back, " + currentUser.getName() + "!");
+            return;
+        }
+
+        String phone = JOptionPane.showInputDialog(this, "Enter your phone number:");
+        // handle phone null or empty, exit the app
+        if (phone == null || phone.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Phone cannot be empty, Exiting the app.");
+            System.exit(0);
+        }
+
+        SportType sport = chooseSportType();
+        currentUser = new User(name, phone, sport);
+
+        JOptionPane.showMessageDialog(this, "✅ New user created: " + name);
+
+    }
+
+    private SportType chooseSportType() {
+        SportType[] options = SportType.values();
+        SportType choice = (SportType) JOptionPane.showInputDialog(this, "Select your sport:", "Sport Selection",
+                JOptionPane.QUESTION_MESSAGE, null, options, SportType.BADMINTON);
+
+        // handle null, just return it badminton
+        if (choice == null) {
+            return SportType.BADMINTON;
+        }
+
+        return choice;
     }
 
     private void askToLoadState() {
@@ -84,13 +122,13 @@ public class PlayTogetherGUI extends JFrame {
             PlayTogetherState loadedState = jsonReader.read();
             this.appState = loadedState;
 
-            //syncing back
+            // syncing back
             syncManagersFromState(loadedState);
 
             JOptionPane.showMessageDialog(this, "✅ Loaded from: " + JSON_STORE);
 
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this ,"⚠️ Unable to read from " + JSON_STORE);
+            JOptionPane.showMessageDialog(this, "⚠️ Unable to read from " + JSON_STORE);
         }
     }
 
