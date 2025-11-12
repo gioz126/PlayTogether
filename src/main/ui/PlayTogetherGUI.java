@@ -43,7 +43,6 @@ public class PlayTogetherGUI extends JFrame {
         this.setSize(900, 650);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
-        this.setVisible(true);
 
         // setup managers
         userManager = new UserManager();
@@ -62,6 +61,24 @@ public class PlayTogetherGUI extends JFrame {
         // ask user to login or register
         askUserToLogin();
 
+        // setup menu and main panel
+        setupMenuBar();
+        setupMainPanel();
+
+        this.setVisible(true);
+
+    }
+
+    // EFFECTS: sets up main panel with tabs
+    private void setupMainPanel() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setupMainPanel'");
+    }
+
+    // EFFECTS: sets up top menu bar to save/load/exit
+    private void setupMenuBar() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setupMenuBar'");
     }
 
     private void askUserToLogin() {
