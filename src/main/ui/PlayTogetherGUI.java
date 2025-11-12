@@ -5,6 +5,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
 import java.awt.BorderLayout;
@@ -39,6 +40,10 @@ public class PlayTogetherGUI extends JFrame {
     private User currentUser;
     private PlayTogetherState appState;
 
+    private BookingPanel bookingPanel;
+    private SessionPanel sessionPanel;
+    private CommunityPanel communityPanel;
+
     public PlayTogetherGUI() {
         super("🏸 PlayTogether");
 
@@ -67,17 +72,27 @@ public class PlayTogetherGUI extends JFrame {
 
         // setup menu and main panel
         setupMenuBar();
-        // setupMainPanel();
+        setupMainPanel();
 
         this.setVisible(true);
 
     }
 
     // EFFECTS: sets up main panel with tabs
-    // private void setupMainPanel() {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'setupMainPanel'");
-    // }
+    private void setupMainPanel() {
+        JTabbedPane tabs = new JTabbedPane();
+
+        bookingPanel = new BookingPanel(currentUser, facilityManager);
+        sessionPanel = new SessionPanel(currentUser, sessionManager, facilityManager);
+        communityPanel = new CommunityPanel(currentUser, communityManager);
+
+        tabs.add("Bookings 🔖", bookingPanel);
+        tabs.add("Sessions 🤼", sessionPanel);
+        tabs.add("Communities 🧑‍🧑‍🧒‍🧒", communityPanel);
+
+        // add the tabs to the frame
+        this.add(tabs, BorderLayout.CENTER);
+    }
 
     // EFFECTS: sets up top menu bar to save/load/exit
     private void setupMenuBar() {
@@ -155,7 +170,7 @@ public class PlayTogetherGUI extends JFrame {
         SportType sport = chooseSportType();
         currentUser = new User(name, phone, sport);
         userManager.addUser(currentUser);
-        
+
         JOptionPane.showMessageDialog(this, "✅ New user created: " + name);
 
     }
