@@ -166,9 +166,7 @@ public class PlayTogetherApp {
         System.out.println("Enter your name: ");
         String name = input.nextLine();
 
-        System.out.println("Enter your contact number: ");
-        String phone = input.nextLine();
-        //TODO no need to as phone number again if logged 
+    
         // Check if user already exists (only with name)
         User existUser = userManager.findUserByName(name);
         if (existUser != null) {
@@ -176,6 +174,9 @@ public class PlayTogetherApp {
             System.out.println("\n✅ Welcome back, " + currentUser.getName() + "!");
             return;
         }
+
+        System.out.println("Enter your contact number: ");
+        String phone = input.nextLine();
 
         SportType sport = chooseSportType();
 
