@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.ScrollPane;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.Flow;
 
@@ -14,7 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import exception.CourtUnavailableException;
+import exception.EndTimeBeforeStartTimeException;
 import model.Booking;
+import model.CourtFacility;
 import model.CourtFacilityManager;
 import model.User;
 
@@ -58,9 +63,51 @@ public class BookingPanel extends JPanel {
     }
 
     // EFFECTS: let user choose facility, start and end hour, the book court
+    @SuppressWarnings("methodlength")
     private void bookCourt() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'bookCourt'");
+        List<CourtFacility> facilities = facilityManager.getAllFacilities();
+
+        if (facilities.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No facilities available.");
+            return;
+        }
+        String[] facilityNames = facilities.stream()
+                .map(f -> f.getFacilityName() + " (" + f.getFacilityLocation() + ")").toArray(String[]::new);
+
+        String chosen = (String) JOptionPane.showInputDialog(this, "Select a facility", "Book a court",
+                JOptionPane.PLAIN_MESSAGE, null, facilityNames, facilityNames[0]);
+
+        // handle null input
+        if (chosen == null) {
+            return;
+        }
+        int facilityIndex = java.util.Arrays.asList(facilityNames).indexOf(chosen);
+        CourtFacility selectedCourtFacility = facilities.get(facilityIndex);
+
+        try {
+            int year = askForInt("Enter year (e.g. 2025):", 2025, 2030);
+            int month = askForInt("Enter month (1-12):", 1, 12);
+            int day = askForInt("Enter day (1-31):", 1, 31);
+            int startHour = askForInt("Enter start hour (0-23):", 0, 23);
+            int endHour = askForInt("Enter end hour (0-23)", 0, 23);
+
+            LocalDateTime start = LocalDateTime.of(year, month, day, startHour, 0);
+            LocalDateTime end = LocalDateTime.of(year, month, day, endHour, 0);
+
+            Booking booking = user.bookCourt(selectedCourtFacility, start, end);
+
+            JOptionPane.showMessageDialog(this, "Court booked successfully:\n"
+                    + "⚫️ Court: " + booking.getCourt().getcourtID()
+                    + "\n" + "⚫️ Facility: " + booking.getFacility().getFacilityName()
+                    + "\n" + "⚫️ Location: " + booking.getFacility().getFacilityLocation()
+                    + "\n" + "⚫️ Date: " + day + "/" + month + "/" + year
+                    + "\n" + "⚫️ Time: " + startHour + ":00 - " + endHour + ":00");
+            displayMyBookings();
+        } catch (CourtUnavailableException | EndTimeBeforeStartTimeException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Invalid input. Please try again.");
+        }
     }
 
     // EFFECTS: display user's current bookings
@@ -92,5 +139,24 @@ public class BookingPanel extends JPanel {
     private void refreshDisplay() {
         displayMyBookings();
         JOptionPane.showMessageDialog(this, "🔄 Booking list refreshed!");
+    }
+
+    // EFFECTS: helper to ask user for integers
+    private int askForInt(String message, int min, int max) throws Exception {
+        while (true) {
+            String input = JOptionPane.showInputDialog(this, message);
+            if (input == null) {
+                throw new Exception("Cancelled");
+            }
+
+            if (input.matches("\\d+")) {
+                int val = Integer.parseInt(input);
+                if (val >= min && val <= max) {
+                    return val;
+                }
+            }
+
+            JOptionPane.showMessageDialog(this, "Please enter valid number between " + min + " and " + max + ".");
+        }
     }
 }
