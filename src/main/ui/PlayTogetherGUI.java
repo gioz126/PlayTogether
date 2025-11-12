@@ -1,10 +1,14 @@
 package ui;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import java.awt.BorderLayout;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalTime;
 
@@ -63,22 +67,66 @@ public class PlayTogetherGUI extends JFrame {
 
         // setup menu and main panel
         setupMenuBar();
-        setupMainPanel();
+        // setupMainPanel();
 
         this.setVisible(true);
 
     }
 
     // EFFECTS: sets up main panel with tabs
-    private void setupMainPanel() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setupMainPanel'");
-    }
+    // private void setupMainPanel() {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'setupMainPanel'");
+    // }
 
     // EFFECTS: sets up top menu bar to save/load/exit
     private void setupMenuBar() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setupMenuBar'");
+        JMenuBar menuBar = new JMenuBar();
+
+        // create file menu
+        JMenu fileMenu = new JMenu("File");
+
+        JMenuItem saveItem = new JMenuItem("📁 Save");
+        JMenuItem loadItem = new JMenuItem("📂 Load");
+        JMenuItem exitItem = new JMenuItem("🚪 Exit");
+
+        saveItem.addActionListener(e -> saveAppState());
+        loadItem.addActionListener(e -> loadAppState());
+        exitItem.addActionListener(e -> {
+            askToSaveBeforeExit();
+            System.exit(0);
+        });
+
+        fileMenu.add(saveItem);
+        fileMenu.add(loadItem);
+        fileMenu.addSeparator();
+        fileMenu.add(exitItem);
+
+        menuBar.add(fileMenu);
+        this.setJMenuBar(menuBar);
+    }
+
+    // EFFECTS: ask users to save when exiting
+    private void askToSaveBeforeExit() {
+        int choice = JOptionPane.showConfirmDialog(this, "Would you like to save before exiting?", "Save on exit",
+                JOptionPane.YES_NO_OPTION);
+
+        if (choice == JOptionPane.YES_OPTION) {
+            saveAppState();
+        }
+    }
+
+    // EFFECTS: saves current app state to JSON file
+    private void saveAppState() {
+        try {
+            appState = new PlayTogetherState(userManager, communityManager, sessionManager, facilityManager);
+            jsonWriter.open();
+            jsonWriter.write(appState);
+            jsonWriter.close();
+            JOptionPane.showMessageDialog(this, "📁 App state saved to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "⚠️ Unable to save to " + JSON_STORE);
+        }
     }
 
     private void askUserToLogin() {
@@ -106,7 +154,8 @@ public class PlayTogetherGUI extends JFrame {
 
         SportType sport = chooseSportType();
         currentUser = new User(name, phone, sport);
-
+        userManager.addUser(currentUser);
+        
         JOptionPane.showMessageDialog(this, "✅ New user created: " + name);
 
     }
