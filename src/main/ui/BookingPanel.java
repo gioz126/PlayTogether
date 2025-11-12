@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.ScrollPane;
+import java.util.List;
 import java.util.concurrent.Flow;
 
 import javax.swing.BorderFactory;
@@ -13,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import model.Booking;
 import model.CourtFacilityManager;
 import model.User;
 
@@ -63,8 +65,27 @@ public class BookingPanel extends JPanel {
 
     // EFFECTS: display user's current bookings
     private void displayMyBookings() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'displayMyBookings'");
+        List<Booking> bookings = user.getBookings();
+        bookingDisplayArea.setText("");
+
+        // handle empty bookinh
+        if (bookings.isEmpty()) {
+            bookingDisplayArea.setText("You have no bookings yet.");
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder("=== Your Bookings === \n\n");
+        for (Booking b : bookings) {
+            sb.append("- ")
+                    .append(b.getFacility().getFacilityName())
+                    .append(" (").append(b.getFacility().getFacilityLocation()).append(")")
+                    .append(" | Court: ").append(b.getCourt().getcourtID())
+                    .append(" | ").append(b.getStartTime().toLocalDate())
+                    .append(" ").append(b.getStartTime().toLocalTime())
+                    .append("-").append(b.getEndTime().toLocalTime())
+                    .append("\n");
+        }
+        bookingDisplayArea.setText(sb.toString());
     }
 
     // EFFECTS: refresh booking display
