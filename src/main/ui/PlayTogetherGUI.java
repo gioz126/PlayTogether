@@ -1,9 +1,11 @@
 package ui;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
 import java.time.LocalTime;
 
 import model.AreaLocation;
@@ -57,10 +59,9 @@ public class PlayTogetherGUI extends JFrame {
         // ask to load
         askToLoadState();
 
-        //ask user to login or register
+        // ask user to login or register
         askUserToLogin();
 
-        
     }
 
     private void askUserToLogin() {
@@ -69,8 +70,46 @@ public class PlayTogetherGUI extends JFrame {
     }
 
     private void askToLoadState() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'askToLoadState'");
+        int choice = JOptionPane.showConfirmDialog(this, "Would you like to load your previous saved data?",
+                "Load data", JOptionPane.YES_NO_OPTION);
+
+        if (choice == JOptionPane.YES_OPTION) {
+            loadAppState();
+        }
+    }
+
+    // EFFECTS: load app state from JSON file
+    private void loadAppState() {
+        try {
+            PlayTogetherState loadedState = jsonReader.read();
+            this.appState = loadedState;
+
+            //syncing back
+            syncManagersFromState(loadedState);
+
+            JOptionPane.showMessageDialog(this, "✅ Loaded from: " + JSON_STORE);
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this ,"⚠️ Unable to read from " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: update all managers from loaded PlayTogetherState
+    private void syncManagersFromState(PlayTogetherState loadedState) {
+        userManager.loadFromJson(loadedState.getUserManager().toJson().getJSONArray("users"),
+                loadedState.getFacilityManager());
+        communityManager.loadFromJson(loadedState.getCommunityManager().toJson().getJSONArray("communities"),
+                userManager);
+        sessionManager.loadFromJson(loadedState.getSessionManager().toJson().getJSONArray("sessions"),
+                userManager, loadedState.getFacilityManager());
+
+        // reconnect session and community to its user
+        sessionManager.reconnectUsersToSession();
+        communityManager.reconnectUsersToCommunities();
+
+        // sync court reservation back
+        userManager.restoreCourtReservations();
     }
 
     private void setupCourts() {
