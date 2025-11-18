@@ -55,5 +55,37 @@ public class SessionPanel extends JPanel {
         sessionDisplay.setFont(new Font("Monospaced", Font.PLAIN, 13));
         this.add(new JScrollPane(sessionDisplay), BorderLayout.CENTER);
 
+        // Buttons actions
+        createButton.addActionListener(e -> createSession());
+        joinButton.addActionListener(e -> joinSession());
+        leaveButton.addActionListener(e -> leaveSession());
+        viewButton.addActionListener(e -> viewMySessions());
+        refreshButton.addActionListener(e -> refreshDisplay());
+
+    }
+
+    private Object createSession() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createSession'");
+    }
+
+    private Object joinSession() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'joinSession'");
+    }
+
+    private Object leaveSession() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'leaveSession'");
+    }
+
+    private Object viewMySessions() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'viewMySessions'");
+    }
+
+    private Object refreshDisplay() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'refreshDisplay'");
     }
 }
