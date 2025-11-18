@@ -55,7 +55,7 @@ public class PlayTogetherGUI extends JFrame {
 
         // setup frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(900, 650);
+        this.setSize(1200, 650);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
 
