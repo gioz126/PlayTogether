@@ -238,8 +238,8 @@ public class SessionPanel extends JPanel {
         sessionDisplay.setText(sb.toString());
     }
 
-    private Object refreshDisplay() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'refreshDisplay'");
+    private void refreshDisplay() {
+        viewMySessions();
+        JOptionPane.showMessageDialog(this, "🔄 Sessions list refreshed!");
     }
 }
