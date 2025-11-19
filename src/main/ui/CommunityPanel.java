@@ -336,9 +336,41 @@ public class CommunityPanel extends JPanel {
     }
 
     // EFFECTS: let user remove a community that he/she created
-    private Object removeCommunity() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeCommunity'");
+    private void removeCommunity() {
+        List<Community> led = user.getCommunityLed();
+
+        if (led.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "You are not leading any communities.");
+            return;
+        }
+
+        String[] options = new String[led.size()];
+        for (int i = 0; i < led.size(); i++) {
+            Community c = led.get(i);
+
+            options[i] = c.getCommunityName() + " | "
+                    + c.getSport() + " | " + c.getLocation()
+                    + " | Members: " + c.getMembers().size()
+                    + "/" + c.getMaxMembers();
+        }
+
+        String chosen = (String) JOptionPane.showInputDialog(this, "Select a community to remove:", "Remove Community",
+                JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+        if (chosen == null) {
+            return;
+        }
+
+        int index = java.util.Arrays.asList(options).indexOf(chosen);
+        Community selected = led.get(index);
+
+        communityManager.removeCommunity(user, selected);
+        user.getCommunityLed().remove(selected);
+        user.getCommunityJoined().remove(selected);
+
+        JOptionPane.showMessageDialog(this, "Community removed successfuly.");
+
+        viewMyCommunities();
     }
 
     // EFFECTS: refresh community display
