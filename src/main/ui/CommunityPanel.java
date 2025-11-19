@@ -69,6 +69,59 @@ public class CommunityPanel extends JPanel {
         communityDisplay.setFont(new Font("Monospaced", Font.PLAIN, 13));
         this.add(new JScrollPane(communityDisplay), BorderLayout.CENTER);
 
-        
+        createButton.addActionListener(e -> createCommunity());
+        viewAllButton.addActionListener(e -> viewAllCommunities());
+        searchBySportButton.addActionListener(e -> searchBySport());
+        searchByLocation.addActionListener(e -> searchByLocation());
+        joinButton.addActionListener(e -> joinCommunity());
+        myCommunitiesButton.addActionListener(e -> viewMyCommunities());
+        leaveButton.addActionListener(e -> leaveCommunity());
+        removeButton.addActionListener(e -> removeCommunity());
+        refreshButton.addActionListener(e -> refreshDisplay());
+    }
+
+    private Object createCommunity() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createCommunity'");
+    }
+
+    private Object viewAllCommunities() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'viewAllCommunities'");
+    }
+
+    private Object searchBySport() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'searchBySport'");
+    }
+
+    private Object searchByLocation() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'searchByLocation'");
+    }
+
+    private Object joinCommunity() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'joinCommunity'");
+    }
+
+    private Object viewMyCommunities() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'viewMyCommunities'");
+    }
+
+    private Object leaveCommunity() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'leaveCommunity'");
+    }
+
+    private Object removeCommunity() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'removeCommunity'");
+    }
+
+    private Object refreshDisplay() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'refreshDisplay'");
     }
 }
