@@ -373,9 +373,9 @@ public class CommunityPanel extends JPanel {
         viewMyCommunities();
     }
 
-    // EFFECTS: refresh community display
-    private Object refreshDisplay() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'refreshDisplay'");
+    // EFFECTS: refresh active community display
+    private void refreshDisplay() {
+        viewAllCommunities();
+        JOptionPane.showMessageDialog(this, "🔄 Available Communities list refreshed!");
     }
 }
