@@ -43,13 +43,11 @@ public class SessionPanel extends JPanel {
         JButton createButton = new JButton("🆕 Create Session (from booking)");
         JButton joinButton = new JButton("🧑‍🧒 Join Session");
         JButton leaveButton = new JButton("🚪 Leave Session");
-        JButton viewButton = new JButton("🗒️ View My Sessions");
         JButton refreshButton = new JButton("🔄 Refresh");
 
         buttonPanel.add(createButton);
         buttonPanel.add(joinButton);
         buttonPanel.add(leaveButton);
-        buttonPanel.add(viewButton);
         buttonPanel.add(refreshButton);
 
         this.add(buttonPanel, BorderLayout.NORTH);
@@ -64,7 +62,6 @@ public class SessionPanel extends JPanel {
         createButton.addActionListener(e -> createSession());
         joinButton.addActionListener(e -> joinSession());
         leaveButton.addActionListener(e -> leaveSession());
-        viewButton.addActionListener(e -> viewMySessions());
         refreshButton.addActionListener(e -> refreshDisplay());
 
     }
