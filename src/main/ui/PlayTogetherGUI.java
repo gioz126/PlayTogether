@@ -16,6 +16,7 @@ import javax.swing.SwingUtilities;
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
@@ -66,7 +67,7 @@ public class PlayTogetherGUI extends JFrame {
 
         // setup frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1200, 650);
+        this.setMinimumSize(new Dimension(1200, 650));
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
 
