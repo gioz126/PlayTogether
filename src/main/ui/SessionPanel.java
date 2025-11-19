@@ -149,9 +149,50 @@ public class SessionPanel extends JPanel {
         viewMySessions();
     }
 
-    private Object leaveSession() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'leaveSession'");
+    private void leaveSession() {
+        List<Session> joined = user.getSessionsJoined();
+
+        if (joined.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "You haven't joined any sessions.");
+            return;
+        }
+
+        String[] options = new String[joined.size()];
+
+        for (int i = 0; i < joined.size(); i++) {
+            Session s = joined.get(i);
+            options[i] = s.getSport() + " | "
+                    + s.getFacility().getFacilityName() + " | "
+                    + s.getStartDateTime().toLocalDate() + " "
+                    + s.getStartDateTime().toLocalTime() + "-"
+                    + s.getEndDateTime().toLocalTime();
+        }
+
+        String chosen = (String) JOptionPane.showInputDialog(this, "Choose a session to leave", "Leave Session",
+                JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+        if (chosen == null) {
+            return;
+        }
+
+        int index = java.util.Arrays.asList(options).indexOf(chosen);
+        Session s = joined.get(index);
+
+        if (s.getOwner().equals(user)) {
+            JOptionPane.showMessageDialog(this, "You are the owner of this session. Cannot leave session you owned.");
+            return;
+        }
+
+        boolean removed = s.removeParticipant(user);
+
+        if (removed) {
+            user.getSessionsJoined().remove(s);
+            JOptionPane.showMessageDialog(this, "You've successfully left the session");
+        } else {
+            JOptionPane.showMessageDialog(this, "Could not leave session (not a participant).");
+        }
+
+        viewMySessions();
     }
 
     private Object viewMySessions() {
