@@ -243,6 +243,6 @@ public class SessionPanel extends JPanel {
     // EFFECTS: refresh sessions display
     private void refreshDisplay() {
         viewMySessions();
-        JOptionPane.showMessageDialog(this, "🔄 Sessions list refreshed!");
+        JOptionPane.showMessageDialog(this, "🔄 My joined sessions list refreshed!");
     }
 }
