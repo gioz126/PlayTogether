@@ -3,16 +3,20 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import model.Booking;
 import model.CourtFacilityManager;
+import model.Session;
 import model.SessionManager;
 import model.User;
 
@@ -64,9 +68,37 @@ public class SessionPanel extends JPanel {
 
     }
 
-    private Object createSession() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createSession'");
+    private void createSession() {
+        List<Booking> bookings = user.getBookings();
+
+        if (bookings.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "You must have booking to create a session.");
+            return;
+        }
+
+        String[] bookingOptions = new String[bookings.size()];
+        for (int i = 0; i < bookings.size(); i++) {
+            Booking b = bookings.get(i);
+            bookingOptions[i] = b.getCourt().getcourtID() + " | "
+                    + b.getStartTime().toLocalTime() + "-"
+                    + b.getEndTime().toLocalTime();
+        }
+
+        String chosen = (String) JOptionPane.showInputDialog(this, "Select a booking to create session from:",
+                "Create Session", JOptionPane.PLAIN_MESSAGE, null, bookingOptions, bookingOptions[0]);
+
+        if(chosen == null) {
+            return;
+        }
+
+        int index = java.util.Arrays.asList(bookingOptions).indexOf(chosen);
+
+        Session sessionToMake = user.createSession(user, user.getSportInterest(), index);
+        
+        sessionManager.addSession(sessionToMake);
+
+        JOptionPane.showMessageDialog(this, "Session created successfully!");
+        viewMySessions();
     }
 
     private Object joinSession() {
