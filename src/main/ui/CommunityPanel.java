@@ -2,11 +2,13 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import model.CommunityManager;
@@ -60,6 +62,12 @@ public class CommunityPanel extends JPanel {
         buttonPanel.add(row3);
 
         this.add(buttonPanel, BorderLayout.NORTH);
+
+        // creates text area
+        communityDisplay = new JTextArea();
+        communityDisplay.setEditable(false);
+        communityDisplay.setFont(new Font("Monospaced", Font.PLAIN, 13));
+        this.add(new JScrollPane(communityDisplay), BorderLayout.CENTER);
 
         
     }
