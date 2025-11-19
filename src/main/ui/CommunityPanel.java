@@ -215,9 +215,43 @@ public class CommunityPanel extends JPanel {
     }
 
     // EFFECTS: let user join available community
-    private Object joinCommunity() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'joinCommunity'");
+    private void joinCommunity() {
+        List<Community> allCommunity = communityManager.getActiveCommunities();
+
+        if (allCommunity.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No communities available to join.");
+            return;
+        }
+
+        String[] options = new String[allCommunity.size()];
+
+        for (int i = 0; i < allCommunity.size(); i++) {
+            Community c = allCommunity.get(i);
+
+            options[i] = c.getCommunityName() + " | "
+                    + c.getSport() + " | " + c.getLocation()
+                    + " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers();
+
+            String chosen = (String) JOptionPane.showInputDialog(this, "Select a community:", "Join Community",
+                    JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+            if (chosen == null) {
+                return;
+            }
+
+            int index = java.util.Arrays.asList(options).indexOf(chosen);
+            Community selected = allCommunity.get(index);
+
+            boolean joined = user.joinCommunity(selected);
+            if (joined) {
+                JOptionPane.showMessageDialog(this, "Joined community successfully");
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Could not joined (already a member of the community or community is full).");
+            }
+
+            viewMyCommunities();
+        }
     }
 
     // EFFECTS: let user view their joined/created community
