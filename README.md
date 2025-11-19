@@ -47,3 +47,4 @@ I am interested with this project because I am fond of playing badminton but har
 - For `Leave Community` button, it will prompt the user to select which community does the user wants to leave. After successfully leaving a community, it will then show all communities that the user has joined or created.
 - For `Remove(Leader)` button, it will prompt the user to select which community does the user wants to remove/close. After successfully removing the community, it will then show all communities that the user has joined or created.
 - For `Refresh` button, it will refresh the page to show all active communities that are available in the app.
+- User can then press `file` at the top left of the panel to `save, load, and exit the app`. The app will also ask the user again to save/not save the app when pressing exit button.
