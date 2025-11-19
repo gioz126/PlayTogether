@@ -3,9 +3,11 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,6 +30,10 @@ public class SessionPanel extends JPanel {
     private CourtFacilityManager facilityManager;
 
     private JTextArea sessionDisplay;
+
+    private ImageIcon original = new ImageIcon(SplashScreen.LOGO_STORE);
+    private Image scaled = original.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+    private final ImageIcon iconLogo = new ImageIcon(scaled);
 
     public SessionPanel(User user, SessionManager sessionManager, CourtFacilityManager facilityManager) {
         this.user = user;
@@ -72,7 +78,8 @@ public class SessionPanel extends JPanel {
         List<Booking> bookings = user.getBookings();
 
         if (bookings.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "You must have booking to create a session.");
+            JOptionPane.showMessageDialog(this, "You must have booking to create a session.", "",
+                    JOptionPane.PLAIN_MESSAGE, iconLogo);
             return;
         }
 
@@ -85,7 +92,7 @@ public class SessionPanel extends JPanel {
         }
 
         String chosen = (String) JOptionPane.showInputDialog(this, "Select a booking to create session from:",
-                "Create Session", JOptionPane.PLAIN_MESSAGE, null, bookingOptions, bookingOptions[0]);
+                "Create Session", JOptionPane.PLAIN_MESSAGE, iconLogo, bookingOptions, bookingOptions[0]);
 
         if (chosen == null) {
             return;
@@ -98,7 +105,8 @@ public class SessionPanel extends JPanel {
         // check if the booking has already been made as session
         if (sessionManager.hasSessionForBooking(selectedBooking)) {
             JOptionPane.showMessageDialog(this,
-                    "Cannot make this booking into a session since this booking is already an active session.");
+                    "Cannot make this booking into a session since this booking is already an active session.", "",
+                    JOptionPane.PLAIN_MESSAGE, iconLogo);
 
             return;
         }
@@ -107,7 +115,7 @@ public class SessionPanel extends JPanel {
 
         sessionManager.addSession(sessionToMake);
 
-        JOptionPane.showMessageDialog(this, "Session created successfully!");
+        JOptionPane.showMessageDialog(this, "Session created successfully!", "", JOptionPane.PLAIN_MESSAGE, iconLogo);
         viewMySessions();
     }
 
@@ -117,7 +125,7 @@ public class SessionPanel extends JPanel {
         SportType[] sports = SportType.values();
         SportType sport = (SportType) JOptionPane.showInputDialog(this, "Choose sport:", "Join Session",
                 JOptionPane.PLAIN_MESSAGE,
-                null, sports, sports[0]);
+                iconLogo, sports, sports[0]);
 
         if (sport == null) {
             return;
@@ -126,7 +134,7 @@ public class SessionPanel extends JPanel {
         List<Session> availableSessions = sessionManager.findSessionsBySport(sport);
 
         if (availableSessions.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No sessions available.");
+            JOptionPane.showMessageDialog(this, "No sessions available.", "", JOptionPane.PLAIN_MESSAGE, iconLogo);
             return;
         }
 
@@ -141,7 +149,7 @@ public class SessionPanel extends JPanel {
         }
 
         String chosen = (String) JOptionPane.showInputDialog(this, "Select a session to join:", "Join",
-                JOptionPane.PLAIN_MESSAGE, null, sessionNames, sessionNames[0]);
+                JOptionPane.PLAIN_MESSAGE, iconLogo, sessionNames, sessionNames[0]);
 
         if (chosen == null) {
             return;
@@ -152,9 +160,10 @@ public class SessionPanel extends JPanel {
         boolean join = user.joinSession(availableSessions.get(index));
 
         if (join) {
-            JOptionPane.showMessageDialog(this, "Joined successully!");
+            JOptionPane.showMessageDialog(this, "Joined successully!", "", JOptionPane.PLAIN_MESSAGE, iconLogo);
         } else {
-            JOptionPane.showMessageDialog(this, "You are already in this session.");
+            JOptionPane.showMessageDialog(this, "You are already in this session.", "", JOptionPane.PLAIN_MESSAGE,
+                    iconLogo);
         }
 
         viewMySessions();
@@ -166,7 +175,8 @@ public class SessionPanel extends JPanel {
         List<Session> joined = user.getSessionsJoined();
 
         if (joined.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "You haven't joined any sessions.");
+            JOptionPane.showMessageDialog(this, "You haven't joined any sessions.", "", JOptionPane.PLAIN_MESSAGE,
+                    iconLogo);
             return;
         }
 
@@ -182,7 +192,7 @@ public class SessionPanel extends JPanel {
         }
 
         String chosen = (String) JOptionPane.showInputDialog(this, "Choose a session to leave", "Leave Session",
-                JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+                JOptionPane.PLAIN_MESSAGE, iconLogo, options, options[0]);
 
         if (chosen == null) {
             return;
@@ -192,7 +202,8 @@ public class SessionPanel extends JPanel {
         Session s = joined.get(index);
 
         if (s.getOwner().equals(user)) {
-            JOptionPane.showMessageDialog(this, "You are the owner of this session. Cannot leave session you owned.");
+            JOptionPane.showMessageDialog(this, "You are the owner of this session. Cannot leave session you owned.",
+                    "", JOptionPane.PLAIN_MESSAGE, iconLogo);
             return;
         }
 
@@ -200,9 +211,11 @@ public class SessionPanel extends JPanel {
 
         if (removed) {
             user.getSessionsJoined().remove(s);
-            JOptionPane.showMessageDialog(this, "You've successfully left the session");
+            JOptionPane.showMessageDialog(this, "You've successfully left the session", "", JOptionPane.PLAIN_MESSAGE,
+                    iconLogo);
         } else {
-            JOptionPane.showMessageDialog(this, "Could not leave session (not a participant).");
+            JOptionPane.showMessageDialog(this, "Could not leave session (not a participant).", "",
+                    JOptionPane.PLAIN_MESSAGE, iconLogo);
         }
 
         viewMySessions();
@@ -255,6 +268,7 @@ public class SessionPanel extends JPanel {
     // EFFECTS: refresh sessions display
     private void refreshDisplay() {
         viewMySessions();
-        JOptionPane.showMessageDialog(this, "🔄 My joined sessions list refreshed!");
+        JOptionPane.showMessageDialog(this, "🔄 My joined sessions list refreshed!", "", JOptionPane.PLAIN_MESSAGE,
+                iconLogo);
     }
 }

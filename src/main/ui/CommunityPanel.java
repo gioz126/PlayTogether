@@ -3,10 +3,12 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,6 +29,10 @@ public class CommunityPanel extends JPanel {
     private CommunityManager communityManager;
 
     private JTextArea communityDisplay;
+
+    private ImageIcon original = new ImageIcon(SplashScreen.LOGO_STORE);
+    private Image scaled = original.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+    private final ImageIcon iconLogo = new ImageIcon(scaled);
 
     @SuppressWarnings("methodlength")
     public CommunityPanel(User user, CommunityManager communityManager) {
@@ -90,21 +96,22 @@ public class CommunityPanel extends JPanel {
 
     // EFFECTS: let user createCommunity with members between 1 to 1000
     private void createCommunity() {
-        String name = JOptionPane.showInputDialog(this, "Enter community name:");
+        String name = (String) JOptionPane.showInputDialog(this, "Enter community name:", "", JOptionPane.PLAIN_MESSAGE,
+                iconLogo, null, "");
 
         if (name == null || name.trim().isEmpty()) {
             return;
         }
 
         SportType sportType = (SportType) JOptionPane.showInputDialog(this, "Select sport:", "Sport",
-                JOptionPane.PLAIN_MESSAGE, null, SportType.values(), SportType.BADMINTON);
+                JOptionPane.PLAIN_MESSAGE, iconLogo, SportType.values(), SportType.BADMINTON);
 
         if (sportType == null) {
             return;
         }
 
         AreaLocation areaLocation = (AreaLocation) JOptionPane.showInputDialog(this, "Select location:", "Location",
-                JOptionPane.PLAIN_MESSAGE, null, AreaLocation.values(), AreaLocation.VANCOUVER);
+                JOptionPane.PLAIN_MESSAGE, iconLogo, AreaLocation.values(), AreaLocation.VANCOUVER);
 
         if (areaLocation == null) {
             return;
@@ -115,7 +122,8 @@ public class CommunityPanel extends JPanel {
         Community c = user.createCommunity(name, sportType, areaLocation, maxMembers);
         communityManager.addCommunity(c);
 
-        JOptionPane.showMessageDialog(this, "Community created successfully!");
+        JOptionPane.showMessageDialog(this, "Community created successfully!", "", JOptionPane.PLAIN_MESSAGE,
+                iconLogo);
 
         viewAllCommunities();
     }
@@ -124,7 +132,8 @@ public class CommunityPanel extends JPanel {
     // minimum integer, and maximum integer
     private int promptForInt(String message, int min, int max) {
         while (true) {
-            String input = JOptionPane.showInputDialog(this, message);
+            String input = (String) JOptionPane.showInputDialog(this, message, "", JOptionPane.PLAIN_MESSAGE, iconLogo,
+                    null, "");
 
             if (input == null) {
                 return min;
@@ -136,7 +145,8 @@ public class CommunityPanel extends JPanel {
                 }
             }
 
-            JOptionPane.showMessageDialog(this, "Please enter a valid number (" + min + " to " + max + ").");
+            JOptionPane.showMessageDialog(this, "Please enter a valid number (" + min + " to " + max + ").", "",
+                    JOptionPane.PLAIN_MESSAGE, iconLogo);
         }
     }
 
@@ -164,7 +174,7 @@ public class CommunityPanel extends JPanel {
     // EFFECTS: let user search community by sport
     private void searchBySport() {
         SportType sport = (SportType) JOptionPane.showInputDialog(this, "Select sport:", "Search By Sport",
-                JOptionPane.PLAIN_MESSAGE, null, SportType.values(), SportType.BADMINTON);
+                JOptionPane.PLAIN_MESSAGE, iconLogo, SportType.values(), SportType.BADMINTON);
 
         if (sport == null) {
             return;
@@ -193,7 +203,7 @@ public class CommunityPanel extends JPanel {
     private void searchByLocation() {
         AreaLocation location = (AreaLocation) JOptionPane.showInputDialog(this, "Select location:",
                 "Search By Location",
-                JOptionPane.PLAIN_MESSAGE, null, AreaLocation.values(), AreaLocation.VANCOUVER);
+                JOptionPane.PLAIN_MESSAGE, iconLogo, AreaLocation.values(), AreaLocation.VANCOUVER);
 
         if (location == null) {
             return;
@@ -223,7 +233,8 @@ public class CommunityPanel extends JPanel {
         List<Community> allCommunity = communityManager.getActiveCommunities();
 
         if (allCommunity.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No communities available to join.");
+            JOptionPane.showMessageDialog(this, "No communities available to join.", "", JOptionPane.PLAIN_MESSAGE,
+                    iconLogo);
             return;
         }
 
@@ -237,7 +248,7 @@ public class CommunityPanel extends JPanel {
                     + " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers();
         }
         String chosen = (String) JOptionPane.showInputDialog(this, "Select a community:", "Join Community",
-                JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+                JOptionPane.PLAIN_MESSAGE, iconLogo, options, options[0]);
 
         if (chosen == null) {
             return;
@@ -248,10 +259,12 @@ public class CommunityPanel extends JPanel {
 
         boolean joined = user.joinCommunity(selected);
         if (joined) {
-            JOptionPane.showMessageDialog(this, "Joined community successfully");
+            JOptionPane.showMessageDialog(this, "Joined community successfully", "", JOptionPane.PLAIN_MESSAGE,
+                    iconLogo);
         } else {
             JOptionPane.showMessageDialog(this,
-                    "Could not joined (already a member of the community or community is full).");
+                    "Could not joined (already a member of the community or community is full).", "",
+                    JOptionPane.PLAIN_MESSAGE, iconLogo);
         }
 
         viewMyCommunities();
@@ -303,7 +316,8 @@ public class CommunityPanel extends JPanel {
         List<Community> joined = user.getCommunityJoined();
 
         if (joined.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "You haven't joined any communities.");
+            JOptionPane.showMessageDialog(this, "You haven't joined any communities.", "", JOptionPane.PLAIN_MESSAGE,
+                    iconLogo);
             return;
         }
 
@@ -318,7 +332,7 @@ public class CommunityPanel extends JPanel {
         }
 
         String chosen = (String) JOptionPane.showInputDialog(this, "Choose a community to leave:", "Leave Community",
-                JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+                JOptionPane.PLAIN_MESSAGE, iconLogo, options, options[0]);
 
         if (chosen == null) {
             return;
@@ -330,13 +344,14 @@ public class CommunityPanel extends JPanel {
 
         if (selected.getCommunityLeader().equals(user)) {
             JOptionPane.showMessageDialog(this,
-                    "You are the leader of this community. User 'Remove (Leader) button' instead.");
+                    "You are the leader of this community. User 'Remove (Leader) button' instead.", "",
+                    JOptionPane.PLAIN_MESSAGE, iconLogo);
 
             return;
         }
         selected.removeMember(user);
         user.getCommunityJoined().remove(selected);
-        JOptionPane.showMessageDialog(this, "You have left the community.");
+        JOptionPane.showMessageDialog(this, "You have left the community.", "", JOptionPane.PLAIN_MESSAGE, iconLogo);
 
         viewMyCommunities();
     }
@@ -347,7 +362,8 @@ public class CommunityPanel extends JPanel {
         List<Community> led = user.getCommunityLed();
 
         if (led.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "You are not leading any communities.");
+            JOptionPane.showMessageDialog(this, "You are not leading any communities.", "", JOptionPane.PLAIN_MESSAGE,
+                    iconLogo);
             return;
         }
 
@@ -362,7 +378,7 @@ public class CommunityPanel extends JPanel {
         }
 
         String chosen = (String) JOptionPane.showInputDialog(this, "Select a community to remove:", "Remove Community",
-                JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+                JOptionPane.PLAIN_MESSAGE, iconLogo, options, options[0]);
 
         if (chosen == null) {
             return;
@@ -375,7 +391,7 @@ public class CommunityPanel extends JPanel {
         user.getCommunityLed().remove(selected);
         user.getCommunityJoined().remove(selected);
 
-        JOptionPane.showMessageDialog(this, "Community removed successfuly.");
+        JOptionPane.showMessageDialog(this, "Community removed successfuly.", "", JOptionPane.PLAIN_MESSAGE, iconLogo);
 
         viewMyCommunities();
     }
@@ -383,6 +399,7 @@ public class CommunityPanel extends JPanel {
     // EFFECTS: refresh active community display
     private void refreshDisplay() {
         viewAllCommunities();
-        JOptionPane.showMessageDialog(this, "🔄 Available Communities list refreshed!");
+        JOptionPane.showMessageDialog(this, "🔄 Available Communities list refreshed!", "", JOptionPane.PLAIN_MESSAGE,
+                iconLogo);
     }
 }

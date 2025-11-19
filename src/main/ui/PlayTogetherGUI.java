@@ -1,6 +1,7 @@
 package ui;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -17,6 +18,7 @@ import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalTime;
@@ -52,6 +54,10 @@ public class PlayTogetherGUI extends JFrame {
     private BookingPanel bookingPanel;
     private SessionPanel sessionPanel;
     private CommunityPanel communityPanel;
+
+    private ImageIcon original = new ImageIcon(SplashScreen.LOGO_STORE);
+    private Image scaled = original.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+    private final ImageIcon iconLogo = new ImageIcon(scaled);
 
     @SuppressWarnings("methodlength")
     public PlayTogetherGUI() {
@@ -152,7 +158,7 @@ public class PlayTogetherGUI extends JFrame {
     // EFFECTS: ask users to save when exiting
     private void askToSaveBeforeExit() {
         int choice = JOptionPane.showConfirmDialog(this, "Would you like to save before exiting?", "Save on exit",
-                JOptionPane.YES_NO_OPTION);
+                JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, iconLogo);
 
         if (choice == JOptionPane.YES_OPTION) {
             saveAppState();
@@ -166,36 +172,43 @@ public class PlayTogetherGUI extends JFrame {
             jsonWriter.open();
             jsonWriter.write(appState);
             jsonWriter.close();
-            JOptionPane.showMessageDialog(this, "📁 App state saved to " + JSON_STORE);
+            JOptionPane.showMessageDialog(this, "📁 App state saved to " + JSON_STORE, "", JOptionPane.PLAIN_MESSAGE,
+                    iconLogo);
         } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(this, "⚠️ Unable to save to " + JSON_STORE);
+            JOptionPane.showMessageDialog(this, "⚠️ Unable to save to " + JSON_STORE, "", JOptionPane.PLAIN_MESSAGE,
+                    iconLogo);
         }
     }
 
     @SuppressWarnings("methodlength")
     private void askUserToLogin() {
-        String name = JOptionPane.showInputDialog(this, "Enter your name:");
+        String name = (String) JOptionPane.showInputDialog(this, "Enter your name:", "PlayTogether Login",
+                JOptionPane.PLAIN_MESSAGE, iconLogo, null, "");
 
         // handle name null or empty, exit the app
         if (name == null || name.isBlank()) {
-            JOptionPane.showMessageDialog(this, "Name cannot be empty. Exiting the app.");
+            JOptionPane.showMessageDialog(this, "Name cannot be empty. Exiting the app.", "", JOptionPane.PLAIN_MESSAGE,
+                    iconLogo);
             System.exit(0);
         }
 
         User existing = userManager.findUserByName(name);
         if (existing != null) {
             currentUser = existing;
-            JOptionPane.showMessageDialog(this, "✅ Welcome back, " + currentUser.getName() + "!");
+            JOptionPane.showMessageDialog(this, "✅ Welcome back, " + currentUser.getName() + "!", "",
+                    JOptionPane.PLAIN_MESSAGE, iconLogo);
             return;
         }
 
         String phone;
         while (true) {
-            phone = JOptionPane.showInputDialog(this, "Enter your phone number (digits only):");
+            phone = (String) JOptionPane.showInputDialog(this, "Enter your phone number (digits only):",
+                    "Input Phone Number", JOptionPane.PLAIN_MESSAGE, iconLogo, null, "");
 
             // handle phone null or empty, exit the app
             if (phone == null || phone.isBlank()) {
-                JOptionPane.showMessageDialog(this, "Phone cannot be empty, Exiting the app.");
+                JOptionPane.showMessageDialog(this, "Phone cannot be empty, Exiting the app.", "",
+                        JOptionPane.PLAIN_MESSAGE, iconLogo);
                 System.exit(0);
             }
 
@@ -203,7 +216,8 @@ public class PlayTogetherGUI extends JFrame {
             if (phone.matches("\\d+")) {
                 break;
             } else {
-                JOptionPane.showMessageDialog(this, "❌ Invalid input. Please enter numbers only.");
+                JOptionPane.showMessageDialog(this, "❌ Invalid input. Please enter numbers only.", "",
+                        JOptionPane.PLAIN_MESSAGE, iconLogo);
             }
         }
 
@@ -211,14 +225,14 @@ public class PlayTogetherGUI extends JFrame {
         currentUser = new User(name, phone, sport);
         userManager.addUser(currentUser);
 
-        JOptionPane.showMessageDialog(this, "✅ New user created: " + name);
+        JOptionPane.showMessageDialog(this, "✅ New user created: " + name, "", JOptionPane.PLAIN_MESSAGE, iconLogo);
 
     }
 
     private SportType chooseSportType() {
         SportType[] options = SportType.values();
         SportType choice = (SportType) JOptionPane.showInputDialog(this, "Select your sport:", "Sport Selection",
-                JOptionPane.QUESTION_MESSAGE, null, options, SportType.BADMINTON);
+                JOptionPane.QUESTION_MESSAGE, iconLogo, options, SportType.BADMINTON);
 
         // handle null, just return it badminton
         if (choice == null) {
@@ -230,7 +244,7 @@ public class PlayTogetherGUI extends JFrame {
 
     private void askToLoadState() {
         int choice = JOptionPane.showConfirmDialog(this, "Would you like to load your previous saved data?",
-                "Load data", JOptionPane.YES_NO_OPTION);
+                "Load data", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, iconLogo);
 
         if (choice == JOptionPane.YES_OPTION) {
             loadAppState();
@@ -246,10 +260,12 @@ public class PlayTogetherGUI extends JFrame {
             // syncing back
             syncManagersFromState(loadedState);
 
-            JOptionPane.showMessageDialog(this, "✅ Loaded from: " + JSON_STORE);
+            JOptionPane.showMessageDialog(this, "✅ Loaded from: " + JSON_STORE, "", JOptionPane.PLAIN_MESSAGE,
+                    iconLogo);
 
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "⚠️ Unable to read from " + JSON_STORE);
+            JOptionPane.showMessageDialog(this, "⚠️ Unable to read from " + JSON_STORE, "", JOptionPane.PLAIN_MESSAGE,
+                    iconLogo);
         }
     }
 
@@ -287,6 +303,11 @@ public class PlayTogetherGUI extends JFrame {
     }
 
     public static void main(String[] args) {
+
+        SplashScreen splash = new SplashScreen();
+        // 2 seconds
+        splash.showSplash(1500);
+
         SwingUtilities.invokeLater(PlayTogetherGUI::new);
     }
 

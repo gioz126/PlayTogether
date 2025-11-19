@@ -3,10 +3,12 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,6 +30,10 @@ public class BookingPanel extends JPanel {
     private CourtFacilityManager facilityManager;
 
     private JTextArea bookingDisplayArea;
+
+    private ImageIcon original = new ImageIcon(SplashScreen.LOGO_STORE);
+    private Image scaled = original.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+    private final ImageIcon iconLogo = new ImageIcon(scaled);
 
     public BookingPanel(User user, CourtFacilityManager facilityManager) {
         this.user = user;
@@ -67,14 +73,14 @@ public class BookingPanel extends JPanel {
         List<CourtFacility> facilities = facilityManager.getAllFacilities();
 
         if (facilities.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No facilities available.");
+            JOptionPane.showMessageDialog(this, "No facilities available.", "", JOptionPane.PLAIN_MESSAGE, iconLogo);
             return;
         }
         String[] facilityNames = facilities.stream()
                 .map(f -> f.getFacilityName() + " (" + f.getFacilityLocation() + ")").toArray(String[]::new);
 
         String chosen = (String) JOptionPane.showInputDialog(this, "Select a facility", "Book a court",
-                JOptionPane.PLAIN_MESSAGE, null, facilityNames, facilityNames[0]);
+                JOptionPane.PLAIN_MESSAGE, iconLogo, facilityNames, facilityNames[0]);
 
         // handle null input
         if (chosen == null) {
@@ -95,7 +101,8 @@ public class BookingPanel extends JPanel {
 
             // prevent booking for past
             if (start.isBefore(LocalDateTime.now())) {
-                JOptionPane.showMessageDialog(this, "Book failed. Cannot book a time in the past.");
+                JOptionPane.showMessageDialog(this, "Book failed. Cannot book a time in the past.", "",
+                        JOptionPane.PLAIN_MESSAGE, iconLogo);
                 return;
             }
 
@@ -106,12 +113,14 @@ public class BookingPanel extends JPanel {
                     + "\n" + "⚫️ Facility: " + booking.getFacility().getFacilityName()
                     + "\n" + "⚫️ Location: " + booking.getFacility().getFacilityLocation()
                     + "\n" + "⚫️ Date: " + day + "/" + month + "/" + year
-                    + "\n" + "⚫️ Time: " + startHour + ":00 - " + endHour + ":00");
+                    + "\n" + "⚫️ Time: " + startHour + ":00 - " + endHour + ":00", "", JOptionPane.PLAIN_MESSAGE,
+                    iconLogo);
             displayMyBookings();
         } catch (CourtUnavailableException | EndTimeBeforeStartTimeException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "", JOptionPane.PLAIN_MESSAGE, iconLogo);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Invalid input. Please try again.");
+            JOptionPane.showMessageDialog(this, "Invalid input. Please try again.", "", JOptionPane.PLAIN_MESSAGE,
+                    iconLogo);
         }
     }
 
@@ -143,13 +152,14 @@ public class BookingPanel extends JPanel {
     // EFFECTS: refresh booking display
     private void refreshDisplay() {
         displayMyBookings();
-        JOptionPane.showMessageDialog(this, "🔄 Booking list refreshed!");
+        JOptionPane.showMessageDialog(this, "🔄 Booking list refreshed!", "", JOptionPane.PLAIN_MESSAGE, iconLogo);
     }
 
     // EFFECTS: helper to ask user for integers
     private int askForInt(String message, int min, int max) throws Exception {
         while (true) {
-            String input = JOptionPane.showInputDialog(this, message);
+            String input = (String) JOptionPane.showInputDialog(this, message, "", JOptionPane.PLAIN_MESSAGE, iconLogo,
+                    null, "");
             if (input == null) {
                 throw new Exception("Cancelled");
             }
@@ -161,7 +171,8 @@ public class BookingPanel extends JPanel {
                 }
             }
 
-            JOptionPane.showMessageDialog(this, "Please enter valid number between " + min + " and " + max + ".");
+            JOptionPane.showMessageDialog(this, "Please enter valid number between " + min + " and " + max + ".", "",
+                    JOptionPane.PLAIN_MESSAGE, iconLogo);
         }
     }
 }
