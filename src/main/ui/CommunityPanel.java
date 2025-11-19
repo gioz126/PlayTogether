@@ -255,9 +255,41 @@ public class CommunityPanel extends JPanel {
     }
 
     // EFFECTS: let user view their joined/created community
-    private Object viewMyCommunities() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'viewMyCommunities'");
+    private void viewMyCommunities() {
+        List<Community> communitiesJoined = user.getCommunityJoined();
+        List<Community> communitiesLed = user.getCommunityLed();
+
+        StringBuilder sb = new StringBuilder("=== My Communities === \n\n");
+
+        if (communitiesJoined.isEmpty() && communitiesLed.isEmpty()) {
+            sb.append("You are not in any communities");
+        }
+
+        if (!communitiesLed.isEmpty()) {
+            sb.append("Communities You Lead:\n");
+
+            for (Community c : communitiesLed) {
+                sb.append("- ").append(c.getCommunityName())
+                        .append(" | ").append(c.getSport())
+                        .append(" | ").append(c.getLocation())
+                        .append(" | Members:").append(c.getMembers().size())
+                        .append("/").append(c.getMaxMembers()).append("\n");
+            }
+            sb.append("\n");
+        }
+
+        if (!communitiesJoined.isEmpty()) {
+            sb.append("Communities You Joined:\n");
+
+            for (Community c : communitiesJoined) {
+                sb.append("- ").append(c.getCommunityName())
+                        .append(" | ").append(c.getSport())
+                        .append(" | ").append(c.getLocation())
+                        .append(" | Members:").append(c.getMembers().size())
+                        .append("/").append(c.getMaxMembers()).append("\n");
+            }
+        }
+        communityDisplay.setText(sb.toString());
     }
 
     // EFFECTS: let user leave community that he/she already joined
