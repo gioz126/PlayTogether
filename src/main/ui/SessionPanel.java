@@ -18,6 +18,7 @@ import model.Booking;
 import model.CourtFacilityManager;
 import model.Session;
 import model.SessionManager;
+import model.SportType;
 import model.User;
 
 public class SessionPanel extends JPanel {
@@ -87,23 +88,65 @@ public class SessionPanel extends JPanel {
         String chosen = (String) JOptionPane.showInputDialog(this, "Select a booking to create session from:",
                 "Create Session", JOptionPane.PLAIN_MESSAGE, null, bookingOptions, bookingOptions[0]);
 
-        if(chosen == null) {
+        if (chosen == null) {
             return;
         }
 
         int index = java.util.Arrays.asList(bookingOptions).indexOf(chosen);
 
         Session sessionToMake = user.createSession(user, user.getSportInterest(), index);
-        
+
         sessionManager.addSession(sessionToMake);
 
         JOptionPane.showMessageDialog(this, "Session created successfully!");
         viewMySessions();
     }
 
-    private Object joinSession() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'joinSession'");
+    private void joinSession() {
+        SportType[] sports = SportType.values();
+        SportType sport = (SportType) JOptionPane.showInputDialog(this, "Choose sport:", "Join Session",
+                JOptionPane.PLAIN_MESSAGE,
+                null, sports, sports[0]);
+
+        if (sport == null) {
+            return;
+        }
+
+        List<Session> availableSessions = sessionManager.findSessionsBySport(sport);
+
+        if (availableSessions.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No sessions available.");
+            return;
+        }
+
+        String[] sessionNames = new String[availableSessions.size()];
+        for (int i = 0; i < availableSessions.size(); i++) {
+            Session s = availableSessions.get(i);
+            sessionNames[i] = s.getFacility().getFacilityName() + " | "
+                    + s.getStartDateTime().toLocalDate() + " "
+                    + s.getStartDateTime().toLocalTime() + "-"
+                    + s.getEndDateTime().toLocalTime() + " | Participants: "
+                    + s.getParticipant().size();
+        }
+
+        String chosen = (String) JOptionPane.showInputDialog(this, "Select a session to join:", "Join",
+                JOptionPane.PLAIN_MESSAGE, null, sessionNames, sessionNames[0]);
+
+        if (chosen == null) {
+            return;
+        }
+
+        int index = java.util.Arrays.asList(sessionNames).indexOf(chosen);
+
+        boolean join = user.joinSession(availableSessions.get(index));
+
+        if (join) {
+            JOptionPane.showMessageDialog(this, "Joined successully!");
+        } else {
+            JOptionPane.showMessageDialog(this, "You are already in this session.");
+        }
+
+        viewMySessions();
     }
 
     private Object leaveSession() {
