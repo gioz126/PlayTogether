@@ -94,6 +94,16 @@ public class SessionPanel extends JPanel {
 
         int index = java.util.Arrays.asList(bookingOptions).indexOf(chosen);
 
+        Booking selectedBooking = bookings.get(index);
+
+        // check if the booking has already been made as session
+        if (sessionManager.hasSessionForBooking(selectedBooking)) {
+            JOptionPane.showMessageDialog(this,
+                    "Cannot make this booking into a session since this booking is already an active session.");
+
+            return;
+        }
+
         Session sessionToMake = user.createSession(user, user.getSportInterest(), index);
 
         sessionManager.addSession(sessionToMake);

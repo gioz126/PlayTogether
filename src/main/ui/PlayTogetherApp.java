@@ -487,6 +487,15 @@ public class PlayTogetherApp {
             System.out.println("Invalid selection.");
             return;
         }
+
+        Booking selected = bookings.get(index);
+
+        if (sessionManager.hasSessionForBooking(selected)) {
+            System.out.println(
+                    "Cannot make this booking into a session since this booking is already an active session.");
+            return;
+        }
+
         // TODO fix sport so that it matches the booking (add sport on booking)
         Session session = currentUser.createSession(currentUser, currentUser.getSportInterest(), index);
         sessionManager.addSession(session);
