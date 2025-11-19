@@ -120,6 +120,59 @@ public class SessionManagerTest {
     }
 
     @Test
+    public void testNoSessionForBooking() {
+        Booking b = new Booking(owner, facility, court1, start, end);
+        assertFalse(sessionManagerTest.hasSessionForBooking(b));
+    }
+
+    @Test
+    public void testHasSessionForBookingMatch() {
+        sessionManagerTest.addSession(session1);
+
+        Booking b = new Booking(owner, facility, court1, start, end);
+        assertTrue(sessionManagerTest.hasSessionForBooking(b));
+    }
+
+    @Test
+    public void testHasSessionForBookingDifferentEnd() {
+        sessionManagerTest.addSession(session1);
+        Booking b = new Booking(user2, facility, court1, start, end.plusHours(1));
+
+        assertFalse(sessionManagerTest.hasSessionForBooking(b));
+    }
+
+    @Test
+    public void testHasSessionForBookingDifferentStart() {
+        end = LocalDateTime.of(2025, 10, 3, 20, 0);
+        session1 = new Session(owner, SportType.BADMINTON, facility, court1, start, end);
+        sessionManagerTest.addSession(session1);
+        Booking b = new Booking(user2, facility, court1, start.plusHours(1), end);
+
+        assertFalse(sessionManagerTest.hasSessionForBooking(b));
+    }
+
+    @Test
+    public void testHasSessionForBookingDifferentCourt() {
+        CourtUnit court2 = new CourtUnit("Court2", SportType.BADMINTON, LocalTime.of(8, 0), LocalTime.of(22, 0));
+
+        Session other = new Session(owner, SportType.BADMINTON, facility, court2, start, end);
+        sessionManagerTest.addSession(other);
+
+        Booking b = new Booking(user2, facility, court1, start, end);
+        assertFalse(sessionManagerTest.hasSessionForBooking(b));
+    }
+
+    @Test
+    public void testHasSessionForBookingOneSessionMatch() {
+        sessionManagerTest.addSession(session1);
+        sessionManagerTest.addSession(session2);
+
+        Booking b = new Booking(user2, facility, court1, start, end);
+
+        assertTrue(sessionManagerTest.hasSessionForBooking(b));
+    }
+
+    @Test
     public void leaveSessionTest() {
         // false since user is the owner of the session
         sessionManagerTest.addSession(session1);

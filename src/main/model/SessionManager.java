@@ -77,6 +77,17 @@ public class SessionManager implements Writable {
         }
     }
 
+    // EFFECTS: check if session is already an active session
+    public boolean hasSessionForBooking(Booking booking) {
+        for (Session s : activeSession) {
+            if (s.getStartDateTime().equals(booking.getStartTime()) && s.getEndDateTime().equals(booking.getEndTime())
+                    && s.getCourtUnit().equals(booking.getCourt())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // getters
     public List<Session> getActiveSession() {
         return new ArrayList<>(activeSession);
@@ -140,7 +151,7 @@ public class SessionManager implements Writable {
         return session;
     }
 
-    //EFFECTS: link back user's session for JSON
+    // EFFECTS: link back user's session for JSON
     public void reconnectUsersToSession() {
         for (Session s : activeSession) {
             User owner = s.getOwner();
