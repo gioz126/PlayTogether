@@ -159,9 +159,31 @@ public class CommunityPanel extends JPanel {
     }
 
     // EFFECTS: let user search community by sport
-    private Object searchBySport() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchBySport'");
+    private void searchBySport() {
+        SportType sport = (SportType) JOptionPane.showInputDialog(this, "Select sport:", "Search By Sport",
+                JOptionPane.PLAIN_MESSAGE, null, SportType.values(), SportType.BADMINTON);
+
+        if (sport == null) {
+            return;
+        }
+
+        List<Community> result = communityManager.findCommunityBySport(sport);
+
+        StringBuilder sb = new StringBuilder("=== Communities for " + sport + " === \n\n");
+
+        if (result.isEmpty()) {
+            sb.append("No communities found");
+        } else {
+            for (Community c : result) {
+                sb.append("- ").append(c.getCommunityName())
+                        .append(" | Sport: ").append(c.getSport())
+                        .append(" | Location: ").append(c.getLocation())
+                        .append(" | Members: ").append(c.getMembers().size())
+                        .append("/").append(c.getMaxMembers()).append("\n");
+            }
+        }
+        communityDisplay.setText(sb.toString());
+
     }
 
     // EFFECTS: let user search community by location
