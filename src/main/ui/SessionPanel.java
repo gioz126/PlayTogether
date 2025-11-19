@@ -69,6 +69,8 @@ public class SessionPanel extends JPanel {
 
     }
 
+    // TODO fix: user can create sessions with already created session (one booking
+    // can have many sessions)
     private void createSession() {
         List<Booking> bookings = user.getBookings();
 
@@ -195,9 +197,45 @@ public class SessionPanel extends JPanel {
         viewMySessions();
     }
 
-    private Object viewMySessions() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'viewMySessions'");
+    private void viewMySessions() {
+        StringBuilder sb = new StringBuilder("=== Your Sessions === \n\n");
+
+        List<Session> created = user.getSessionsCreated();
+        List<Session> joined = user.getSessionsJoined();
+
+        if (created.isEmpty() && joined.isEmpty()) {
+            sessionDisplay.setText("You are not in any sessions.");
+            return;
+        }
+
+        if (!created.isEmpty()) {
+            sb.append("Session You Created:\n");
+            for (Session s : created) {
+                sb.append("- ")
+                        .append(s.getSport()).append(" | Facility: ").append(s.getFacility().getFacilityName())
+                        .append(" | Court: ").append(s.getCourtUnit().getcourtID())
+                        .append(" | ").append(s.getStartDateTime().toLocalDate())
+                        .append(" ").append(s.getStartDateTime().toLocalTime())
+                        .append("-").append(s.getEndDateTime().toLocalTime())
+                        .append(" | Participants: ").append(s.getParticipant().size()).append("\n");
+            }
+            sb.append("\n");
+        }
+
+        if (!joined.isEmpty()) {
+            sb.append("Session You Joined:\n");
+            for (Session s : joined) {
+                sb.append("- ")
+                        .append(s.getSport()).append(" | Facility: ").append(s.getFacility().getFacilityName())
+                        .append(" | Court: ").append(s.getCourtUnit().getcourtID())
+                        .append(" | ").append(s.getStartDateTime().toLocalDate())
+                        .append(" ").append(s.getStartDateTime().toLocalTime())
+                        .append("-").append(s.getEndDateTime().toLocalTime())
+                        .append(" | Participants: ").append(s.getParticipant().size()).append("\n");
+            }
+        }
+
+        sessionDisplay.setText(sb.toString());
     }
 
     private Object refreshDisplay() {
