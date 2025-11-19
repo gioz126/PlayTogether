@@ -7,11 +7,15 @@ import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import model.AreaLocation;
+import model.Community;
 import model.CommunityManager;
+import model.SportType;
 import model.User;
 
 public class CommunityPanel extends JPanel {
@@ -80,10 +84,56 @@ public class CommunityPanel extends JPanel {
         refreshButton.addActionListener(e -> refreshDisplay());
     }
 
-    // EFFECTS: let user createCommunity
-    private Object createCommunity() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createCommunity'");
+    // EFFECTS: let user createCommunity with members between 1 to 1000
+    private void createCommunity() {
+        String name = JOptionPane.showInputDialog(this, "Enter community name:");
+
+        if (name == null || name.trim().isEmpty()) {
+            return;
+        }
+
+        SportType sportType = (SportType) JOptionPane.showInputDialog(this, "Select sport:", "Sport",
+                JOptionPane.PLAIN_MESSAGE, null, SportType.values(), SportType.BADMINTON);
+
+        if (sportType == null) {
+            return;
+        }
+
+        AreaLocation areaLocation = (AreaLocation) JOptionPane.showInputDialog(this, "Select location:", "Location",
+                JOptionPane.PLAIN_MESSAGE, null, AreaLocation.values(), AreaLocation.VANCOUVER);
+
+        if (areaLocation == null) {
+            return;
+        }
+
+        int maxMembers = promptForInt("Enter max number of members:", 1, 1000);
+
+        Community c = user.createCommunity(name, sportType, areaLocation, maxMembers);
+        communityManager.addCommunity(c);
+
+        JOptionPane.showMessageDialog(this, "Community created successfully!");
+
+        viewAllCommunities();
+    }
+
+    // EFFECTS: helper method to ask user max community members given the message,
+    // minimum integer, and maximum integer
+    private int promptForInt(String message, int min, int max) {
+        while (true) {
+            String input = JOptionPane.showInputDialog(this, message);
+
+            if (input == null) {
+                return min;
+            }
+            if (input.matches("\\d+")) {
+                int val = Integer.parseInt(input);
+                if (val >= min && val <= max) {
+                    return val;
+                }
+            }
+
+            JOptionPane.showMessageDialog(this, "Please enter a valid number (" + min + " to " + max + ").");
+        }
     }
 
     // EFFECTS: let user view all active communities
