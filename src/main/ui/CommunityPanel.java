@@ -231,27 +231,27 @@ public class CommunityPanel extends JPanel {
             options[i] = c.getCommunityName() + " | "
                     + c.getSport() + " | " + c.getLocation()
                     + " | Members: " + c.getMembers().size() + "/" + c.getMaxMembers();
-
-            String chosen = (String) JOptionPane.showInputDialog(this, "Select a community:", "Join Community",
-                    JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-
-            if (chosen == null) {
-                return;
-            }
-
-            int index = java.util.Arrays.asList(options).indexOf(chosen);
-            Community selected = allCommunity.get(index);
-
-            boolean joined = user.joinCommunity(selected);
-            if (joined) {
-                JOptionPane.showMessageDialog(this, "Joined community successfully");
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "Could not joined (already a member of the community or community is full).");
-            }
-
-            viewMyCommunities();
         }
+        String chosen = (String) JOptionPane.showInputDialog(this, "Select a community:", "Join Community",
+                JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+        if (chosen == null) {
+            return;
+        }
+
+        int index = java.util.Arrays.asList(options).indexOf(chosen);
+        Community selected = allCommunity.get(index);
+
+        boolean joined = user.joinCommunity(selected);
+        if (joined) {
+            JOptionPane.showMessageDialog(this, "Joined community successfully");
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Could not joined (already a member of the community or community is full).");
+        }
+
+        viewMyCommunities();
+
     }
 
     // EFFECTS: let user view their joined/created community
@@ -293,9 +293,46 @@ public class CommunityPanel extends JPanel {
     }
 
     // EFFECTS: let user leave community that he/she already joined
-    private Object leaveCommunity() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'leaveCommunity'");
+    private void leaveCommunity() {
+        List<Community> joined = user.getCommunityJoined();
+
+        if (joined.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "You haven't joined any communities.");
+            return;
+        }
+
+        String[] options = new String[joined.size()];
+        for (int i = 0; i < joined.size(); i++) {
+            Community c = joined.get(i);
+
+            options[i] = c.getCommunityName() + " | "
+                    + c.getSport() + " | " + c.getLocation()
+                    + " | Members: " + c.getMembers().size()
+                    + "/" + c.getMaxMembers();
+        }
+
+        String chosen = (String) JOptionPane.showInputDialog(this, "Choose a community to leave:", "Leave Community",
+                JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+        if (chosen == null) {
+            return;
+        }
+
+        int index = java.util.Arrays.asList(options).indexOf(chosen);
+
+        Community selected = joined.get(index);
+
+        if (selected.getCommunityLeader().equals(user)) {
+            JOptionPane.showMessageDialog(this,
+                    "You are the leader of this community. User 'Remove (Leader) button' instead.");
+
+            return;
+        }
+        selected.removeMember(user);
+        user.getCommunityJoined().remove(selected);
+        JOptionPane.showMessageDialog(this, "You have left the community.");
+
+        viewMyCommunities();
     }
 
     // EFFECTS: let user remove a community that he/she created
