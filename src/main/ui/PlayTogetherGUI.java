@@ -37,6 +37,7 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 
 @ExcludeFromJacocoGeneratedReport
+// Represents PlayTogether graphical user interface
 public class PlayTogetherGUI extends JFrame {
 
     private static final String JSON_STORE = "./data/playtogether.json";

@@ -23,6 +23,7 @@ import model.SportType;
 import model.User;
 
 @ExcludeFromJacocoGeneratedReport
+// Represents community panel that handles all community's function for GUI
 public class CommunityPanel extends JPanel {
 
     private User user;

@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JWindow;
 
+// Represents image startup for PlayTogether graphical user interface
 public class SplashScreen extends JWindow {
     public static final String LOGO_STORE = "./data/PlayTogetherLogo.png";
 

@@ -23,6 +23,7 @@ import model.SportType;
 import model.User;
 
 @ExcludeFromJacocoGeneratedReport
+// Represents session panel that handles all session's functions for GUI
 public class SessionPanel extends JPanel {
 
     private User user;

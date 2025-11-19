@@ -24,6 +24,7 @@ import model.CourtFacilityManager;
 import model.User;
 
 @ExcludeFromJacocoGeneratedReport
+// Represents booking panel that handles all booking's function for GUI
 public class BookingPanel extends JPanel {
 
     private User user;
