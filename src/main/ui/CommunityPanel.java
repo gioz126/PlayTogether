@@ -80,46 +80,55 @@ public class CommunityPanel extends JPanel {
         refreshButton.addActionListener(e -> refreshDisplay());
     }
 
+    // EFFECTS: let user createCommunity
     private Object createCommunity() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'createCommunity'");
     }
 
+    // EFFECTS: let user view all active communities
     private Object viewAllCommunities() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'viewAllCommunities'");
     }
 
+    // EFFECTS: let user search community by sport
     private Object searchBySport() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'searchBySport'");
     }
 
+    // EFFECTS: let user search community by location
     private Object searchByLocation() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'searchByLocation'");
     }
 
+    // EFFECTS: let user join available community
     private Object joinCommunity() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'joinCommunity'");
     }
 
+    // EFFECTS: let user view their joined/created community
     private Object viewMyCommunities() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'viewMyCommunities'");
     }
 
+    // EFFECTS: let user leave community that he/she already joined
     private Object leaveCommunity() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'leaveCommunity'");
     }
 
+    // EFFECTS: let user remove a community that he/she created
     private Object removeCommunity() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'removeCommunity'");
     }
 
+    // EFFECTS: refresh community display
     private Object refreshDisplay() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'refreshDisplay'");
