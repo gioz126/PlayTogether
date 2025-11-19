@@ -3,6 +3,7 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -137,9 +138,24 @@ public class CommunityPanel extends JPanel {
     }
 
     // EFFECTS: let user view all active communities
-    private Object viewAllCommunities() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'viewAllCommunities'");
+    private void viewAllCommunities() {
+        List<Community> allActiveCommunities = communityManager.getActiveCommunities();
+
+        StringBuilder sb = new StringBuilder("=== All Communities === \n\n");
+
+        if (allActiveCommunities.isEmpty()) {
+            sb.append("No active communities found");
+        } else {
+            for (Community c : allActiveCommunities) {
+                sb.append("- ").append(c.getCommunityName())
+                        .append(" | Sport: ").append(c.getSport())
+                        .append(" | Location: ").append(c.getLocation())
+                        .append(" | Members: ").append(c.getMembers().size())
+                        .append("/").append(c.getMaxMembers()).append("\n");
+            }
+        }
+        communityDisplay.setText(sb.toString());
+
     }
 
     // EFFECTS: let user search community by sport
