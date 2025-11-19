@@ -35,7 +35,7 @@ public class SessionPanel extends JPanel {
         this.facilityManager = facilityManager;
 
         this.setLayout(new BorderLayout());
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // create button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
