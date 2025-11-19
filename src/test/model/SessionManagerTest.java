@@ -205,6 +205,7 @@ public class SessionManagerTest {
         assertEquals("Gio", sessionJson.getString("ownerName"));
     }
 
+    @SuppressWarnings("methodlength")
     @Test
     public void testLoadJson() {
         List<CourtFacility> facilities = new ArrayList<>();

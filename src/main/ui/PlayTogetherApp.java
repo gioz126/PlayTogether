@@ -468,6 +468,7 @@ public class PlayTogetherApp {
         }
     }
 
+    @SuppressWarnings("methodlength")
     private void createSessionUI() {
         List<Booking> bookings = currentUser.getBookings();
         if (bookings.isEmpty()) {

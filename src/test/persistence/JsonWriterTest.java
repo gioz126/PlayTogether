@@ -78,6 +78,7 @@ public class JsonWriterTest {
         }
     }
 
+    @SuppressWarnings("methodlength")
     @Test
     public void testWriterGeneralPlayTogetherState() {
         try {

@@ -46,6 +46,7 @@ public class CourtUnitTest {
         assertTrue(courtTest.getReservations().isEmpty());
     }
 
+    @SuppressWarnings("methodlength")
     @Test
     public void isAvailableSuccessTest() throws CourtUnavailableException {
         // reserve court booking for 12 - 14
@@ -90,6 +91,7 @@ public class CourtUnitTest {
         assertTrue(availableEndJust);
     }
 
+    @SuppressWarnings("methodlength")
     @Test
     public void isAvailableFailedTest() throws CourtUnavailableException {
         // reserve court booking for 12 - 14

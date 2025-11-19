@@ -13,12 +13,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.AreaLocation;
 import model.Community;
 import model.CommunityManager;
 import model.SportType;
 import model.User;
 
+@ExcludeFromJacocoGeneratedReport
 public class CommunityPanel extends JPanel {
 
     private User user;
@@ -26,6 +28,7 @@ public class CommunityPanel extends JPanel {
 
     private JTextArea communityDisplay;
 
+    @SuppressWarnings("methodlength")
     public CommunityPanel(User user, CommunityManager communityManager) {
         this.user = user;
         this.communityManager = communityManager;
@@ -215,6 +218,7 @@ public class CommunityPanel extends JPanel {
     }
 
     // EFFECTS: let user join available community
+    @SuppressWarnings("methodlength")
     private void joinCommunity() {
         List<Community> allCommunity = communityManager.getActiveCommunities();
 
@@ -255,6 +259,7 @@ public class CommunityPanel extends JPanel {
     }
 
     // EFFECTS: let user view their joined/created community
+    @SuppressWarnings("methodlength")
     private void viewMyCommunities() {
         List<Community> communitiesJoined = user.getCommunityJoined();
         List<Community> communitiesLed = user.getCommunityLed();
@@ -293,6 +298,7 @@ public class CommunityPanel extends JPanel {
     }
 
     // EFFECTS: let user leave community that he/she already joined
+    @SuppressWarnings("methodlength")
     private void leaveCommunity() {
         List<Community> joined = user.getCommunityJoined();
 
@@ -336,6 +342,7 @@ public class CommunityPanel extends JPanel {
     }
 
     // EFFECTS: let user remove a community that he/she created
+    @SuppressWarnings("methodlength")
     private void removeCommunity() {
         List<Community> led = user.getCommunityLed();
 

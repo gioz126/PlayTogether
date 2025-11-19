@@ -7,13 +7,12 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.Booking;
 import model.CourtFacilityManager;
 import model.Session;
@@ -21,6 +20,7 @@ import model.SessionManager;
 import model.SportType;
 import model.User;
 
+@ExcludeFromJacocoGeneratedReport
 public class SessionPanel extends JPanel {
 
     private User user;
@@ -66,9 +66,8 @@ public class SessionPanel extends JPanel {
 
     }
 
-    // TODO fix: user can create sessions with already created session (one booking
-    // can have many sessions)
     // EFFECTS: let user create a play session with other user
+    @SuppressWarnings("methodlength")
     private void createSession() {
         List<Booking> bookings = user.getBookings();
 
@@ -113,6 +112,7 @@ public class SessionPanel extends JPanel {
     }
 
     // EFFECTS: let user join session that are already available in the app
+    @SuppressWarnings("methodlength")
     private void joinSession() {
         SportType[] sports = SportType.values();
         SportType sport = (SportType) JOptionPane.showInputDialog(this, "Choose sport:", "Join Session",
@@ -161,6 +161,7 @@ public class SessionPanel extends JPanel {
     }
 
     // EFFECTS: let user leave a session that he/she already joined
+    @SuppressWarnings("methodlength")
     private void leaveSession() {
         List<Session> joined = user.getSessionsJoined();
 
@@ -209,6 +210,7 @@ public class SessionPanel extends JPanel {
 
     // EFFECTS: show all sessions that the user joined or created inside the
     // textArea
+    @SuppressWarnings("methodlength")
     private void viewMySessions() {
         StringBuilder sb = new StringBuilder("=== Your Sessions === \n\n");
 

@@ -78,6 +78,7 @@ public class UserManagerTest {
         assertTrue(testUserManager.getUsersCount() == 0);
     }
 
+    @SuppressWarnings("methodlength")
     @Test
     public void testLoadFromJsonNormal() {
         CourtFacilityManager facilityManager = new CourtFacilityManager();

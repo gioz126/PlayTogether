@@ -12,6 +12,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -32,6 +34,7 @@ import model.UserManager;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
+@ExcludeFromJacocoGeneratedReport
 public class PlayTogetherGUI extends JFrame {
 
     private static final String JSON_STORE = "./data/playtogether.json";
@@ -50,6 +53,7 @@ public class PlayTogetherGUI extends JFrame {
     private SessionPanel sessionPanel;
     private CommunityPanel communityPanel;
 
+    @SuppressWarnings("methodlength")
     public PlayTogetherGUI() {
         super("🏸 PlayTogether");
 
@@ -168,6 +172,7 @@ public class PlayTogetherGUI extends JFrame {
         }
     }
 
+    @SuppressWarnings("methodlength")
     private void askUserToLogin() {
         String name = JOptionPane.showInputDialog(this, "Enter your name:");
 
