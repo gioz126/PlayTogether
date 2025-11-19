@@ -68,6 +68,7 @@ public class SessionPanel extends JPanel {
 
     // TODO fix: user can create sessions with already created session (one booking
     // can have many sessions)
+    // EFFECTS: let user create a play session with other user
     private void createSession() {
         List<Booking> bookings = user.getBookings();
 
@@ -101,6 +102,7 @@ public class SessionPanel extends JPanel {
         viewMySessions();
     }
 
+    // EFFECTS: let user join session that are already available in the app
     private void joinSession() {
         SportType[] sports = SportType.values();
         SportType sport = (SportType) JOptionPane.showInputDialog(this, "Choose sport:", "Join Session",
@@ -148,6 +150,7 @@ public class SessionPanel extends JPanel {
         viewMySessions();
     }
 
+    // EFFECTS: let user leave a session that he/she already joined
     private void leaveSession() {
         List<Session> joined = user.getSessionsJoined();
 
@@ -194,6 +197,8 @@ public class SessionPanel extends JPanel {
         viewMySessions();
     }
 
+    // EFFECTS: show all sessions that the user joined or created inside the
+    // textArea
     private void viewMySessions() {
         StringBuilder sb = new StringBuilder("=== Your Sessions === \n\n");
 
@@ -235,6 +240,7 @@ public class SessionPanel extends JPanel {
         sessionDisplay.setText(sb.toString());
     }
 
+    // EFFECTS: refresh sessions display
     private void refreshDisplay() {
         viewMySessions();
         JOptionPane.showMessageDialog(this, "🔄 Sessions list refreshed!");
