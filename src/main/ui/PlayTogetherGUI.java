@@ -20,6 +20,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalTime;
@@ -29,6 +31,8 @@ import model.CommunityManager;
 import model.CourtFacility;
 import model.CourtFacilityManager;
 import model.CourtUnit;
+import model.Event;
+import model.EventLog;
 import model.PlayTogetherState;
 import model.SessionManager;
 import model.SportType;
@@ -110,6 +114,21 @@ public class PlayTogetherGUI extends JFrame {
         });
         clockTimer.start();
 
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                printEventLog();
+            }
+
+            private void printEventLog() {
+                System.out.println("\n=== EVENT LOG ===");
+                for (Event event : EventLog.getInstance()) {
+                    System.out.println(event.toString());
+                    System.out.println();
+                }
+            }
+        });
+
         this.setVisible(true);
 
     }
@@ -145,7 +164,7 @@ public class PlayTogetherGUI extends JFrame {
         loadItem.addActionListener(e -> loadAppState());
         exitItem.addActionListener(e -> {
             askToSaveBeforeExit();
-            System.exit(0);
+            dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         });
 
         fileMenu.add(saveItem);

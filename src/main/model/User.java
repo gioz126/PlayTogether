@@ -61,6 +61,9 @@ public class User implements Writable {
         Booking booking = new Booking(this, facility, availableCourt, startTime, endTime);
         bookings.add(booking);
         availableCourt.reserve(booking);
+        EventLog.getInstance()
+                .logEvent(new Event("Booking created for user " + this.name + " at " + facility.getFacilityName() + ", "
+                        + facility.getFacilityLocation() + " on court " + availableCourt.getcourtID()));
         return booking;
     }
 
@@ -76,6 +79,10 @@ public class User implements Writable {
                 booking.getEndTime());
         sessionsCreated.add(session);
         sessionsJoined.add(session);
+        EventLog.getInstance()
+                .logEvent(new Event("Session created for " + sport + " by user " + this.name + " at "
+                        + booking.getFacility().getFacilityName() + " for " + booking.getStartTime().toLocalTime() + "-"
+                        + booking.getEndTime().toLocalTime()));
         return session;
     }
 
@@ -90,6 +97,8 @@ public class User implements Writable {
         } else {
             session.addParticipant(this);
             sessionsJoined.add(session);
+            EventLog.getInstance().logEvent(new Event("User " + this.name + " join session for " + session.getSport()
+                    + " at " + session.getFacility().getFacilityName() + " starting at " + session.getStartDateTime()));
             return true;
         }
     }
@@ -104,6 +113,8 @@ public class User implements Writable {
         Community community = new Community(this, communityName, sport, area, maxMembers);
         communityLed.add(community);
         communityJoined.add(community);
+        EventLog.getInstance().logEvent(new Event("User " + this.name + " created a community with name: "
+                + communityName + ", sport: " + sport + ", area: " + area + ", max members: " + maxMembers));
         return community;
     }
 
@@ -118,6 +129,8 @@ public class User implements Writable {
         } else {
             community.addMember(this);
             communityJoined.add(community);
+            EventLog.getInstance().logEvent(new Event("User " + this.name + " join a community "
+                    + community.getCommunityName() + " whose leader is " + community.getCommunityLeader().getName()));
             return true;
         }
     }

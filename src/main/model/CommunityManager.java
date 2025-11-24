@@ -36,6 +36,8 @@ public class CommunityManager implements Writable {
             return false;
         } else {
             activeCommunity.remove(community);
+            EventLog.getInstance().logEvent(new Event("User " + user.getName() + " remove "
+                    + community.getCommunityName() + " from active communities."));
             return true;
         }
     }

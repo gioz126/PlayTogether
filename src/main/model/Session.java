@@ -61,6 +61,10 @@ public class Session implements Writable {
     public boolean removeParticipant(User user) {
         if (participants.contains(user)) {
             participants.remove(user);
+            EventLog.getInstance()
+                    .logEvent(new Event("User " + user.getName() + " left " + this.getOwner().getName()
+                            + "'s session, for " + this.getSport() + " at " + this.getFacility().getFacilityName()
+                            + " starting at " + this.getStartDateTime()));
             return true;
         } else {
             return false;
