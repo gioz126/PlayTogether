@@ -58,7 +58,7 @@ public class Community implements Writable {
         } else {
             communityMember.remove(user);
             EventLog.getInstance().logEvent(new Event("User " + user.getName() + " left community "
-                    + this.getCommunityName() + " whose leader is " + this.getCommunityLeader()));
+                    + this.getCommunityName() + " whose leader is " + this.getCommunityLeader().getName()));
             return true;
         }
     }

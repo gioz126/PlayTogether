@@ -48,3 +48,24 @@ I am interested with this project because I am fond of playing badminton but har
 - For `Remove(Leader)` button, it will prompt the user to select which community does the user wants to remove/close. After successfully removing the community, it will then show all communities that the user has joined or created.
 - For `Refresh` button, it will refresh the page to show all active communities that are available in the app.
 - User can then press `file` at the top left of the panel to `save, load, and exit the app`. The app will also ask the user again to save/not save the app when pressing exit button.
+
+## Phase 4: Task 2
+EventLog:
+- Tue Nov 25 19:58:55 PST 2025
+Booking created for user testUser at UBC North Recreation Badminton, VANCOUVER on court Badminton 1
+- Tue Nov 25 19:58:58 PST 2025
+Session created for BADMINTON by user testUser at UBC North Recreation Badminton for 12:00-14:00
+- Tue Nov 25 19:59:11 PST 2025
+User testUser created a community with name: testCommunity1, sport: BADMINTON, area: VANCOUVER, max members: 10
+- Tue Nov 25 19:59:26 PST 2025
+User testUser remove testCommunity1 from active communities.
+- Tue Nov 25 19:59:34 PST 2025
+User testUser created a community with name: testCommunity2, sport: BADMINTON, area: VANCOUVER, max members: 100
+- Tue Nov 25 20:07:01 PST 2025
+User testUser2 join session for BADMINTON at UBC North Recreation Badminton starting at 2025-12-12T12:00
+- Tue Nov 25 20:07:04 PST 2025
+User testUser2 left testUser's session, for BADMINTON at UBC North Recreation Badminton starting at 2025-12-12T12:00
+- Tue Nov 25 20:07:08 PST 2025
+User testUser2 join a community testCommunity2 whose leader is testUser
+- Tue Nov 25 20:08:42 PST 2025
+User testUser2 left community testCommunity2 whose leader is testUser
