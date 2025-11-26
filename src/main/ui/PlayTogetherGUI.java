@@ -138,7 +138,7 @@ public class PlayTogetherGUI extends JFrame {
         JTabbedPane tabs = new JTabbedPane();
 
         bookingPanel = new BookingPanel(currentUser, facilityManager);
-        sessionPanel = new SessionPanel(currentUser, sessionManager, facilityManager);
+        sessionPanel = new SessionPanel(currentUser, sessionManager);
         communityPanel = new CommunityPanel(currentUser, communityManager);
 
         tabs.add("Bookings 🔖", bookingPanel);

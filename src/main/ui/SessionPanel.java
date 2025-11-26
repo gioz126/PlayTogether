@@ -28,7 +28,6 @@ public class SessionPanel extends JPanel {
 
     private User user;
     private SessionManager sessionManager;
-    private CourtFacilityManager facilityManager;
 
     private JTextArea sessionDisplay;
 
@@ -36,10 +35,9 @@ public class SessionPanel extends JPanel {
     private Image scaled = original.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
     private final ImageIcon iconLogo = new ImageIcon(scaled);
 
-    public SessionPanel(User user, SessionManager sessionManager, CourtFacilityManager facilityManager) {
+    public SessionPanel(User user, SessionManager sessionManager) {
         this.user = user;
         this.sessionManager = sessionManager;
-        this.facilityManager = facilityManager;
 
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
