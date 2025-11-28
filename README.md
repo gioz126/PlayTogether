@@ -69,3 +69,6 @@ User testUser2 left testUser's session, for BADMINTON at UBC North Recreation Ba
 User testUser2 join a community testCommunity2 whose leader is testUser
 - Tue Nov 25 20:08:42 PST 2025
 User testUser2 left community testCommunity2 whose leader is testUser
+
+## Phase 4: Task 3
+If I had more time, I would definitely want to refactor `User` class, since it currently has methods and fields where it stores all the user's sessions, communities, and bookings. These responsibilities do not belong in the `User` class. I should have moved all the methods and fields that are not directly related to user into their manager classes. Therefore, the User class's fields should only contain user specific fields such as name, phone number, and sport interest. Methods that are related to session should be moved to `SessionManager`, methods related to community should be moved to `CommunityManager`, and make a new class called `BookingManager` that handles bookings related.
