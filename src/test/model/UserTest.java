@@ -14,11 +14,11 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 import exception.CourtUnavailableException;
 import exception.EndTimeBeforeStartTimeException;
 
-@ExcludeFromJacocoGeneratedReport
+
 public class UserTest {
 
     private User testUser;

@@ -16,9 +16,9 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
-@ExcludeFromJacocoGeneratedReport
+
+
 public class SessionManagerTest {
     private SessionManager sessionManagerTest;
     private Session session1;

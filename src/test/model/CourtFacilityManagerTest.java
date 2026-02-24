@@ -7,9 +7,7 @@ import java.time.LocalTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
-@ExcludeFromJacocoGeneratedReport
 public class CourtFacilityManagerTest {
     private CourtFacilityManager testFacilityManager;
     private CourtFacility facility1;

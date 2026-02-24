@@ -7,7 +7,6 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Scanner;
 
-import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import exception.CourtUnavailableException;
 import exception.EndTimeBeforeStartTimeException;
 import exception.StartTimeIsInPastException;
@@ -27,7 +26,6 @@ import model.UserManager;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
-@ExcludeFromJacocoGeneratedReport
 // Represents the PlayTogether app
 public class PlayTogetherApp {
     private final UserManager userManager;

@@ -13,8 +13,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -41,7 +39,6 @@ import model.UserManager;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
-@ExcludeFromJacocoGeneratedReport
 // Represents PlayTogether graphical user interface
 public class PlayTogetherGUI extends JFrame {
 
@@ -318,7 +315,7 @@ public class PlayTogetherGUI extends JFrame {
         CourtFacility padelRichmond = new CourtFacility("Padel Richmond", AreaLocation.RICHMOND);
         padelRichmond.addCourt(new CourtUnit("Padel 1", SportType.PADEL, LocalTime.of(8, 0), LocalTime.of(22, 0)));
         padelRichmond.addCourt(new CourtUnit("Padel 2", SportType.PADEL, LocalTime.of(8, 0), LocalTime.of(22, 0)));
-
+        
         facilityManager.addFacility(badmintonVancouver);
         facilityManager.addFacility(padelRichmond);
     }
