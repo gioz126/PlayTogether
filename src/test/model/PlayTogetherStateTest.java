@@ -5,9 +5,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
-@ExcludeFromJacocoGeneratedReport
+
+
 public class PlayTogetherStateTest {
     private UserManager userManager;
     private CommunityManager communityManager;

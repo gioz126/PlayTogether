@@ -1,12 +1,13 @@
 package ui;
 
+import exception.CourtUnavailableException;
+import exception.EndTimeBeforeStartTimeException;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,16 +15,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
-import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
-import exception.CourtUnavailableException;
-import exception.EndTimeBeforeStartTimeException;
 import model.Booking;
 import model.CourtFacility;
 import model.CourtFacilityManager;
 import model.User;
 
-@ExcludeFromJacocoGeneratedReport
 // Represents booking panel that handles all booking's function for GUI
 public class BookingPanel extends JPanel {
 

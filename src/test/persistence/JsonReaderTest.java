@@ -11,7 +11,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 import model.AreaLocation;
 import model.CourtFacility;
 import model.CourtFacilityManager;
@@ -21,7 +21,7 @@ import model.Session;
 import model.SportType;
 import model.User;
 
-@ExcludeFromJacocoGeneratedReport
+
 public class JsonReaderTest {
 
     private CourtFacilityManager facilityManager;

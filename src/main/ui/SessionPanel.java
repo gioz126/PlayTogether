@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,16 +12,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
-import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.Booking;
-import model.CourtFacilityManager;
 import model.Session;
 import model.SessionManager;
 import model.SportType;
 import model.User;
 
-@ExcludeFromJacocoGeneratedReport
 // Represents session panel that handles all session's functions for GUI
 public class SessionPanel extends JPanel {
 

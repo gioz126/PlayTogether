@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -14,15 +13,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
-import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.AreaLocation;
 import model.Community;
 import model.CommunityManager;
 import model.SportType;
 import model.User;
 
-@ExcludeFromJacocoGeneratedReport
 // Represents community panel that handles all community's function for GUI
 public class CommunityPanel extends JPanel {
 
